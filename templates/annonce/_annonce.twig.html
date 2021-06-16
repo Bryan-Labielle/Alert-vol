@@ -1,0 +1,36 @@
+<div class="col-6 col-md-6 col-sm-12" style="width: 25rem;">
+    <div class="card overflow-hidden mb-2 p-0">
+        <a href="#" class="d-block">
+            <img class="card-img-top" src="https://picsum.photos/id/892/200/100" alt='title picture'>
+            <div class="card-img-overlay d-flex align-items-start justify-content-end z-index-1">
+                <i class="fas fa-bookmark mt-0" style="color: #FFA500; font-size: 3em;">
+                </i>
+            </div>
+        </a>
+        <div class="card-header m-0 p-2" style="background-color: #C4C4C4;">
+            <div class="text-center"><a class="h5" href="#" style="color: #1a1e21">{Titre de l'annonce|title}</a></div>
+            <div class="text-muted details-annonce mb-1 mt-1" style="font-size: small; color: #F1F1F1;"><i class="far fa-clock m-2"></i>Perdu le : {March 14, 2021}</div>
+            <div class="text-muted details-annonce mb-1 mt-1" style="font-size: small; color: #F1F1F1"><i class="fas fa-map-marker-alt m-2"></i>A : {City, Zip}</div>
+        </div>
+        <div class="card-body" style="background-color: #5093CE;">
+            <div class="text-start"><strong>Identification :</strong>{Référence}</div>
+            <p class="pt-3"><strong>Description :</strong>{Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum text...}</p>
+            <div class="text-start"><strong>Signes disctinctifs :</strong>
+                <ul>
+                    <li>{signe 1}</li>
+                    <li>{signe 2}</li>
+                    <li>{signe 3}</li>
+                    <li>{signe ...}</li>
+                </ul>
+            </div>
+            <div class="other-links small mb-2">
+                <div class="ms-auto font-w-500" style="color: #f1f1f1"><i class="fas fa-user-circle text-white"></i> Posté par : {owner}</div>
+                <div><i class="fas fa-bell text-white me-1"></i><a href="#" class="ms-auto font-w-500" style="color: #f1f1f1">Signaler cette annonce</a></div>
+            </div>
+            <div class="text-center m-auto">
+                <a class="btn" style="background-color: #FFA500;" {{ path('app_index') }}">
+                J'ai vu ce véhicule <i class="fas fa-bullhorn" style="color: #F1F1F1"></i>
+                </a></div>
+        </div>
+    </div>
+</div>

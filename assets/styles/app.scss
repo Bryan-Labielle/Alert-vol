@@ -1,6 +1,10 @@
-@import 'variables.scss';
+@import 'variables';
+@import '~bootstrap/scss/bootstrap';
+@import 'home.scss';
+@import 'annonce.scss';
+@import '~@fortawesome/fontawesome-free/css/all.css';
 
-body {
+body{
     background-color: $wild-color;
     color: $light;
 }

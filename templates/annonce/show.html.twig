@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce{% endblock %}
+
+{% block body %}
+    <h1>Annonce</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ annonce.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ annonce.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ annonce.description }}</td>
+            </tr>
+            <tr>
+                <th>PublishedAt</th>
+                <td>{{ annonce.publishedAt ? annonce.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nb_renew</th>
+                <td>{{ annonce.nbRenew }}</td>
+            </tr>
+            <tr>
+                <th>EndPublishedAt</th>
+                <td>{{ annonce.endPublishedAt ? annonce.endPublishedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ annonce.reference }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ annonce.status }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ annonce.location }}</td>
+            </tr>
+            <tr>
+                <th>Details</th>
+                <td>{{ annonce.details ? annonce.details|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>StolenAt</th>
+                <td>{{ annonce.stolenAt ? annonce.stolenAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('annonce_index') }}">back to list</a>
+
+    <a href="{{ path('annonce_edit', {'id': annonce.id}) }}">edit</a>
+
+    {{ include('annonce/_delete_form.html.twig') }}
+{% endblock %}

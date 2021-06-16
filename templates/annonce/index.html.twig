@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les annonces{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+
+        <h1>Toutes les annonces</h1>
+
+        <div class="section ">
+
+            <a class="btn btn-primary" href="{{ path('annonce_new') }}">
+                Ajouter une annonce
+            </a>
+
+            <div class="row justify-content-evenly">
+                {% include 'annonce/_annonce.twig.html' %}
+                {% include 'annonce/_annonce.twig.html' %}
+                {% include 'annonce/_annonce.twig.html' %}
+                {% include 'annonce/_annonce.twig.html' %}
+            </div>
+            {# {% for annonce in annonces %}
+                {% include '/annonce/_annonce.twig.html' %}
+            {% else %}
+                No records found
+            {% endfor %} #}
+
+            <a class="btn btn-primary" href="{{ path('app_index') }}">
+                Retour à l'accueil
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
