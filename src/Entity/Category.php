@@ -17,22 +17,23 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
-    private $categoryId;
+    private ?Category $categoryId;
 
     /**
      * @ORM\Column(type="string", length=85)
      */
-    private $category;
+    private string $category;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="category")
      */
-    private $annonces;
+    private Collection $annonces;
 
     public function __construct()
     {
@@ -44,12 +45,12 @@ class Category
         return $this->id;
     }
 
-    public function getCategoryId(): ?category
+    public function getCategoryId(): ?Category
     {
         return $this->categoryId;
     }
 
-    public function setCategoryId(?category $categoryId): self
+    public function setCategoryId(?Category $categoryId): self
     {
         $this->categoryId = $categoryId;
 

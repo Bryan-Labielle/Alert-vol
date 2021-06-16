@@ -15,25 +15,25 @@ class AnnonceImage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image;
+    private string $image;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Annonce::class, inversedBy="annonceImages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=annonce::class, inversedBy="annonceImages")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $annonce;
+    private ?Annonce $annonce;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getImage(): ?string
+    public function getImage(): string
     {
         return $this->image;
     }
@@ -45,12 +45,12 @@ class AnnonceImage
         return $this;
     }
 
-    public function getAnnonce(): ?annonce
+    public function getAnnonce(): ?Annonce
     {
         return $this->annonce;
     }
 
-    public function setAnnonce(?annonce $annonce): self
+    public function setAnnonce(?Annonce $annonce): self
     {
         $this->annonce = $annonce;
 

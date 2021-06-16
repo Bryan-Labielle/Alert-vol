@@ -15,43 +15,42 @@ class Bookmark
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookmarks")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $user;
+    private ?User $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Annonce::class, inversedBy="bookmarks")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Annonce::class)
      */
-    private $annonce;
+    private Annonce $annonce;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getAnnonce(): ?annonce
+    public function getAnnonce(): ?Annonce
     {
         return $this->annonce;
     }
 
-    public function setAnnonce(?annonce $annonce): self
+    public function setAnnonce(Annonce $annonce): self
     {
         $this->annonce = $annonce;
 

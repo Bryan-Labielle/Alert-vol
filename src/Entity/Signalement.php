@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SignalementRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,43 +18,49 @@ class Signalement
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private $details = [];
+    private array $details = [];
 
     /**
      * @ORM\ManyToOne(targetEntity=Annonce::class, inversedBy="signalements")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $annonce;
+    private ?Annonce $annonce;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $sendAt;
+    private \DateTimeInterface $sendAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $seenOn;
+    private \DateTimeInterface $seenOn;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $latitude;
+    private float $latitude;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $longitude;
+    private float $longitude;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement")
      */
-    private $messages;
+    private Collection $messages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?User $owner;
 
     public function __construct()
     {
@@ -70,26 +77,26 @@ class Signalement
         return $this->details;
     }
 
-    public function setDetails(?array $details): self
+    public function setDetails(array $details): self
     {
         $this->details = $details;
 
         return $this;
     }
 
-    public function getAnnonce(): ?annonce
+    public function getAnnonce(): ?Annonce
     {
         return $this->annonce;
     }
 
-    public function setAnnonce(?annonce $annonce): self
+    public function setAnnonce(?Annonce $annonce): self
     {
         $this->annonce = $annonce;
 
         return $this;
     }
 
-    public function getSendAt(): ?\DateTimeInterface
+    public function getSendAt(): \DateTimeInterface
     {
         return $this->sendAt;
     }
@@ -101,7 +108,7 @@ class Signalement
         return $this;
     }
 
-    public function getSeenOn(): ?\DateTimeInterface
+    public function getSeenOn(): \DateTimeInterface
     {
         return $this->seenOn;
     }
@@ -113,7 +120,7 @@ class Signalement
         return $this;
     }
 
-    public function getLatitude(): ?float
+    public function getLatitude(): float
     {
         return $this->latitude;
     }
@@ -125,7 +132,7 @@ class Signalement
         return $this;
     }
 
-    public function getLongitude(): ?float
+    public function getLongitude(): float
     {
         return $this->longitude;
     }
@@ -163,6 +170,18 @@ class Signalement
                 $message->setSignalement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

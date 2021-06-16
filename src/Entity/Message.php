@@ -15,35 +15,35 @@ class Message
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    private string $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sender")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="sender")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $sender;
+    private ?User $sender;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipient")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="recipient")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $recipient;
+    private ?User $recipient;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $sentAt;
+    private \DateTimeInterface $sentAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Signalement::class, inversedBy="messages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=signalement::class, inversedBy="messages")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $signalement;
+    private ?Signalement $signalement;
 
     public function getId(): ?int
     {
@@ -62,24 +62,24 @@ class Message
         return $this;
     }
 
-    public function getSender(): ?user
+    public function getSender(): ?User
     {
         return $this->sender;
     }
 
-    public function setSender(?user $sender): self
+    public function setSender(?User $sender): self
     {
         $this->sender = $sender;
 
         return $this;
     }
 
-    public function getRecipient(): ?user
+    public function getRecipient(): ?User
     {
         return $this->recipient;
     }
 
-    public function setRecipient(?user $recipient): self
+    public function setRecipient(?User $recipient): self
     {
         $this->recipient = $recipient;
 
@@ -98,12 +98,12 @@ class Message
         return $this;
     }
 
-    public function getSignalement(): ?signalement
+    public function getSignalement(): ?Signalement
     {
         return $this->signalement;
     }
 
-    public function setSignalement(?signalement $signalement): self
+    public function setSignalement(?Signalement $signalement): self
     {
         $this->signalement = $signalement;
 

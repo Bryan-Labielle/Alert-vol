@@ -2,15 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AnnonceRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- *
 /**
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
  * @Assert\EnableAutoMapping()
@@ -22,32 +20,33 @@ class Annonce
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=45)
      * @Assert\NotBlank(message="champ obligatoire")
      */
-    private $title;
-    /**
+    private string $title;
+
     /**
      * @ORM\OneToMany(targetEntity=AnnonceImage::class, mappedBy="annonce")
      */
-    private ArrayCollection $annonceImages;
+    private Collection $annonceImages;
     /**
      * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="annonce")
      */
-    private ArrayCollection $signalements;
+    private Collection $signalements;
 
     /**
+    public function getPublishedAt(): ?\Da
      * @ORM\Column(type="text", nullable=true)
      */
-    private string $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?\DateTimeInterface $publishedAt;
+    private ?DateTimeInterface $publishedAt;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -57,13 +56,13 @@ class Annonce
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?\DateTimeInterface $endPublishedAt;
+    private ?DateTimeInterface $endPublishedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="annonces")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $category;
+    private ?Category $category;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -71,15 +70,15 @@ class Annonce
     private ?string $reference;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private ?string $status;
+    private ?int $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="annonces")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private User $owner;
+    private ?User $owner;
 
     /**
      * @ORM\Column(type="integer")
@@ -89,23 +88,17 @@ class Annonce
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private array $details = [];
+    private ?array $details = [];
 
     /**
      * @ORM\Column(type="datetime")
      */
     private ?\DateTimeInterface $stolenAt;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="annonce")
-     */
-    private ArrayCollection $bookmarks;
-
     public function __construct()
     {
         $this->annonceImages = new ArrayCollection();
         $this->signalements = new ArrayCollection();
-        $this->bookmarks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,7 +207,7 @@ class Annonce
         return $this->nbRenew;
     }
 
-    public function setNbRenew(?int $nb_renew): self
+    public function setNbRenew(?int $nbRenew): self
     {
         $this->nbRenew = $nbRenew;
 
@@ -269,12 +262,12 @@ class Annonce
         return $this;
     }
 
-    public function getOwner(): ?user
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(?user $owner): self
+    public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
 
@@ -313,36 +306,6 @@ class Annonce
     public function setStolenAt(\DateTimeInterface $stolenAt): self
     {
         $this->stolenAt = $stolenAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Bookmark[]
-     */
-    public function getBookmarks(): Collection
-    {
-        return $this->bookmarks;
-    }
-
-    public function addBookmark(Bookmark $bookmark): self
-    {
-        if (!$this->bookmarks->contains($bookmark)) {
-            $this->bookmarks[] = $bookmark;
-            $bookmark->setAnnonce($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBookmark(Bookmark $bookmark): self
-    {
-        if ($this->bookmarks->removeElement($bookmark)) {
-            // set the owning side to null (unless already changed)
-            if ($bookmark->getAnnonce() === $this) {
-                $bookmark->setAnnonce(null);
-            }
-        }
 
         return $this;
     }

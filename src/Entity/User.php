@@ -17,99 +17,78 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $pseudo;
+    private string $pseudo;
 
     /**
      * @ORM\Column(type="string", length=45)
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=45)
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $role = [];
+    private array $role = [];
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $linkedin;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $twitter;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $facebook;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $adress;
+    private ?string $adress;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $zip;
+    private ?int $zip;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $city;
+    private ?string $city;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="sender")
-     */
-    private $sender;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="recipient")
-     */
-    private $recipient;
+    private ?string $avatar;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="owner")
      */
-    private $annonces;
+    private Collection $annonces;
 
     /**
      * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="user")
      */
-    private $bookmarks;
+    private Collection $bookmarks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="Owner")
+     */
+    private Collection $signalements;
 
     public function __construct()
     {
-        $this->sender = new ArrayCollection();
-        $this->recipient = new ArrayCollection();
         $this->annonces = new ArrayCollection();
         $this->bookmarks = new ArrayCollection();
+        $this->signalements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,42 +168,6 @@ class User
         return $this;
     }
 
-    public function getLinkedin(): ?string
-    {
-        return $this->linkedin;
-    }
-
-    public function setLinkedin(?string $linkedin): self
-    {
-        $this->linkedin = $linkedin;
-
-        return $this;
-    }
-
-    public function getTwitter(): ?string
-    {
-        return $this->twitter;
-    }
-
-    public function setTwitter(?string $twitter): self
-    {
-        $this->twitter = $twitter;
-
-        return $this;
-    }
-
-    public function getFacebook(): ?string
-    {
-        return $this->facebook;
-    }
-
-    public function setFacebook(?string $facebook): self
-    {
-        $this->facebook = $facebook;
-
-        return $this;
-    }
-
     public function getAdress(): ?string
     {
         return $this->adress;
@@ -269,66 +212,6 @@ class User
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Message[]
-     */
-    public function getSender(): Collection
-    {
-        return $this->sender;
-    }
-
-    public function addSender(Message $sender): self
-    {
-        if (!$this->sender->contains($sender)) {
-            $this->sender[] = $sender;
-            $sender->setSender($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSender(Message $sender): self
-    {
-        if ($this->sender->removeElement($sender)) {
-            // set the owning side to null (unless already changed)
-            if ($sender->getSender() === $this) {
-                $sender->setSender(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Message[]
-     */
-    public function getRecipient(): Collection
-    {
-        return $this->recipient;
-    }
-
-    public function addRecipient(Message $recipient): self
-    {
-        if (!$this->recipient->contains($recipient)) {
-            $this->recipient[] = $recipient;
-            $recipient->setRecipient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRecipient(Message $recipient): self
-    {
-        if ($this->recipient->removeElement($recipient)) {
-            // set the owning side to null (unless already changed)
-            if ($recipient->getRecipient() === $this) {
-                $recipient->setRecipient(null);
-            }
-        }
 
         return $this;
     }
@@ -387,6 +270,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($bookmark->getUser() === $this) {
                 $bookmark->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Signalement[]
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): self
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements[] = $signalement;
+            $signalement->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->removeElement($signalement)) {
+            // set the owning side to null (unless already changed)
+            if ($signalement->getOwner() === $this) {
+                $signalement->setOwner(null);
             }
         }
 
