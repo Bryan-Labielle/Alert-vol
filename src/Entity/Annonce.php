@@ -31,6 +31,7 @@ class Annonce
     /**
      * @ORM\OneToMany(targetEntity=AnnonceImage::class, mappedBy="annonce")
      */
+
     private Collection $annonceImages;
     /**
      * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="annonce")
@@ -81,7 +82,7 @@ class Annonce
     private ?User $owner;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $location;
 
@@ -94,6 +95,12 @@ class Annonce
      * @ORM\Column(type="datetime")
      */
     private ?\DateTimeInterface $stolenAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="annonce")
+     */
+
+    private Collection $bookmarks;
 
     public function __construct()
     {
@@ -206,6 +213,7 @@ class Annonce
     {
         return $this->nbRenew;
     }
+
 
     public function setNbRenew(?int $nbRenew): self
     {

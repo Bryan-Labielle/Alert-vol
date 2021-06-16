@@ -15,16 +15,17 @@
             </a>
 
             <div class="row justify-content-evenly">
+
+                {# {% include 'annonce/_annonce.twig.html' %}
                 {% include 'annonce/_annonce.twig.html' %}
                 {% include 'annonce/_annonce.twig.html' %}
-                {% include 'annonce/_annonce.twig.html' %}
-                {% include 'annonce/_annonce.twig.html' %}
-            </div>
-            {# {% for annonce in annonces %}
-                {% include '/annonce/_annonce.twig.html' %}
-            {% else %}
+                {% include 'annonce/_annonce.twig.html' %} #}
+                {% for annonce in annonces %}
+                    {% include '/annonce/_annonce.twig.html' %}
+                {% else %}
                 No records found
-            {% endfor %} #}
+                {% endfor %}
+        </div>
 
             <a class="btn btn-primary" href="{{ path('app_index') }}">
                 Retour à l'accueil

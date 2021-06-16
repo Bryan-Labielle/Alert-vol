@@ -3,9 +3,15 @@
 {% block title %}New Annonce{% endblock %}
 
 {% block body %}
+
     <h1>Create new Annonce</h1>
+    <div class="section row">
+        <div class="col">
+            <img class="fit-picture mt-3" src="/build/images/ioT/71333511_xl.09b19801.jpg" alt="déclarer un vol ou une perte" style="max-width: 500px">
+        </div>
+        <div class="col mb-2">
+            {{ include('annonce/_form.html.twig') }}
+        </div>
+    </div>
 
-    {{ include('annonce/_form.html.twig') }}
-
-    <a href="{{ path('annonce_index') }}">back to list</a>
 {% endblock %}

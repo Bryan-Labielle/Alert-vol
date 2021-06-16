@@ -1,4 +1,9 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="container" style="margin: auto; display: flex; justify-content: space-evenly">
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <a class="btn btn-dark" href="{{ path('annonce_index') }}">Annuler</a>
+</div>
+
 {{ form_end(form) }}
