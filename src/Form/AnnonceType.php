@@ -74,6 +74,7 @@ class AnnonceType extends AbstractType
             ->add('publishedAt', HiddenType::class, ['empty_data' => $start])
             ->add('endPublishedAt', HiddenType::class, ['empty_data' => $end]);
     }
+
         /*->add('title', TextType::class, [
             'required' => true])
         ->add('annonceImages', FileType::class, array(

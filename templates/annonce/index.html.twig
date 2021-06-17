@@ -23,9 +23,10 @@
                 {% for annonce in annonces %}
                     {% include '/annonce/_annonce.twig.html' %}
                 {% else %}
-                No records found
+                    No records found
                 {% endfor %}
-        </div>
+            </div>
+
 
             <a class="btn btn-primary" href="{{ path('app_index') }}">
                 Retour à l'accueil

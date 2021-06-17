@@ -1,0 +1,25 @@
+@import 'variables';
+
+.img-header{
+  width: 45%;
+}
+@media (min-width: 1024px){
+  nav .nav-title{
+    font-size: 1.6rem;
+  }
+  nav .img-header{
+    width: 70%;
+  }
+  nav a{
+    font-size: 1.6rem;
+  }
+  @media (min-width: 1199px){
+    nav .img-header{
+      width: 45%;
+    }
+    nav a{
+      font-size: 1.1rem;
+    }
+  }
+}
+

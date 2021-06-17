@@ -1,0 +1,48 @@
+@import 'variables';
+
+.img-footer{
+  width: 60%;
+}
+.bg-primary a{
+   color: $white;
+ }
+footer ul{
+  margin: 5px;
+}
+footer ul a {
+  text-decoration-line: none;
+}
+footer .svg-size{
+  font-size: 1rem;
+  text-decoration-line: none;
+}
+
+@media (min-width: 768px){
+  .footer-to-bottom{
+    height: 105px;
+  }
+  footer ul {
+    font-size: 1.2rem;
+  }
+  footer .svg-size{
+    font-size: 1.3rem;
+  }
+}
+@media (min-width: 1024px){
+  footer ul{
+    font-size: 1.6rem;
+  }
+  footer .svg-size{
+    font-size: 2rem;
+    text-decoration-line: none;
+  }
+  @media (min-width: 1199px){
+    .img-footer{
+      width: 40%;
+    }
+    .footer-space{
+      padding-top: 90vh;
+    }
+  }
+}
+
