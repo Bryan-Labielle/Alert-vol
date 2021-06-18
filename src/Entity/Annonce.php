@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
+use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Annonce
 {
+    public const STATUS = [
+        '0' => 'pending',
+        '1' => 'activated',
+        '2' => 'closed',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -31,7 +38,6 @@ class Annonce
     /**
      * @ORM\OneToMany(targetEntity=AnnonceImage::class, mappedBy="annonce")
      */
-
     private Collection $annonceImages;
     /**
      * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="annonce")
@@ -52,7 +58,7 @@ class Annonce
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $nbRenew;
+    private ?int $nbRenew = 0 ;
 
     /**
      * @ORM\Column(type="datetime")
@@ -73,7 +79,7 @@ class Annonce
     /**
      * @ORM\Column(type="integer")
      */
-    private ?int $status;
+    private ?int $status = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="annonces")
@@ -97,10 +103,10 @@ class Annonce
     private ?\DateTimeInterface $stolenAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="annonce")
+     * @ORM\Column(name="slug", type="string", length=255)
      */
+    private ?string $slug;
 
-    private Collection $bookmarks;
 
     public function __construct()
     {
@@ -316,5 +322,21 @@ class Annonce
         $this->stolenAt = $stolenAt;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
     }
 }

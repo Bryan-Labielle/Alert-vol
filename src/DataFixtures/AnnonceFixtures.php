@@ -3,6 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Annonce;
+use App\Repository\CategoryRepository;
+use App\Repository\UserRepository;
+use App\Service\Slugify;
+use Container2nH1tOz\getCategoryRepositoryService;
+use Container2nH1tOz\getUserRepositoryService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -10,8 +15,37 @@ use Faker\Factory;
 
 class AnnonceFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @var Slugify
+     */
+    private Slugify $slugify;
+
+    private $categoryRepository;
+    private $userRepository;
+
+    public const VEHICULEDETAILS = ([
+        'peinture' => 'rouge',
+        'date_achat' => '2019',
+        'defaults' => 'rayures aile gauche'
+    ]);
+
+    /**
+     * AnnonceFixtures constructor.
+     * @param Slugify $slugify
+     * @param $categoryRepository
+     * @param $userRepository
+     */
+    public function __construct(Slugify $slugify, CategoryRepository $categoryRepository, UserRepository $userRepository)
+    {
+        $this->slugify = $slugify;
+        $this->categoryRepository = $categoryRepository;
+        $this->userRepository = $userRepository;
+    }
+
+
     public function load(ObjectManager $manager)
     {
+        $slugify = new Slugify();
 
         $faker = Factory::create();
         //generate data
@@ -27,10 +61,12 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             $annonce->setReference($faker->randomLetter() . $faker->randomLetter() .
             $faker->numberBetween(000, 999) . $faker->randomLetter() . $faker->randomLetter());
             $annonce->setLocation($faker->numberBetween(10000, 99999));
-            $annonce->setDetails(UserFixtures::ARRAYTOJSON);
+            $annonce->setDetails(self::VEHICULEDETAILS);
+
             //Relations fixtures
-            $annonce->setCategory($this->getReference('category_' . rand(1, 15)));
-            $annonce->setOwner($this->getReference('user_' . rand(1, 9)));
+            $annonce->setCategory($this->categoryRepository->findOneByName('BTP'));
+            $annonce->setOwner($this->userRepository->findOneByRole(rand(1, 3)));
+            $annonce->setSlug($slugify->generate($annonce->getTitle()));
 
             $manager->persist($annonce);
             $this->addReference('annonce_' . $i, $annonce);
@@ -42,7 +78,6 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CategoryFixtures::class,
-            UserFixtures::class
         ];
     }
 }

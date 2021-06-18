@@ -12,7 +12,7 @@ class AnnonceImageFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $loop = 90;
+        $loop = 10;
         for ($i = 1; $i <= $loop; $i++) {
             $faker = Factory::create();
             $annonceImage = new AnnonceImage();

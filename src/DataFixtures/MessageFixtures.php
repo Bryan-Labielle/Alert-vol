@@ -12,13 +12,13 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $loop = 100;
+        $loop = 10;
         $faker = Factory::create();
         for ($i = 1; $i <= $loop; $i++) {
             $message = new Message();
             $message->setContent($faker->text());
-            $message->setSender($this->getReference('user_' . rand(1, 10)));
-            $message->setRecipient($this->getReference('user_' . rand(1, 10)));
+            $message->setSender($this->getReference('user_' . rand(1, 3)));
+            $message->setRecipient($this->getReference('user_' . rand(1, 3)));
             $message->setSentAt($faker->dateTime());
             $message->setSignalement($this->getReference('signalement_' . rand(1, 30)));
             $manager->persist($message);

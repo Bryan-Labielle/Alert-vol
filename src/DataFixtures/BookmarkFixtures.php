@@ -17,7 +17,7 @@ class BookmarkFixtures extends Fixture implements DependentFixtureInterface
             $bookmark = new Bookmark();
         //relations fixtures
             $bookmark->setAnnonce($this->getReference('annonce_' . rand(1, 30)));
-            $bookmark->setUser($this->getReference('user_' . rand(1, 10)));
+            $bookmark->setUser($this->getReference('user_' . rand(1, 3)));
         //persist & flush
             $manager->persist($bookmark);
         }

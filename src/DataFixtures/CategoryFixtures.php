@@ -9,9 +9,18 @@ use Faker\Factory;
 
 class CategoryFixtures extends Fixture
 {
+    public const CATEGORIES = ([
+            'BTP',
+            'engin_de_chantier',
+            'Agroalimentaire',
+            'Moissonneuse_Bateuse',
+            'Nautique',
+            'bateau_sans_permis'
+    ]);
+
     public function load(ObjectManager $manager)
     {
-        // Génération des catégories mères
+        /*// Génération des catégories mères
         $loop = 5;
         for ($i = 1; $i <= $loop; $i++) {
             $faker = Factory::create();
@@ -30,6 +39,14 @@ class CategoryFixtures extends Fixture
             $manager->persist($category);
             $this->addReference('category_' . $i, $category);
         }
-        $manager->flush();
+        $manager->flush();*/
+
+        foreach (self::CATEGORIES as $val) {
+            $category = new Category();
+
+            $category->setName($val);
+            $manager->persist($category);
+        }
+            $manager->flush();
     }
 }

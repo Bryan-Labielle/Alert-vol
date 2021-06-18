@@ -19,7 +19,6 @@ class Bookmark
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookmarks")
-     * @ORM\JoinColumn(nullable=true)
      */
     private ?User $user;
 

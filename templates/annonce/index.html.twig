@@ -9,13 +9,17 @@
         <h1>Toutes les annonces</h1>
 
         <div class="section ">
-
-            <a class="btn btn-primary" href="{{ path('annonce_new') }}">
-                Ajouter une annonce
+            <div style="display: flex; justify-content: space-between;">
+            <a class="btn btn-dark" href="{{ path('app_index') }}">
+                Retour à l'accueil
             </a>
-
+                <div class="small text-center align-self-center">Nombre d'annonces en cours : {{ count }}</div>
+            <a class="btn btn-primary" href="{{ path('annonce_new') }}">
+                Ajouter une annonce [+]
+            </a>
+        </div>
             <div class="row justify-content-evenly">
-
+                {% dump(annonces) %}
                 {# {% include 'annonce/_annonce.twig.html' %}
                 {% include 'annonce/_annonce.twig.html' %}
                 {% include 'annonce/_annonce.twig.html' %}
@@ -27,8 +31,7 @@
                 {% endfor %}
             </div>
 
-
-            <a class="btn btn-primary" href="{{ path('app_index') }}">
+            <a class="btn btn-dark" href="{{ path('app_index') }}">
                 Retour à l'accueil
             </a>
         </div>

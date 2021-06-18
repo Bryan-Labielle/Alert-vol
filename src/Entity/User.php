@@ -45,9 +45,9 @@ class User
     private string $password;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="integer")
      */
-    private array $role = [];
+    private int $role = 1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -156,12 +156,12 @@ class User
         return $this;
     }
 
-    public function getRole(): ?array
+    public function getRole(): ?int
     {
         return $this->role;
     }
 
-    public function setRole(array $role): self
+    public function setRole(int $role): self
     {
         $this->role = $role;
 

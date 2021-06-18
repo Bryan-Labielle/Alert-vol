@@ -28,7 +28,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=85)
      */
-    private string $category;
+    private string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="category")
@@ -57,14 +57,14 @@ class Category
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getName(): ?string
     {
-        return $this->category;
+        return $this->name;
     }
 
-    public function setCategory(string $category): self
+    public function setName(string $name): self
     {
-        $this->category = $category;
+        $this->name = $name;
 
         return $this;
     }

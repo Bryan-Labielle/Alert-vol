@@ -3,60 +3,20 @@
 {% block title %}Annonce{% endblock %}
 
 {% block body %}
-    <h1>Annonce</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ annonce.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ annonce.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ annonce.description }}</td>
-            </tr>
-            <tr>
-                <th>PublishedAt</th>
-                <td>{{ annonce.publishedAt ? annonce.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Nb_renew</th>
-                <td>{{ annonce.nbRenew }}</td>
-            </tr>
-            <tr>
-                <th>EndPublishedAt</th>
-                <td>{{ annonce.endPublishedAt ? annonce.endPublishedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Reference</th>
-                <td>{{ annonce.reference }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ annonce.status }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ annonce.location }}</td>
-            </tr>
-            <tr>
-                <th>Details</th>
-                <td>{{ annonce.details ? annonce.details|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>StolenAt</th>
-                <td>{{ annonce.stolenAt ? annonce.stolenAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<h1>Annonce</h1>
+<div class="section row" style="display: flex; justify-content: space-evenly;">
+    <div class="col">
+        {% include '/annonce/_annonce.twig.html' %}
+    </div>
+    <div class="col">
+        <img class="" src="/build/images/fixed_map_test.42de0df2.png" alt="carte avec localisation de la perte ou du vol" style="max-width: 500px">
+    </div>
+<div class="container btn-custom-show p-5" style="display: flex; justify-content: space-evenly">
+    <a class="btn btn-dark" href="{{ path('annonce_index') }}">back to list</a>
 
-    <a href="{{ path('annonce_index') }}">back to list</a>
-
-    <a href="{{ path('annonce_edit', {'id': annonce.id}) }}">edit</a>
+    <a class="btn btn-primary" href="{{ path('annonce_edit', {'slug': annonce.slug}) }}">edit</a>
 
     {{ include('annonce/_delete_form.html.twig') }}
-{% endblock %}
+</div></div>
+    {% endblock %}
