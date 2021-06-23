@@ -15,4 +15,9 @@ import '@fortawesome/fontawesome-free/js/brands';
 // start the Stimulus application
 import './bootstrap';
 
+// js for carousel on the home page
+import './js/caroussel';
+
 require('bootstrap');
+require('jquery');
+require('slick-carousel');

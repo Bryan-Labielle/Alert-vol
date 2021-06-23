@@ -4,12 +4,14 @@
 
 {% block content %}
     <!-- Home Banner -->
-    <section class="" style="background-image: url(/build/images/accueil_banner.3e8b4c3a.png); background-size: cover; height: 100%px; background-position: 0% -84px;" data-stellar-background-ratio="0.5">
+    <section class="" style="background-image: url(/build/images/accueil_banner_no-text.jpeg.001.28d72682.jpeg); background-size: cover; height: 100%px; background-position: 0% -84px; background-attachment: fixed;" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-end text-end" data-scrollax-parent="true" style="height: 590px;">
                 <div class="col-lg-6">
                     <div class="mt-5">
+                        <h1 class="h1 fw-bold display-2">ALERT'VOL</h1>
+                        <h3 class="h3">Un Service Proposé par Go4IoT</h3>
                         <p class="mb-4">Plateforme communautaire d'entraide de signalements de biens volés.</p>
                         <p><a href="#" class="btn btn-primary">Découvrir</a>
                             <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">Tester</a></p>
@@ -19,59 +21,34 @@
         </div>
     </section>
     <!-- End Home Banner -->
-    <!-- Section -->
-    <section class="section">
+    <!-- Section Call To Action -->
+    <section class="section custom-home-section" style="background-color: #FFA500;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-5 my-3">
-                    <h6 class="text-primary mb-3">What we do?</h6>
-                    <h2 class="h1 font-w-700">We help you to find back your vehicles.</h2>
-                    <div class="border-top border-2 border-dark pt-5 mt-5">
-                        <p class="lead m-0">Lorem Ipsum is simply text the printing and typesetting.</p>
-                    </div>
-                    <div class="pt-4">
-                        <a class="btn btn-primary" href="#">
-                            <span class="btn--text">Contact Us</span>
-                            <span class="arrow"></span>
-                        </a>
+                    <h2 class="h1 font-w-700 mt-5">Vous avez perdu un objet de valeur ?</h2>
+                    <div class="border-top border-2 border-dark pt-5 mt-2">
+                        <p class="lead mb-5">Postez une annonce et diffusez sur les réseaux sociaux instantanément.</p>
                     </div>
                 </div>
                 <div class="col-lg-6 ms-lg-auto my-3">
                     <div class="row">
                         <div class="col-sm-6 my-3">
-                            <div class="card">
-                                <div class="only-icon-lg mb-3">
-                                    <i class="icon-desktop"></i>
-                                </div>
-                                <h5>Communauté</h5>
-                                <p class="m-0">Lorem Ipsum is simply text the printing and typesetting.</p>
+                            <div class="card card-custom-services p-2" style="background-color: #E66C1A; border-radius: 20px;">
+                                <a href="{{ path('annonce_new') }}" style="color: black;">
+                                    <div class="font-w-500 m-0 text-center fw-bold">
+                                        Poster une annonce >
+                                    </div>
+                                </a>
                             </div>
                         </div>
                         <div class="col-sm-6 my-3">
-                            <div class="card">
-                                <div class="only-icon-lg mb-3">
-                                    <i class="icon-hotairballoon"></i>
-                                </div>
-                                <h5>Service</h5>
-                                <p class="m-0">Lorem Ipsum is simply text the printing and typesetting.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 my-3">
-                            <div class="card">
-                                <div class="only-icon-lg mb-3">
-                                    <i class="icon-scissors"></i>
-                                </div>
-                                <h5>Graphics Design</h5>
-                                <p class="m-0">Lorem Ipsum is simply text the printing and typesetting.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 my-3">
-                            <div class="card">
-                                <div class="only-icon-lg mb-3">
-                                    <i class="icon-laptop"></i>
-                                </div>
-                                <h5>Social Marketing</h5>
-                                <p class="m-0">Lorem Ipsum is simply text the printing and typesetting.</p>
+                            <div class="card card-custom-services p-2" style="background-color: #F4F4F4; border-radius: 20px;">
+                                <a href="{{ path('annonce_index') }}" style="color: black;">
+                                    <div class="font-w-500 m-0 text-center fw-bold">
+                                        Consulter les annonces >
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -80,15 +57,139 @@
         </div>
     </section>
     <!-- End Section -->
-    <section class="container mt-2">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum. Cras pretium, velit vitae porta euismod, lorem neque scelerisque libero, non egestas nisi ligula vitae ligula. Praesent vel scelerisque arcu. Aliquam mattis arcu ut urna gravida pellentesque. In molestie libero in dictum fringilla. Sed non turpis quis risus malesuada tristique sit amet nec diam. Mauris neque est, mollis in sem convallis, viverra auctor ipsum. Donec efficitur justo quis rhoncus ullamcorper. Duis sed libero ut risus hendrerit porttitor sed eget purus. Maecenas dui nisl, tincidunt ac justo quis, accumsan sollicitudin dui. Morbi in rutrum felis.
-
-            Curabitur diam sapien, lobortis nec interdum vitae, semper sit amet orci. Ut sit amet auctor libero. In gravida ex sed metus luctus sagittis sit amet eget sem. In eget sapien interdum, venenatis elit tincidunt, dictum leo. Sed commodo id justo vitae laoreet. Donec vehicula mollis ultricies. Praesent arcu sapien, tincidunt lacinia lorem in, sagittis molestie dui. Fusce risus eros, tincidunt vitae risus malesuada, vestibulum efficitur metus. Praesent vel sodales nibh. Maecenas sodales aliquam orci nec faucibus.
-
-            Etiam dolor nunc, faucibus sed pulvinar quis, tempus sed orci. Integer hendrerit nunc eget magna consectetur, et tempor nulla mollis. Integer eget malesuada enim. Nulla imperdiet leo euismod elit vestibulum, ut consectetur urna interdum. Nunc egestas leo tortor, non eleifend dolor tempor a. Sed aliquam eleifend nibh ac malesuada. Duis varius cursus turpis egestas pharetra. Donec leo magna, placerat nec dolor eget, fringilla pellentesque mauris. Duis non vehicula risus, a consequat lectus.
-
-            Duis pharetra venenatis tincidunt. Curabitur at nisl sem. Fusce sollicitudin, dolor ut euismod molestie, nibh odio consequat ligula, at interdum ex est ac ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse enim augue, congue vitae pellentesque eget, malesuada sed ante. Proin a consequat magna. Aenean consectetur lobortis placerat. Suspendisse quis commodo nisl.
-
-            Curabitur et nibh eu diam eleifend consequat at eget purus. Maecenas dui eros, dignissim in porttitor quis, varius id magna. Phasellus vel sapien eget mauris blandit varius a quis nibh. Quisque hendrerit tempus nisl, vitae tempor mauris finibus iaculis. Cras nec eleifend dui. Duis ac ligula justo. Nunc condimentum commodo diam, at aliquet nisl varius quis. Ut sed felis fringilla, porta purus vitae, sollicitudin velit. Pellentesque dapibus varius mi eget viverra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus a felis in nisl finibus ultricies. Donec tempor lacus ut odio tincidunt dictum.</p>
+    <!-- Section Caroussel -->
+    <section class="section bg-gray-100">
+        <div class="container">
+            <div class="row justify-content-center section-heading">
+                <div class="col-lg-8 col-xl-7 text-center p-5">
+                    <h3 class="h1">Les Dernières Annonces</h3>
+                    <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
+                </div>
+            </div>
+            <div class="row justify-content-center section-carousel">
+                <div class="col-lg-8 col-xl-7">
+                    {# @TODO : replace the images with the card _annonce_min #}
+                    <div class="carousel-home-page center">
+                        {% for hit in response.hits %}
+                            <figure class="carousel-image-container">
+                                <img class="d-block w-100 carousel-image" alt="{{ hit.tags }}" src="{{ hit.previewURL }}">
+                            </figure>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+    <!-- End section -->
+    <!-- Section Les Services -->
+    <section class="section" style="background-color: #428BCA;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 my-3">
+                    <h6 class="text-primary mb-3" style="color: #FFA500;">Que fais Alert'Vol?</h6>
+                    <h2 class="h1 font-w-700 text-white">Nous vous aidons à retrouver vos biens de valeur perdus ou volés.</h2>
+                    <div class="border-top border-2 border-dark pt-5 mt-5">
+                        <p class="lead m-0 text-white">Lorem Ipsum is simply text the printing and typesetting.</p>
+                    </div>
+                    <div class="pt-4">
+                        <a class="btn btn-primary" href="#">
+                            <span class="btn--text">En savoir plus</span>
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 ms-lg-auto my-3">
+                    <h3 class="text-white">Nos Atouts</h3>
+                    <div class="row">
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-desktop"></i>
+                                </div>
+                                <h5>La Communauté</h5>
+                                <p class="m-0">Être tous réunis et connectés sur une seule plateforme d'entraide.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-hotairballoon"></i>
+                                </div>
+                                <h5>La Simplicité</h5>
+                                <p class="m-0">Une seule annonce peut être diffusée sur plusieurs réseaux en un clic !</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-scissors"></i>
+                                </div>
+                                <h5>Un sponsor</h5>
+                                <p class="m-0">La société Go4IoT qui créé et fournit des objets connectés professionnels.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-laptop"></i>
+                                </div>
+                                <h5>La Gratuité</h5>
+                                <p class="m-0">Un compte utilisateur gratuit pour accéder à l'ensemble de ses services.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Section -->
+    <!-- Section A Propos -->
+    <section class="section effect-section">
+        <div class="effect-2">
+            <img src="static/img/effect/style-2.svg" title="" alt="" class="svg_img text-gray-100">
+        </div>
+        <div class="container">
+            <div class="row align-items-center justify-content-around">
+                <div class="col-lg-6 my-3 text-center">
+                    <img class="img-a-propos" src="https://techcrunch.com/wp-content/uploads/2017/06/push.jpg?w=730&crop=1" alt="notifications-and-simplicity">
+                </div>
+                <div class="col-lg-6 col-xl-5 my-3">
+                    <h3 class="h1">Unlimited power and customization possibilities.</h3>
+                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elitd do eiusmod tempor incididunt ut lore magna aliqua.</p>
+                    <div class="border-start border-2 border-primary ps-4 mt-6">
+                        <h6 class="lead font-w-600">Grow your website traffic with us</h6>
+                        <p>Raino is a HTML5 template based on Sass and Bootstrap 4 with modern and creative multipurpose design</p>
+                    </div>
+                    <div class="pt-4">
+                        <a class="btn btn-primary" href="#">
+                            <span class="btn--text">More About Us</span>
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End section -->
+    <!-- Section Inscription -->
+    <section class="section bg-gray-100" style="background-color: #FFA500;">
+        <div class="container">
+            <div class="row justify-content-center section-heading">
+                <div class="col-lg-8 col-xl-7 text-center">
+                    <h3 class="h1">Abonnez-vous à nos Publications</h3>
+                    <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <form class="d-flex flex-row mb-2 p-1 bg-white input-group shadow-lg">
+                        <input type="email" class="form-control form-control-lg rounded-0 border-0" placeholder="you@yoursite.com">
+                        <button class="btn btn-primary rounded-0 flex-shrink-0" type="submit">S'abonner</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End section -->
 {% endblock %}
+
