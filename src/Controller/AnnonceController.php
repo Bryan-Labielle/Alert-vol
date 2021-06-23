@@ -27,7 +27,7 @@ class AnnonceController extends AbstractController
      */
     public function index(AnnonceRepository $annonceRepository): Response
     {
-        $annonces = $annonceRepository->findByStatus('2');
+        $annonces = $annonceRepository->findByStatus('1');
         return $this->render('annonce/index.html.twig', [
             'annonces' => $annonces,
             'count' => count($annonces),

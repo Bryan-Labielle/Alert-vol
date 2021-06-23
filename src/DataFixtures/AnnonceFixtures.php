@@ -29,6 +29,19 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
         'defaults' => 'rayures aile gauche'
     ]);
 
+    public const VEHICULES = [  'Mercedes GLA', 
+                                'Mini-pelle Kubota', 
+                                'Moissoneuse batteuse Claas',
+                                'Mini-pelle Yanmar',
+                                'Tracteur John Deere',
+                                'Machine à vendanger New Holland',
+                                '205 Alpine de collection',
+                                'Tracteur Lamborghini',
+                                'Machine à vendanger Fendt',
+                                'Ferrari F40',
+                                'Mini-pelle Komatsu',
+                                'Tracteur New Holland',
+    ];
     /**
      * AnnonceFixtures constructor.
      * @param Slugify $slugify
@@ -52,27 +65,37 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
 
         $faker = Factory::create();
         //generate data
-        $loop = 30;
-        for ($i = 1; $i <= $loop; $i++) {
+        
+        foreach (self::VEHICULES as $key => $vehicules) {
             $annonce = new Annonce();
-            $annonce->setTitle($faker->userName() . " " . $faker->city());
+            $annonce->setTitle($vehicules);
             $annonce->setDescription($faker->text());
             $annonce->setPublishedAt($faker->dateTime());
             $annonce->setEndPublishedAt($faker->dateTime());
             $annonce->setStolenAt($faker->dateTime());
-            $annonce->setStatus(rand(0, 2));
+            $annonce->setStatus(1);
             $annonce->setReference($faker->randomLetter() . $faker->randomLetter() .
             $faker->numberBetween(000, 999) . $faker->randomLetter() . $faker->randomLetter());
             $annonce->setLocation($faker->numberBetween(10000, 99999));
             $annonce->setDetails(self::VEHICULEDETAILS);
 
             //Relations fixtures
-            $annonce->setCategory($this->categoryRepository->findOneByName('BTP'));
+            // switch($annonce){
+            //     case strstr($annonce->getTitle(),'pelle'):
+            //         $annonce->setCategory($this->categoryRepository->findOneByName('BTP'));
+            //         break;
+            //     case strstr($annonce->getTitle(),'tracteur'):
+            //         $annonce->setCategory($this->categoryRepository->findOneByName('Agroalimentaire'));
+            //         break;
+            //     case strstr($annonce->getTitle(),'moissonneuse'):
+            //         $annonce->setCategory($this->categoryRepository->findOneByName('moissoneuse_bateuse'));
+            // }
+            $annonce->setCategory($this->getReference('category_' . rand(0,5)));
             $annonce->setOwner($this->userRepository->findOneByRole(rand(1, 3)));
             $annonce->setSlug($slugify->generate($annonce->getTitle()));
 
             $manager->persist($annonce);
-            $this->addReference('annonce_' . $i, $annonce);
+            $this->addReference('annonce_' . $key, $annonce);
         }
         $manager->flush();
     }

@@ -44,23 +44,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        /*$loop = 10;
-        $faker = Factory::create();
-        for ($i = 0; $i <= $loop; $i++) {
-            $user = new User();
-            $user->setPseudo($faker->name());
-            $user->setFirstName($faker->firstName());
-            $user->setLastName($faker->lastName());
-            $user->setEmail($faker->email());
-            $user->setPassword($faker->password());
-            //$user->setRole();
-            $user->setAdress($faker->address());
-            $user->setZip($faker->numberBetween(10000, 99999));
-            $user->setCity($faker->city());
-            $user->setAvatar($faker->image());
-            $manager->persist($user);
-            $this->addReference('user_' . $i, $user);
-        }*/
+            
         $int = 0;
         foreach (self::USERS as $key => $val) {
             $user = new User();

@@ -28,7 +28,7 @@ class SignalementFixtures extends Fixture implements DependentFixtureInterface
             $signalement->setLongitude($faker->longitude());
             // relations fixtures
             $signalement->setOwner($this->getReference('user_' . rand(1, 3)));
-            $signalement->setAnnonce($this->getReference('annonce_' . rand(1, 30)));
+            $signalement->setAnnonce($this->getReference('annonce_' . rand(0, 11)));
             // persist, reference, flush
             $manager->persist($signalement);
             $this->addReference('signalement_' . $i, $signalement);

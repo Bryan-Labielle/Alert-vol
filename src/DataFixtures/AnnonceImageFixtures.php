@@ -17,7 +17,7 @@ class AnnonceImageFixtures extends Fixture implements DependentFixtureInterface
             $faker = Factory::create();
             $annonceImage = new AnnonceImage();
             $annonceImage->setImage($faker->image());
-            $annonceImage->setAnnonce($this->getReference('annonce_' . rand(1, 30)));
+            $annonceImage->setAnnonce($this->getReference('annonce_' . rand(0, 11)));
             $manager->persist($annonceImage);
         }
         $manager->flush();
