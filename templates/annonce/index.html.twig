@@ -9,7 +9,7 @@
         <h1>Toutes les annonces</h1>
 
         <div class="section ">
-            <div style="display: flex; justify-content: space-between;">
+            <div class="d-flex justify-content-between">
             <a class="btn btn-dark" href="{{ path('app_index') }}">
                 Retour à l'accueil
             </a>
@@ -18,7 +18,7 @@
                 Ajouter une annonce [+]
             </a>
         </div>
-            <div class="row justify-content-evenly mt-3">
+            <div class="row g-5 mt-3">
                 {% for annonce in annonces %}
                     {% include '/annonce/_annonceMin.html.twig' %}
                 {% else %}

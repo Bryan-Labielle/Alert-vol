@@ -32,10 +32,9 @@
 .btn-circle {
   border-radius: 5rem;
   border: 1px solid black;
-  position: relative;
   background-color: $action;
-  top: 20px;
   transition: 0.3s;
+  transform: translateY(20px);
   &:hover{
     background-color: darken($action, 10%);
   }
