@@ -20,8 +20,8 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
      */
     private Slugify $slugify;
 
-    private $categoryRepository;
-    private $userRepository;
+    private CategoryRepository $categoryRepository;
+    private UserRepository $userRepository;
 
     public const VEHICULEDETAILS = ([
         'peinture' => 'rouge',
@@ -32,11 +32,14 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
     /**
      * AnnonceFixtures constructor.
      * @param Slugify $slugify
-     * @param $categoryRepository
-     * @param $userRepository
+     * @param CategoryRepository $categoryRepository
+     * @param UserRepository $userRepository
      */
-    public function __construct(Slugify $slugify, CategoryRepository $categoryRepository, UserRepository $userRepository)
-    {
+    public function __construct(
+        Slugify $slugify,
+        CategoryRepository $categoryRepository,
+        UserRepository $userRepository
+    ) {
         $this->slugify = $slugify;
         $this->categoryRepository = $categoryRepository;
         $this->userRepository = $userRepository;
@@ -74,7 +77,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             CategoryFixtures::class,
