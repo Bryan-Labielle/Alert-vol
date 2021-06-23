@@ -1,15 +1,13 @@
-<div class="col-6 col-md-6 col-sm-12" style="width: 25rem;">
+<div class="col-6 col-md-6 col-sm-12 pb-3" style="width: 25rem;">
     <div class="card overflow-hidden mb-2 p-0">
-        <a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" class="d-block">
             <img class="card-img-top" src="https://picsum.photos/id/892/200/100" alt='title picture'>
-            <div class="card-img-overlay d-flex align-items-start justify-content-end z-index-1">
+            <div class="card-img-overlay d-flex align-items-start justify-content-end" style="z-index: -1;">
                 <i class="fas fa-bookmark mt-0" style="color: #FFA500; font-size: 3em;">
                 </i>
             </div>
-        </a>
         <div class="card-header m-0 p-2" style="background-color: #C4C4C4;">
 
-            <div class="text-center"><a class="h5" href="#" style="color: #1a1e21">{{ annonce.title|title }}</a></div>
+            <div class="text-center">{{ annonce.title|title }}</div>
             <div class="text-muted details-annonce mb-1 mt-1" style="font-size: small; color: #F1F1F1;"><i class="far fa-clock m-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
             <div class="text-muted details-annonce mb-1 mt-1" style="font-size: small; color: #F1F1F1"><i class="fas fa-map-marker-alt m-2"></i>A : {{ annonce.location }}</div>
         </div>
@@ -30,9 +28,9 @@
                 <div><i class="fas fa-bell text-white me-1"></i><a href="#" class="ms-auto font-w-500" style="color: #f1f1f1">Signaler cette annonce</a></div>
             </div>
             <div class="text-center m-auto">
-                <a class="btn" style="background-color: #FFA500; href="{{ path('annonce_show', {'slug':annonce.slug}) }}">
-                J'ai vu ce véhicule <i class="fas fa-bullhorn" style="color: #F1F1F1"></i>
-                </a></div>
+                <a class="btn" style="background-color: #FFA500;z-index: 3;" href="{{ path('annonce_show', {'slug':annonce.slug}) }}">
+                J'ai vu ce véhicule <i class="fas fa-bullhorn" style="color: #F1F1F1"></i></a>
+            </div>
         </div>
     </div>
 </div>

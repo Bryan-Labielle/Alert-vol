@@ -18,14 +18,9 @@
                 Ajouter une annonce [+]
             </a>
         </div>
-            <div class="row justify-content-evenly">
-                {% dump(annonces) %}
-                {# {% include 'annonce/_annonce.twig.html' %}
-                {% include 'annonce/_annonce.twig.html' %}
-                {% include 'annonce/_annonce.twig.html' %}
-                {% include 'annonce/_annonce.twig.html' %} #}
+            <div class="row justify-content-evenly mt-3">
                 {% for annonce in annonces %}
-                    {% include '/annonce/_annonce.twig.html' %}
+                    {% include '/annonce/_annonceMin.html.twig' %}
                 {% else %}
                     No records found
                 {% endfor %}
