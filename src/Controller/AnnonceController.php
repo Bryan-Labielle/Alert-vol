@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Annonce;
 use App\Entity\User;
 use App\Repository\AnnonceRepository;
+use App\Service\ApiImages;
 use App\Service\Slugify;
 use App\Form\AnnonceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,17 @@ use DateInterval;
  */
 class AnnonceController extends AbstractController
 {
+    private ApiImages $apiImages;
+
+    /**
+     * AnnonceController constructor.
+     * @param ApiImages $apiImages
+     */
+    public function __construct(ApiImages $apiImages)
+    {
+        $this->apiImages = $apiImages;
+    }
+
     /**
      * @Route("/", methods={"GET"}, name="index")
      * @param AnnonceRepository $annonceRepository
@@ -29,6 +41,7 @@ class AnnonceController extends AbstractController
     {
         $annonces = $annonceRepository->findByStatus('1');
         return $this->render('annonce/index.html.twig', [
+            'apiImages' => $this->apiImages->getResponse(),
             'annonces' => $annonces,
             'count' => count($annonces),
         ]);

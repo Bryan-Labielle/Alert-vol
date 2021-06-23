@@ -15,9 +15,8 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(ApiImages $apiImages): Response
     {
-        $apiImages = new ApiImages();
         $response = $apiImages->getResponse();
         dump($response);
         return $this->render('home/index.html.twig', [
