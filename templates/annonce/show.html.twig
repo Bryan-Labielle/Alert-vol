@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce{% endblock %}
+
+{% block body %}
+
+<h1>Annonce</h1>
+<div class="section row" style="display: flex; justify-content: space-evenly;">
+    <div class="col">
+        {% include '/annonce/_annonce.html.twig' %}
+    </div>
+    <div class="col">
+        <img class="" src="/build/images/fixed_map_test.42de0df2.png" alt="carte avec localisation de la perte ou du vol" style="max-width: 500px">
+    </div>
+<div class="container btn-custom-show p-5" style="display: flex; justify-content: space-evenly">
+    <a class="btn btn-dark" href="{{ path('annonce_index') }}">back to list</a>
+
+    <a class="btn btn-primary" href="{{ path('annonce_edit', {'slug': annonce.slug}) }}">edit</a>
+
+    {{ include('annonce/_delete_form.html.twig') }}
+</div></div>
+    {% endblock %}
