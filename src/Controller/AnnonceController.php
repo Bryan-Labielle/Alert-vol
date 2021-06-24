@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Signalement;
 use App\Entity\User;
+use App\Form\SignalementType;
 use App\Repository\AnnonceRepository;
 use App\Service\ApiImages;
 use App\Service\Slugify;
 use App\Form\AnnonceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -158,5 +161,39 @@ class AnnonceController extends AbstractController
         }
 
         return $this->redirectToRoute('annonce_index');
+    }
+
+    /**
+     * @Route("{slug}/signalement", name="signalement")
+     * @return Response
+     */
+    public function signalement(Annonce $annonce, Signalement $signalement, Request $request): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $date = new DateTime();
+
+        $form = $this->createForm(SignalementType::class, $signalement);
+        $form->handleRequest($request);
+
+        $signalement->setSendAt($date);
+        $signalement->setLongitude(1.1);
+        $signalement->setLatitude(2.2);
+        $signalement->setOwner($entityManager->getRepository(User::class)->findOneByRole(rand(1, 3)));
+        $signalement->setAnnonce($annonce);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($signalement);
+            $entityManager->flush();
+
+            $this->redirectToRoute('annonce_index');
+        }
+
+
+
+        return $this->render('annonce/signalement.html.twig', [
+            'annonce' => $annonce,
+            'apiImages' => $this->apiImages->getResponse(),
+            'form' => $form->createView()
+        ]);
     }
 }

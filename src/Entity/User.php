@@ -75,7 +75,7 @@ class User
     private Collection $annonces;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="User")
      */
     private Collection $bookmarks;
 

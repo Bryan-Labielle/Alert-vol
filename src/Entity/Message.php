@@ -23,13 +23,13 @@ class Message
     private string $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="sender")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sender")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?User $sender;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="recipient")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipient")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?User $recipient;
@@ -40,7 +40,7 @@ class Message
     private \DateTimeInterface $sentAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=signalement::class, inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity=Signalement::class, inversedBy="messages")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?Signalement $signalement;
