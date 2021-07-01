@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Message;
 use App\Entity\Signalement;
 use App\Entity\User;
 use App\Form\SignalementType;
@@ -172,14 +173,15 @@ class AnnonceController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $date = new DateTime();
 
-        $form = $this->createForm(SignalementType::class, $signalement);
-        $form->handleRequest($request);
-
         $signalement->setSendAt($date);
         $signalement->setLongitude(1.1);
         $signalement->setLatitude(2.2);
         $signalement->setOwner($entityManager->getRepository(User::class)->findOneByRole(rand(1, 3)));
         $signalement->setAnnonce($annonce);
+
+        $form = $this->createForm(SignalementType::class, $signalement);
+
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($signalement);

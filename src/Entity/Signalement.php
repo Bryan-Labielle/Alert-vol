@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SignalementRepository;
-use DateTimeInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,12 +34,12 @@ class Signalement
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $sendAt;
+    private DateTime $sendAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $seenOn;
+    private DateTime $seenOn;
 
     /**
      * @ORM\Column(type="float")
@@ -101,19 +101,19 @@ class Signalement
         return $this->sendAt;
     }
 
-    public function setSendAt(\DateTimeInterface $sendAt): self
+    public function setSendAt(DateTime $sendAt): self
     {
         $this->sendAt = $sendAt;
 
         return $this;
     }
 
-    public function getSeenOn(): \DateTimeInterface
+    public function getSeenOn(): DateTime
     {
         return $this->seenOn;
     }
 
-    public function setSeenOn(\DateTimeInterface $seenOn): self
+    public function setSeenOn(DateTime $seenOn): self
     {
         $this->seenOn = $seenOn;
 
