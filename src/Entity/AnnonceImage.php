@@ -3,10 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\AnnonceImageRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=AnnonceImageRepository::class)
+ * @Vich\Uploadable
  */
 class AnnonceImage
 {
@@ -20,7 +25,43 @@ class AnnonceImage
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $image;
+    private $name;
+    /**
+     * @Vich\UploadableField(mapping="annonce_file", fileNameProperty="name")
+     * @var ?File
+     */
+    private ?File $annonceFile ;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private ?DateTime $postedAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private ?DateTime $updatedAt;
+
+    /**
+     * @return ?File
+     */
+    public function getAnnonceFile(): ?File
+    {
+        return $this->annonceFile;
+    }
+
+    /**
+     * @param File|null $annonceFile
+     * @return AnnonceImage
+     */
+    public function setAnnonceFile(?File $annonceFile = null): self
+    {
+        $this->annonceFile = $annonceFile;
+        if ($annonceFile) {
+            $this->updatedAt = new DateTime('now');
+        }
+        return $this;
+    }
 
     /**
      * @ORM\ManyToOne(targetEntity=annonce::class, inversedBy="annonceImages")
@@ -33,14 +74,14 @@ class AnnonceImage
         return $this->id;
     }
 
-    public function getImage(): string
+    public function getName(): ?string
     {
-        return $this->image;
+        return $this->name;
     }
 
-    public function setImage(string $image): self
+    public function setName(?string $name): self
     {
-        $this->image = $image;
+        $this->name = $name;
 
         return $this;
     }
@@ -55,5 +96,39 @@ class AnnonceImage
         $this->annonce = $annonce;
 
         return $this;
+    }
+
+    /**
+     * @return ?DateTime
+     */
+    public function getPostedAt(): ?DateTime
+    {
+        return $this->postedAt;
+    }
+
+    /**
+     * @param ?DateTime $postedAt
+     * @return AnnonceImage
+     */
+    public function setPostedAt(?DateTime $postedAt): self
+    {
+        $this->postedAt = $postedAt;
+        return $this;
+    }
+
+    /**
+     * @return ?DateTime
+     */
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param ?DateTime $updatedAt
+     */
+    public function setUpdatedAt(?DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

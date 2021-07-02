@@ -1,11 +1,54 @@
-{{ form_start(form) }}
+<div id="annonce-form">
+    {{ form_start(form) }}
     {{ form_widget(form) }}
 
-
-
+<div id="zipField">
+    <ul id="autocomplete_zip">
+    </ul>
+</div>
 <div class="container" style="margin: auto; display: flex; justify-content: space-evenly">
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-    <a class="btn btn-dark" href="{{ path('annonce_index') }}">Annuler</a>
 </div>
 
 {{ form_end(form) }}
+</div>
+
+{% if formUpload is defined %}
+<div id="upload-form">
+    {{ form_start(formUpload) }}
+    {{ form_widget(formUpload) }}
+    <div class="container" style="margin: auto; display: flex; justify-content: space-evenly">
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
+    {{ form_end(formUpload) }}
+</div>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded',  () => {
+        document.getElementById('annonce_location').addEventListener('input', (event) => {
+            const search = event.target.value;
+
+            fetch(`/annonce/autocomplete-zip?search=${search}`)
+
+                .then((response) => response.json())
+
+                .then((data) => {
+                    console.log(data);
+                    let list = '';
+                    if (data.length === 0) {
+                        // si le champs texte est vide, on cache les suggestions
+                        document.getElementById('autocomplete_zip').hide();
+                    } else {
+                        for (const item of data) {
+                            list += `<li>${item.code} . ${item.nom}</li>`;
+                        }
+                        document.getElementById('autocomplete_zip').innerHTML = list;
+                    }
+                });
+
+            // .catch(alert('Pas de programmes avec ce nom'));
+        });
+    });
+
+</script>
