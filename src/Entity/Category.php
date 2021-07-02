@@ -20,8 +20,7 @@ class Category
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity=category::class, inversedBy="categories")
      */
     private ?Category $categoryId;
 

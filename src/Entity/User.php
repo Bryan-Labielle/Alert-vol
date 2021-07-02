@@ -3,109 +3,163 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $pseudo;
-
-    /**
-     * @ORM\Column(type="string", length=45)
-     */
-    private string $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=45)
-     */
-    private string $lastName;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $email;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $password;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private int $role = 1;
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $adress;
+    private $address;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $zip;
+    private $zip;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $city;
+    private $city;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $avatar;
+    private $avatar;
 
     /**
-     * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="owner")
+     * @ORM\Column(type="integer")
      */
-    private Collection $annonces;
+    private $role;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="user")
+     * @ORM\Column(type="boolean")
      */
-    private Collection $bookmarks;
+    private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="Owner")
+     * @ORM\Column(type="string", length=255)
      */
-    private Collection $signalements;
-
-    public function __construct()
-    {
-        $this->annonces = new ArrayCollection();
-        $this->bookmarks = new ArrayCollection();
-        $this->signalements = new ArrayCollection();
-    }
+    private $pseudo;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPseudo(): ?string
+    public function getEmail(): ?string
     {
-        return $this->pseudo;
+        return $this->email;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setEmail(string $email): self
     {
-        $this->pseudo = $pseudo;
+        $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getFirstName(): ?string
@@ -132,50 +186,14 @@ class User
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getAddress(): ?string
     {
-        return $this->email;
+        return $this->address;
     }
 
-    public function setEmail(string $email): self
+    public function setAddress(?string $address): self
     {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getRole(): ?int
-    {
-        return $this->role;
-    }
-
-    public function setRole(int $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function getAdress(): ?string
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(?string $adress): self
-    {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -216,92 +234,38 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection|Annonce[]
-     */
-    public function getAnnonces(): Collection
+    public function getRole(): ?int
     {
-        return $this->annonces;
+        return $this->role;
     }
 
-    public function addAnnonce(Annonce $annonce): self
+    public function setRole(int $role): self
     {
-        if (!$this->annonces->contains($annonce)) {
-            $this->annonces[] = $annonce;
-            $annonce->setOwner($this);
-        }
+        $this->role = $role;
 
         return $this;
     }
 
-    public function removeAnnonce(Annonce $annonce): self
+    public function isVerified(): bool
     {
-        if ($this->annonces->removeElement($annonce)) {
-            // set the owning side to null (unless already changed)
-            if ($annonce->getOwner() === $this) {
-                $annonce->setOwner(null);
-            }
-        }
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Bookmark[]
-     */
-    public function getBookmarks(): Collection
+    public function getPseudo(): ?string
     {
-        return $this->bookmarks;
+        return $this->pseudo;
     }
 
-    public function addBookmark(Bookmark $bookmark): self
+    public function setPseudo(string $pseudo): self
     {
-        if (!$this->bookmarks->contains($bookmark)) {
-            $this->bookmarks[] = $bookmark;
-            $bookmark->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBookmark(Bookmark $bookmark): self
-    {
-        if ($this->bookmarks->removeElement($bookmark)) {
-            // set the owning side to null (unless already changed)
-            if ($bookmark->getUser() === $this) {
-                $bookmark->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Signalement[]
-     */
-    public function getSignalements(): Collection
-    {
-        return $this->signalements;
-    }
-
-    public function addSignalement(Signalement $signalement): self
-    {
-        if (!$this->signalements->contains($signalement)) {
-            $this->signalements[] = $signalement;
-            $signalement->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSignalement(Signalement $signalement): self
-    {
-        if ($this->signalements->removeElement($signalement)) {
-            // set the owning side to null (unless already changed)
-            if ($signalement->getOwner() === $this) {
-                $signalement->setOwner(null);
-            }
-        }
+        $this->pseudo = $pseudo;
 
         return $this;
     }

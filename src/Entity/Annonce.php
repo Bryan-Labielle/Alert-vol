@@ -45,7 +45,6 @@ class Annonce
     private Collection $signalements;
 
     /**
-    public function getPublishedAt(): ?\Da
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description;
@@ -219,7 +218,6 @@ class Annonce
     {
         return $this->nbRenew;
     }
-
 
     public function setNbRenew(?int $nbRenew): self
     {

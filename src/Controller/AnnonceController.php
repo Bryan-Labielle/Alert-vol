@@ -80,7 +80,6 @@ class AnnonceController extends AbstractController
         ]);
 
         $form = $this->createForm(AnnonceType::class, $annonce);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

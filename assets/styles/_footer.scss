@@ -1,5 +1,11 @@
 @import 'variables';
 
+footer{
+  position:fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
 .img-footer{
   width: 60%;
 }

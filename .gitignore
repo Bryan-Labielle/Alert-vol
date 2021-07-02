@@ -1,6 +1,9 @@
 .idea/
 /styleguide
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

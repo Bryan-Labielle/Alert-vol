@@ -18,6 +18,12 @@ import './bootstrap';
 // js for carousel on the home page
 import './js/caroussel';
 
+// js for login page
+import './js/login';
+
+// js for register page
+import './js/register';
+
 require('bootstrap');
 require('jquery');
 require('slick-carousel');

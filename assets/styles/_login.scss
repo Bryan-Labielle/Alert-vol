@@ -1,0 +1,48 @@
+.login-container{
+    min-height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("../images/ioT/login_img-1966x1311.jpg") !important;
+    background-repeat: no-repeat;
+}
+
+.login-container label{
+    display: block;
+    .label-text{
+        cursor: text;
+        line-height: 20px;
+        text-transform: uppercase;
+        transform: translate(40px,-30px);
+        transition: all 0.3s;
+    }
+    input{
+        background-color: #FDFDFD;
+        &:focus{
+                & + .label-text{
+                    transform: translate(20px, -40px);
+                    font-size: 0.6rem;
+                    }
+        }
+        &:valid + .label-text{
+            transform: translate(20px, -40px);
+            font-size: 0.6rem;
+        }
+    }
+
+}
+
+
+/*.login-label{
+    position: relative !important;
+    transform: translate(20px,30px);
+    transition: all 0.2s;
+}
+.login-label-container input{
+    &:focus & + .login-label{
+        font-size: 0.6rem;
+    }
+}*/
+
+
+
