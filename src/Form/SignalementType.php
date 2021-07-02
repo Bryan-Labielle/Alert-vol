@@ -2,9 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Message;
 use App\Entity\Signalement;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -26,10 +24,13 @@ class SignalementType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Véhicule vu le :'
             ])
-            /*->add('content', EntityType::class, [
-                'class' => Message::class,
+            ->add('content', TextareaType::class, [
+                'label' => 'Votre message',
+                'mapped' => false
+                /*'class' => Message::class,
                 'choice_label' =>  'content',
-            ])*/
+                */
+            ])
             ;
     }
 

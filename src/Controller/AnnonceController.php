@@ -3,22 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
-use App\Entity\Message;
+use App\Entity\AnnonceImage;
 use App\Entity\Signalement;
 use App\Entity\User;
+use App\Form\AnnonceImageType;
 use App\Form\SignalementType;
 use App\Repository\AnnonceRepository;
 use App\Service\ApiImages;
 use App\Service\Slugify;
 use App\Form\AnnonceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use DateTime;
 use DateInterval;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
  * @Route("/annonce", name="annonce_")
@@ -165,11 +170,23 @@ class AnnonceController extends AbstractController
     }
 
     /**
-     * @Route("{slug}/signalement", name="signalement")
+     * @Route("{slug}/signalement", methods={"POST", "GET"}, name="signalement")
+     * @param Annonce $annonce
+     * @param Signalement $signalement
+     * @param Request $request
      * @return Response
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
      */
-    public function signalement(Annonce $annonce, Signalement $signalement, Request $request): Response
-    {
+    public function signalement(
+        Annonce $annonce,
+        Signalement $signalement,
+        Request $request
+    ): Response {
+
         $entityManager = $this->getDoctrine()->getManager();
         $date = new DateTime();
 
@@ -178,6 +195,7 @@ class AnnonceController extends AbstractController
         $signalement->setLatitude(2.2);
         $signalement->setOwner($entityManager->getRepository(User::class)->findOneByRole(rand(1, 3)));
         $signalement->setAnnonce($annonce);
+
 
         $form = $this->createForm(SignalementType::class, $signalement);
 
@@ -189,13 +207,29 @@ class AnnonceController extends AbstractController
 
             $this->redirectToRoute('annonce_index');
         }
+        $annonceImage = new AnnonceImage();
 
+        $annonceImage->setPostedAt($date);
+        $annonceImage->setAnnonce($annonce);
+        dump($annonceImage);
+
+        $formImage = $this->createForm(AnnonceImageType::class, $annonceImage);
+        $form->handleRequest($request);
+
+        if ($formImage->isSubmitted() && $formImage->isValid()) {
+            $entityManager->persist($annonceImage);
+            $entityManager->flush();
+
+            //TODO redirect sur page de confirmation d'envoi ?
+            $this->redirectToRoute('annonce_index');
+        }
 
 
         return $this->render('annonce/signalement.html.twig', [
             'annonce' => $annonce,
             'apiImages' => $this->apiImages->getResponse(),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'annonceImage' => $formImage->createView()
         ]);
     }
 }

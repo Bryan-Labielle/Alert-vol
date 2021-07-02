@@ -5,7 +5,7 @@
     <div class="card card-align p-0 z-index-1">
         <div class="d-block">
             <img class="card-img-top" src="{{ apiImages.hits.0.previewURL }}" alt='title picture' >
-            {% dump %}
+            {% dump (annonceImage) %}
             <div class="d-flex align-items-start justify-content-end ">
                 <i class="fas fa-bookmark bookmark-position">
                 </i>
@@ -30,7 +30,10 @@
         {{ form_widget(details) }}
 
     {% endfor %}
-
-
     {{ form_end(form) }}
+
+    {{ form_start(formImage) }}
+    {{ form_widget(formImage) }}
+    {{ form_end(formImage) }}
+
 {% endblock %}
