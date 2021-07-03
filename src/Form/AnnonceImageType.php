@@ -10,7 +10,7 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class AnnonceImageType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('annonceFile', VichFileType::class, [
@@ -22,7 +22,7 @@ class AnnonceImageType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => AnnonceImage::class,

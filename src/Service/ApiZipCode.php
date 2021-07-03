@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApiZipCode
 {
-    private $client;
+    private ?HttpClientInterface $client;
 
     public function __construct(HttpClientInterface $client)
     {

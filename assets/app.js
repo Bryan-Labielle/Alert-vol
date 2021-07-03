@@ -17,15 +17,7 @@ import './bootstrap';
 
 // js for carousel on the home page
 import './js/caroussel';
-
-// js for carousel on the home page
 import './js/autocomplete_zip';
-
-// js for login page
-import './js/login';
-
-// js for register page
-import './js/register';
 
 require('bootstrap');
 window.$ = window.jQuery = require('jquery');

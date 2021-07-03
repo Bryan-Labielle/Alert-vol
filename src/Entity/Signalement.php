@@ -67,7 +67,7 @@ class Signalement
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image;
+    private ?string $image;
 
     public function __construct()
     {
