@@ -44,9 +44,8 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-            
-        $int = 0;
-        foreach (self::USERS as $key => $val) {
+        $int = 1;
+        foreach (self::USERS as $val) {
             $user = new User();
             $user->setPseudo($val['pseudo']);
             $user->setFirstName($val['first_name']);
@@ -55,8 +54,8 @@ class UserFixtures extends Fixture
             $user->setPassword($val['password']);
             $user->setRole($val['role']);
             $manager->persist($user);
-            $num = $int += 1;
-            $this->addReference('user_' . $num, $user);
+            $this->addReference('user_' . $int, $user);
+            $int += 1;
         }
         $manager->flush();
     }

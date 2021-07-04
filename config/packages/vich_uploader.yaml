@@ -2,8 +2,8 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-        image_file:
-            uri_prefix: /images/products
+        annonce_file:
+            uri_prefix: /uploads
             upload_destination: '%upload_directory%'
             namer:
                 service: Vich\UploaderBundle\Naming\SmartUniqueNamer

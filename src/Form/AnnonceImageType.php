@@ -11,22 +11,19 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class AnnonceImageType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('image', VichFileType::class, [
-                'required' => true
-            ])
-
-            //TODO retirer nommage du fichier
-            ->add('name', TextType::class, [
-                'label' => "Nom de l'image"
-            ])
-
+            ->add('annonceFile', VichFileType::class, [
+                'label' => 'Déposez votre image',
+                'required'      => false,
+                'allow_delete'  => true, // not mandatory, default is true
+                'download_uri' => true, // not mandatory, default is true
+                ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => AnnonceImage::class,
