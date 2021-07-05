@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -74,12 +75,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $pseudo;
+    private string $pseudo;
 
     public function getId(): ?int
     {
@@ -156,8 +157,10 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
+        //TODO modify return type
+
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }

@@ -94,6 +94,7 @@ class AnnonceController extends AbstractController
             $entityManager->persist($annonce);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre annonce est enregistrée, ajoutez des images.');
             return $this->redirectToRoute('annonce_edit', ['slug' => $annonce->getSlug()]);
         }
         // créer formulaire séparer pour ajouter plusieurs signes distinctifs en ajax
@@ -218,7 +219,6 @@ class AnnonceController extends AbstractController
         $annonce = $annonceImage->getAnnonce();
         if ($this->isCsrfTokenValid('delete' . $annonceImage->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $annonceImage = $entityManager->getRepository(AnnonceImage::class)->find($annonceImage->getId());
             $entityManager->remove($annonceImage);
             $entityManager->flush();
         }
