@@ -7,12 +7,12 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
     <div class="login-container">
-    <h1>Register</h1>
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
+                    <h1>Register</h1>
                     {{ form_start(registrationForm) }}
-                    <label class="login-label-container position-relative">
+                    <div class="login-label-container position-relative">
                         {{ form_errors(registrationForm.email) }}
                         {{ form_widget(registrationForm.email, {
                             'attr' : {
@@ -25,8 +25,8 @@
                                 'class' : 'label-text'
                             }
                         }) }}
-                    </label>
-                    <label class="login-label-container position-relative">
+                    </div>
+                    <div class="login-label-container position-relative">
                         {{ form_errors(registrationForm.plainPassword.first) }}
                         {{ form_widget(registrationForm.plainPassword.first, {
                             'attr' : {
@@ -40,8 +40,8 @@
                             }
                         }) }}
 
-                    </label>
-                    <label class="login-label-container position-relative">
+                    </div>
+                    <div class="login-label-container position-relative">
                         {{ form_errors(registrationForm.plainPassword.second) }}
                         {{ form_widget(registrationForm.plainPassword.second, {
                             'attr' : {
@@ -55,8 +55,8 @@
                             }
                         }) }}
 
-                    </label>
-                    <label class="login-label-container position-relative">
+                    </div>
+                    <div class="login-label-container position-relative">
                         {{ form_errors(registrationForm.firstName) }}
                         {{ form_widget(registrationForm.firstName, {
                             'attr' : {
@@ -69,8 +69,8 @@
                                 'class' : 'label-text'
                             }
                         }) }}
-                    </label>
-                    <label class="login-label-container position-relative">
+                    </div>
+                    <div class="login-label-container position-relative">
                         {{ form_errors(registrationForm.lastName) }}
                         {{ form_widget(registrationForm.lastName, {
                             'attr' : {
@@ -83,8 +83,8 @@
                                 'class' : 'label-text'
                             }
                         }) }}
-                    </label>
-                    <label class="login-label-container position-relative">
+                    </div>
+                    <div class="login-label-container position-relative">
                         {{ form_errors(registrationForm.pseudo) }}
                         {{ form_widget(registrationForm.pseudo, {
                             'attr' : {
@@ -97,7 +97,7 @@
                                 'class' : 'label-text'
                             }
                         }) }}
-                    </label>
+                    </div>
                     {{ form_row(registrationForm.agreeTerms) }}
 
                     <button type="submit" class="btn btn-success">Register</button>

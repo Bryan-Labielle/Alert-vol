@@ -17,13 +17,8 @@ import './bootstrap';
 
 // js for carousel on the home page
 import './js/caroussel';
-
-// js for login page
-import './js/login';
-
-// js for register page
-import './js/register';
+import './js/autocomplete_zip';
 
 require('bootstrap');
-require('jquery');
+window.$ = window.jQuery = require('jquery');
 require('slick-carousel');

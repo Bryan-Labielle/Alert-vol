@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     $('.center').slick({
         centerMode: true,
-        centerPadding: '60px',
-        slidesToShow: 3,
+        centerPadding: '10px',
+        slidesToShow: 2,
         responsive: [
             {
                 breakpoint: 768,

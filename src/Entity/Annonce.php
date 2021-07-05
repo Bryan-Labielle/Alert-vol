@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
@@ -39,6 +41,7 @@ class Annonce
      * @ORM\OneToMany(targetEntity=AnnonceImage::class, mappedBy="annonce")
      */
     private Collection $annonceImages;
+
     /**
      * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="annonce")
      */

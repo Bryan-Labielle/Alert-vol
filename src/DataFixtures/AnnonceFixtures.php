@@ -29,18 +29,18 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
         'defaults' => 'rayures aile gauche'
     ]);
 
-    public const VEHICULES = [  'Mercedes GLA', 
-                                'Mini-pelle Kubota', 
-                                'Moissoneuse batteuse Claas',
-                                'Mini-pelle Yanmar',
-                                'Tracteur John Deere',
-                                'Machine à vendanger New Holland',
-                                '205 Alpine de collection',
-                                'Tracteur Lamborghini',
-                                'Machine à vendanger Fendt',
-                                'Ferrari F40',
-                                'Mini-pelle Komatsu',
-                                'Tracteur New Holland',
+    public const VEHICULES = [  'Mercedes GLA',
+        'Mini-pelle Kubota',
+        'Moissoneuse batteuse Claas',
+        'Mini-pelle Yanmar',
+        'Tracteur John Deere',
+        'Machine à vendanger New Holland',
+        '205 Alpine de collection',
+        'Tracteur Lamborghini',
+        'Machine à vendanger Fendt',
+        'Ferrari F40',
+        'Mini-pelle Komatsu',
+        'Tracteur New Holland',
     ];
     /**
      * AnnonceFixtures constructor.
@@ -65,7 +65,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
 
         $faker = Factory::create();
         //generate data
-        
+
         foreach (self::VEHICULES as $key => $vehicules) {
             $annonce = new Annonce();
             $annonce->setTitle($vehicules);
@@ -75,7 +75,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             $annonce->setStolenAt($faker->dateTime());
             $annonce->setStatus(1);
             $annonce->setReference($faker->randomLetter() . $faker->randomLetter() .
-            $faker->numberBetween(000, 999) . $faker->randomLetter() . $faker->randomLetter());
+                $faker->numberBetween(000, 999) . $faker->randomLetter() . $faker->randomLetter());
             $annonce->setLocation($faker->numberBetween(10000, 99999));
             $annonce->setDetails(self::VEHICULEDETAILS);
 
@@ -90,7 +90,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             //     case strstr($annonce->getTitle(),'moissonneuse'):
             //         $annonce->setCategory($this->categoryRepository->findOneByName('moissoneuse_bateuse'));
             // }
-            $annonce->setCategory($this->getReference('category_' . rand(0,5)));
+            $annonce->setCategory($this->getReference('category_' . rand(0, 5)));
             $annonce->setOwner($this->userRepository->findOneByRole(rand(1, 3)));
             $annonce->setSlug($slugify->generate($annonce->getTitle()));
 
