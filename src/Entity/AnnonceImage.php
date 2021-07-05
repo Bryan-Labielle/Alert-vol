@@ -25,7 +25,7 @@ class AnnonceImage
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private ?string $name = null;
     /**
      * @Vich\UploadableField(mapping="annonce_file", fileNameProperty="name")
      * @var ?File

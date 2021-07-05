@@ -226,8 +226,7 @@ class AnnonceController extends AbstractController
         Annonce $annonce,
         Signalement $signalement,
         Request $request
-    ): Response
-    {
+    ): Response {
 
         $entityManager = $this->getDoctrine()->getManager();
         $date = new DateTime();
@@ -235,9 +234,9 @@ class AnnonceController extends AbstractController
         $signalement->setSendAt($date);
         $signalement->setLongitude(1.1);
         $signalement->setLatitude(2.2);
-        $signalement->setOwner($entityManager->getRepository(User::class)->findOneByRole(rand(1, 3)));
+        $annonce->setOwner($entityManager->getRepository(User::class)->findBy(['firstName' => 'bryan']));
         $signalement->setAnnonce($annonce);
-
+        dump($signalement);
 
         $form = $this->createForm(SignalementType::class, $signalement);
 
@@ -246,19 +245,17 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($signalement);
             $entityManager->flush();
-
+            //TODO change redirect
             $this->redirectToRoute('annonce_index');
         }
+
         $annonceImage = new AnnonceImage();
-
-        $annonceImage->setPostedAt($date);
         $annonceImage->setAnnonce($annonce);
-        dump($annonceImage);
+        $formUpload = $this->createForm(AnnonceImageType::class, $annonceImage);
+        $formUpload->handleRequest($request);
 
-        $formImage = $this->createForm(AnnonceImageType::class, $annonceImage);
-        $form->handleRequest($request);
-
-        if ($formImage->isSubmitted() && $formImage->isValid()) {
+        if ($formUpload->isSubmitted() && $formUpload->isValid()) {
+            $annonceImage->setPostedAt($date);
             $entityManager->persist($annonceImage);
             $entityManager->flush();
 
@@ -271,7 +268,7 @@ class AnnonceController extends AbstractController
             'annonce' => $annonce,
             'apiImages' => $this->apiImages->getResponse(),
             'form' => $form->createView(),
-            'annonceImage' => $formImage->createView()
+            'formUpload' => $formUpload->createView()
         ]);
     }
     /*

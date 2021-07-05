@@ -18,7 +18,8 @@ class SignalementType extends AbstractType
         $builder
             ->add('details', CollectionType::class, [
                 'entry_type' => CheckboxType::class,
-                'label' => 'Quels  signes distinctifs avez-vous reconnu ?'
+                'label' => 'Quels  signes distinctifs avez-vous reconnu ?',
+                'required' => false
             ])
             ->add('seenOn', DateType::class, [
                 'widget' => 'single_text',
