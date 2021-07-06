@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Slugify;
 use DateTime;
 use DateTimeInterface;
 use App\Repository\AnnonceRepository;
@@ -9,6 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
@@ -39,13 +42,13 @@ class Annonce
      * @ORM\OneToMany(targetEntity=AnnonceImage::class, mappedBy="annonce")
      */
     private Collection $annonceImages;
+
     /**
      * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="annonce")
      */
     private Collection $signalements;
 
     /**
-    public function getPublishedAt(): ?\Da
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description;
@@ -105,7 +108,7 @@ class Annonce
     /**
      * @ORM\Column(name="slug", type="string", length=255)
      */
-    private ?string $slug;
+    private string $slug;
 
 
     public function __construct()
@@ -119,7 +122,7 @@ class Annonce
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -219,7 +222,6 @@ class Annonce
     {
         return $this->nbRenew;
     }
-
 
     public function setNbRenew(?int $nbRenew): self
     {
@@ -325,18 +327,19 @@ class Annonce
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
     /**
-     * @param mixed $slug
+     * @param String $slug
+     * @return String
      */
-    public function setSlug($slug): void
+    public function setSlug(string $slug): string
     {
-        $this->slug = $slug;
+        return $this->slug = $slug;
     }
 }

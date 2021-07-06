@@ -3,21 +3,31 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\AnnonceImage;
 use App\Entity\User;
+use App\Form\AnnonceImageType;
+use App\Repository\AnnonceImageRepository;
 use App\Repository\AnnonceRepository;
+use App\Repository\UserRepository;
 use App\Service\ApiImages;
+use App\Service\ApiZipCode;
 use App\Service\Slugify;
 use App\Form\AnnonceType;
+use ContainerJUlAk0t\getUserRepositoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use DateTime;
 use DateInterval;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Route("/annonce", name="annonce_")
+ * @Assert\EnableAutoMapping()
  */
 class AnnonceController extends AbstractController
 {
@@ -51,25 +61,43 @@ class AnnonceController extends AbstractController
      * @Route("/new", methods={"GET","POST"}, name="new")
      * @param Request $request
      * @param Slugify $slugify
+     * @param UserRepository $userRepository
      * @return Response
      */
-    public function new(Request $request, Slugify $slugify): Response
-    {
+    public function new(
+        Request $request,
+        Slugify $slugify,
+        UserRepository $userRepository
+    ): Response {
         $entityManager = $this->getDoctrine()->getManager();
         $annonce = new Annonce();
         $start = new DateTime();
         $end = $start->add(new DateInterval('P30D'));
         $annonce->setSlug('-');
         /**
-         * @TODO: remplacer le status par 1 une fois le process de modération créé
+         * @TODO: remplacer le status par 0 une fois le process de modération créé
          */
-        $annonce->setStatus(2);
+        $annonce->setStatus(1);
         $annonce->setPublishedAt($start);
         $annonce->setEndPublishedAt($end);
         /**
          * @TODO: remplacer par l'utilisateur connecté
          */
-        $annonce->setOwner($entityManager->getRepository(User::class)->findOneByRole(rand(1, 3)));
+        $annonce->setOwner($this->getUser());
+
+        $form = $this->createForm(AnnonceType::class, $annonce);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $annonce->setSlug($slugify->generate($annonce->getTitle()));
+
+            $entityManager->persist($annonce);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre annonce est enregistrée, ajoutez des images.');
+            return $this->redirectToRoute('annonce_edit', ['slug' => $annonce->getSlug()]);
+        }
+        // créer formulaire séparer pour ajouter plusieurs signes distinctifs en ajax
         /**
          * @TODO: créer le champs actif dans le formulaire
          */
@@ -79,23 +107,22 @@ class AnnonceController extends AbstractController
             'defaults' => 'rayures aile gauche'
         ]);
 
-        $form = $this->createForm(AnnonceType::class, $annonce);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $annonce->setSlug($slugify->generate($annonce->getTitle()));
-
-            $entityManager->persist($annonce);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('annonce_index');
-        }
-
         return $this->render('annonce/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/autocomplete-zip", name="autocomplete-zip", methods={"GET"})
+     * @param Request $request
+     * @param ApiZipCode $apiZipCode
+     * @return Response
+     */
+    public function apiZip(Request $request, ApiZipCode $apiZipCode): Response
+    {
+        $zip = $request->query->get('search');
+        return $this->json($apiZipCode->autocompleteZip($zip) ?? []);
     }
 
     /**
@@ -109,6 +136,7 @@ class AnnonceController extends AbstractController
      */
     public function edit(Request $request, Annonce $annonce): Response
     {
+        // annonce form
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
 
@@ -119,13 +147,31 @@ class AnnonceController extends AbstractController
 
             return $this->redirectToRoute('annonce_index');
         }
+        // upload file form
+        $annonceImage = new AnnonceImage();
+        $annonceImage->setAnnonce($annonce);
+        $formUpload = $this->createForm(AnnonceImageType::class, $annonceImage);
+        $formUpload->handleRequest($request);
+
+        if ($formUpload->isSubmitted() && $formUpload->isValid()) {
+            $annonceImage->setPostedAt(new DateTime('now'));
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($annonceImage);
+            $annonce->setNbRenew($annonce->getNbRenew() + 1);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('annonce_edit', [
+                'slug' => $annonce->getSlug(),
+                ]);
+        }
 
         return $this->render('annonce/edit.html.twig', [
             'annonce' => $annonce,
             'form' => $form->createView(),
+            'formUpload' => $formUpload->createView(),
         ]);
     }
-
     /**
      * Show details on an annonce
      *
@@ -137,6 +183,7 @@ class AnnonceController extends AbstractController
     public function show(Annonce $annonce): Response
     {
         return $this->render('annonce/show.html.twig', [
+            'apiImages' => $this->apiImages->getResponse(),
             'annonce' => $annonce,
         ]);
     }
@@ -157,6 +204,23 @@ class AnnonceController extends AbstractController
             $entityManager->flush();
         }
 
+        return $this->redirectToRoute('annonce_index');
+    }
+
+    /**
+     * @Route("/{id}", methods={"POST"}, name="deleteImage")
+     * @ParamConverter("annonceImage", class="App\Entity\AnnonceImage", options={"mapping": {"id": "id"}})
+     * @param Request $request
+     * @param AnnonceImage $annonceImage
+     * @return Response
+     */
+    public function deleteImage(Request $request, AnnonceImage $annonceImage): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $annonceImage->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($annonceImage);
+            $entityManager->flush();
+        }
         return $this->redirectToRoute('annonce_index');
     }
 }

@@ -1,4 +1,4 @@
-@import 'variables';
+@import '_variables.scss';
 @import '~bootstrap/scss/bootstrap';
 @import '_annonceMin.scss';
 @import "~slick-carousel/slick/slick";
@@ -8,6 +8,10 @@
 @import '_footer.scss';
 @import '_card.scss';
 @import '_caroussel.scss';
+@import '_galery.scss';
+@import '_annonce.css';
+@import '_login.scss';
+@import '_register.scss';
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/regular';
@@ -24,7 +28,6 @@ body {
     background-color: $white;
     color: $black;
 }
-
-btn{
+.btn{
     border-radius: 20px;
 }

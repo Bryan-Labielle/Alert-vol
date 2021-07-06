@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     annonceImages_directory: '%kernel.project_dir%/public/uploads/annonces'
+    upload_directory: '%kernel.project_dir%/public/uploads/'
 
 services:
     # default configuration for services in *this* file
@@ -27,6 +28,7 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

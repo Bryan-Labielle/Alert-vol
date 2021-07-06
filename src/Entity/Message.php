@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MessageRepository::class)
+ * @Assert\EnableAutoMapping()
  */
 class Message
 {
