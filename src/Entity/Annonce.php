@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Slugify;
 use DateTime;
 use DateTimeInterface;
 use App\Repository\AnnonceRepository;
@@ -107,7 +108,7 @@ class Annonce
     /**
      * @ORM\Column(name="slug", type="string", length=255)
      */
-    private ?string $slug;
+    private string $slug;
 
 
     public function __construct()
@@ -121,7 +122,7 @@ class Annonce
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -326,18 +327,19 @@ class Annonce
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
     /**
-     * @param mixed $slug
+     * @param String $slug
+     * @return String
      */
-    public function setSlug($slug): void
+    public function setSlug(string $slug): string
     {
-        $this->slug = $slug;
+        return $this->slug = $slug;
     }
 }

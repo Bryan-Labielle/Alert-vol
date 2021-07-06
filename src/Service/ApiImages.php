@@ -11,6 +11,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class ApiImages
 {
+
     /**
      * @return array|null
      * @throws ClientExceptionInterface
@@ -21,6 +22,7 @@ class ApiImages
      */
     public function getResponse(): ?array
     {
+        $statusCodeOk = 200;
         $client = HttpClient::create();
         $response = $client->request(
             'GET',
@@ -32,12 +34,13 @@ class ApiImages
             $statusCode = $response->getStatusCode();
         } catch (TransportExceptionInterface $e) {
         }
-        if ($statusCode === 200) {
+        if ($statusCode === $statusCodeOk) {
             // $content = $response->getContent();
             // get the response in JSON format
 
             return $response->toArray();
             // convert the response (here in JSON) to an PHP array
         }
+        return null;
     }
 }
