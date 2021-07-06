@@ -1,36 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="col-3 mb-3">
-    <div class="card card-align p-0 z-index-1">
-        <div class="d-block">
-            <img class="card-img-top" src="{{ apiImages.hits.0.previewURL }}" alt='title picture' >
-            <div class="d-flex align-items-start justify-content-end ">
-                <i class="fas fa-bookmark bookmark-position">
-                </i>
-            </div>
-        </div>
-        <div class="card-header custom-header m-0 p-2 d-flex justify-content-between">
-            <div class="div m-auto">{{ annonce.title|title }}</div>
-            <div class="m-auto reference "> {{ annonce.reference | upper }}</div>
-        </div>
-        <div class="container-info d-flex justify-content-between mt-auto">
-            <div class="details-annonce offset-1 col-7" style="font-size: small; color: #212526;"><i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
-            <div class="details-white details-annonce col-4" style="font-size: small; color: #212526"><i class="fas fa-map-marker-alt mx-2"></i>A : {{ annonce.location }}</div>
-        </div>
-    </div>
+{{ include('annonce/_annonceSignalement.html.twig') }}
     {{ include('annonce/_form.html.twig') }}
     <div role="list" class="img-show-annonce col-md-6">
         <div class="row">
             {% dump(annonce.annonceImages) %}
             {% for annonceImage in annonce.annonceImages %}
                 <figure class="img-galery col-sm">
-                    {#<div class="button-delete-img">
+                    <div class="button-delete-img">
                         <form method="post" action="{{ path('annonce_deleteImage', {'id': annonceImage.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ annonceImage.id) }}">
                             <button class="btn btn-danger">Delete</button>
                         </form>
-                    </div>#}
+                    </div>
                     <img class="img-thumbnail rounded galery-img" src="{{ vich_uploader_asset(annonceImage) }}" alt="{{ annonceImage.name }}">
                     <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
                     </figcaption>
@@ -38,26 +21,5 @@
             {% endfor %}
         </div>
     </div>
-    {% dump(formUpload) %}
-{#    <div class="form-signalement">
-        {{ form_start(form) }}
-        {% dump(form) %}
-        {% for details in form.details %}
-
-            {{ form_widget(details) }}
-
-        {% endfor %}
-        {{ form_end(form) }}
-    </div>
-    <div class="form-upload">
-        {{ form_start(formUpload) }}
-        {% dump(formUpload) %}
-        {{ form_widget(formUpload) }}
-        <div class="container" style="margin: auto; display: flex; justify-content: space-evenly">
-            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-        </div>
-        {{ form_end(formUpload) }}
-    </div>#}
-</div>
 
 {% endblock %}

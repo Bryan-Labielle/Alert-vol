@@ -211,7 +211,7 @@ class AnnonceController extends AbstractController
     }
 
     /**
-     * @Route("{slug}/signalement", methods={"POST", "GET"}, name="signalement")
+     * @Route("/{slug}/signalement", methods={"POST", "GET"}, name="signalement")
      * @param Annonce $annonce
      * @param Signalement $signalement
      * @param Request $request
@@ -229,14 +229,14 @@ class AnnonceController extends AbstractController
     ): Response {
 
         $entityManager = $this->getDoctrine()->getManager();
-        $date = new DateTime();
+        //TODO configure timezone
+        $date = new DateTime('now');
 
         $signalement->setSendAt($date);
         $signalement->setLongitude(1.1);
         $signalement->setLatitude(2.2);
-        $annonce->setOwner($entityManager->getRepository(User::class)->findOneById(5));
         $signalement->setAnnonce($annonce);
-        dump($signalement);
+        $signalement->setOwner($this->getUser());
 
         $form = $this->createForm(SignalementType::class, $signalement);
 
@@ -245,6 +245,8 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($signalement);
             $entityManager->flush();
+            //TODO modifier message flash
+            $this->addFlash('succes', "Merci pour votre aide");
             //TODO change redirect
             $this->redirectToRoute('annonce_index');
         }
@@ -256,6 +258,7 @@ class AnnonceController extends AbstractController
 
         if ($formUpload->isSubmitted() && $formUpload->isValid()) {
             $annonceImage->setPostedAt($date);
+            $annonceImage->setIsSignaled(true);
             $entityManager->persist($annonceImage);
             $entityManager->flush();
 
@@ -271,7 +274,8 @@ class AnnonceController extends AbstractController
             'formUpload' => $formUpload->createView()
         ]);
     }
-    /*
+
+    /**
      * @Route("/{id}", methods={"POST"}, name="deleteImage")
      * @ParamConverter("annonceImage", class="App\Entity\AnnonceImage", options={"mapping": {"id": "id"}})
      * @param Request $request

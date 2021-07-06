@@ -68,6 +68,11 @@ class AnnonceImage
      */
     private ?Annonce $annonce;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $isSignaled;
+
     public function getId(): int
     {
         return $this->id;
@@ -125,6 +130,18 @@ class AnnonceImage
     public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getIsSignaled(): ?bool
+    {
+        return $this->isSignaled;
+    }
+
+    public function setIsSignaled(?bool $isSignaled): self
+    {
+        $this->isSignaled = $isSignaled;
 
         return $this;
     }

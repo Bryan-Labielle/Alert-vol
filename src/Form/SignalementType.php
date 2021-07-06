@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Signalement;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -15,6 +16,7 @@ class SignalementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $start = new DateTime();
         $builder
             ->add('details', CollectionType::class, [
                 'entry_type' => CheckboxType::class,
@@ -23,10 +25,11 @@ class SignalementType extends AbstractType
             ])
             ->add('seenOn', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'Véhicule vu le :'
+                'label' => 'Véhicule vu le :',
+                'data' => $start
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Votre message',
+                'label' => 'Votre message :',
                 'mapped' => false
                 /*'class' => Message::class,
                 'choice_label' =>  'content',
