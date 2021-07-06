@@ -3,6 +3,15 @@
 {% block title %}Edit Annonce{% endblock %}
 
 {% block body %}
+    {# display any flash message #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <h1>Modifier votre annonce</h1>
     <a class="btn btn-dark mt-3 mb-3" href="{{ path('annonce_index') }}">back to list</a>
 

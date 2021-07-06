@@ -94,6 +94,7 @@ class AnnonceController extends AbstractController
             $entityManager->persist($annonce);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre annonce est enregistrée, ajoutez des images.');
             return $this->redirectToRoute('annonce_edit', ['slug' => $annonce->getSlug()]);
         }
         // créer formulaire séparer pour ajouter plusieurs signes distinctifs en ajax
