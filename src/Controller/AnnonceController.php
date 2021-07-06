@@ -234,7 +234,7 @@ class AnnonceController extends AbstractController
         $signalement->setSendAt($date);
         $signalement->setLongitude(1.1);
         $signalement->setLatitude(2.2);
-        $annonce->setOwner($entityManager->getRepository(User::class)->findBy(['firstName' => 'bryan']));
+        $annonce->setOwner($entityManager->getRepository(User::class)->findOneById(5));
         $signalement->setAnnonce($annonce);
         dump($signalement);
 
