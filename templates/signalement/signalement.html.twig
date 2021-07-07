@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main>
+{#{{ include('annonce/_annonceSignalement.html.twig') }}#}
+        <div class="container col-md-6 mt-5">
+            <img class="card-img-top" src="{{ apiImages.hits.1.previewURL }}" alt='title picture'>
+            <div class="card-header custom-header fs-4  p-0 d-flex justify-content-center">
+                {{ annonce.title|title }}
+            </div>
+            <div class=" reference fs-5 text-center"> {{ annonce.reference | upper }}</div>
+            <div class="container-info-signalement d-flex justify-content-between ">
+                <div class="details-annonce col-5"><i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
+                <div class="details-white details-annonce col-3"> Ville, {{ annonce.location }}</div>
+            </div>
+        </div>
+        <div class="form-signalement col-md-6 m-auto">
+            {{ include('annonce/_formSignalement.html.twig') }}
+            <div role="list" class="img-show-annonce col-md-6">
+                <div class="row">
+                    {% for annonceImage in annonce.annonceImages %}
+                        <figure class="img-galery col-sm">
+                            <div class="button-delete-img">
+                                <form method="post" action="{{ path('annonce_deleteImage', {'id': annonceImage.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ annonceImage.id) }}">
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                            <img class="img-thumbnail rounded galery-img" src="{{ vich_uploader_asset(annonceImage) }}" alt="{{ annonceImage.name }}">
+                            <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
+                            </figcaption>
+                        </figure>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <script>
+            function addFormToCollection($collectionHolderClass) {
+                // Get the ul that holds the collection of tags
+
+                let $collectionHolder = document.querySelector('.' + $collectionHolderClass);
+
+                // Get the data-prototype explained earlier
+                var prototype = $collectionHolder.getAttribute('data-prototype');
+
+                // get the new index
+                var index = parseInt($collectionHolder.getAttribute('index'));
+                var newForm = prototype;
+                newForm = newForm.replace(/__name__/g, index);
+                // increase the index with one for the next item
+                $collectionHolder.setAttribute('index', index + 1);
+                // Display the form in the page in an li, before the "Add a tag" link li
+                let $li = document.createElement('li');
+                $li.innerHTML = newForm;
+                // Add the new form at the end of the list
+                $collectionHolder.appendChild($li)
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get the ul that holds the collection of tags
+                let $tagsCollectionHolder = document.querySelector('ul.messages');
+                // count the current form inputs we have (e.g. 2), use that as the new
+                // index when inserting a new item (e.g. 2)
+                let $index = $tagsCollectionHolder.querySelectorAll('input').length
+                $tagsCollectionHolder.setAttribute('index', $index);
+
+                let $buttons = document.querySelectorAll('.add_item_link');
+                $buttons.forEach(function($button){
+                    $button.addEventListener('click', function(e) {
+                        let $collectionHolderClass = e.target.getAttribute('data-collection-holder-class');
+                        // add a new tag form (see next code block)
+                        addFormToCollection($collectionHolderClass);
+                    })
+                })
+
+            });
+        </script>
+
+    </main>
+{% endblock %}

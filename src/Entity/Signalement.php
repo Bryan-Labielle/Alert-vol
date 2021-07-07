@@ -54,7 +54,7 @@ class Signalement
     private float $longitude;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement")
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement",  cascade={"persist", "remove"})
      */
     private Collection $messages;
 
@@ -69,9 +69,15 @@ class Signalement
      */
     private ?string $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SignalementImage::class, mappedBy="signalement")
+     */
+    private $signalementImages;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->signalementImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -201,6 +207,36 @@ class Signalement
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SignalementImage[]
+     */
+    public function getSignalementImages(): Collection
+    {
+        return $this->signalementImages;
+    }
+
+    public function addSignalementImage(SignalementImage $signalementImage): self
+    {
+        if (!$this->signalementImages->contains($signalementImage)) {
+            $this->signalementImages[] = $signalementImage;
+            $signalementImage->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalementImage(SignalementImage $signalementImage): self
+    {
+        if ($this->signalementImages->removeElement($signalementImage)) {
+            // set the owning side to null (unless already changed)
+            if ($signalementImage->getSignalement() === $this) {
+                $signalementImage->setSignalement(null);
+            }
+        }
 
         return $this;
     }

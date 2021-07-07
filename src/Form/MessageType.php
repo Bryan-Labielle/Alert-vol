@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Message;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,10 +14,6 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('sentAt')
-            ->add('sender')
-            ->add('recipient')
-            ->add('signalement')
         ;
     }
 

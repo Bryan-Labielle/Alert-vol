@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Annonce;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
-use App\Entity\Signalement;
-use App\Entity\User;
 use App\Form\AnnonceImageType;
-use App\Form\SignalementType;
 use App\Repository\AnnonceRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiImages;
@@ -22,11 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use DateTime;
 use DateInterval;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -208,71 +200,6 @@ class AnnonceController extends AbstractController
         }
 
         return $this->redirectToRoute('annonce_index');
-    }
-
-    /**
-     * @Route("/{slug}/signalement", methods={"POST", "GET"}, name="signalement")
-     * @param Annonce $annonce
-     * @param Signalement $signalement
-     * @param Request $request
-     * @return Response
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
-    public function signalement(
-        Annonce $annonce,
-        Signalement $signalement,
-        Request $request
-    ): Response {
-
-        $entityManager = $this->getDoctrine()->getManager();
-        //TODO configure timezone
-        $date = new DateTime('now');
-
-        $signalement->setSendAt($date);
-        $signalement->setLongitude(1.1);
-        $signalement->setLatitude(2.2);
-        $signalement->setAnnonce($annonce);
-        $signalement->setOwner($this->getUser());
-
-        $form = $this->createForm(SignalementType::class, $signalement);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($signalement);
-            $entityManager->flush();
-            //TODO modifier message flash
-            $this->addFlash('succes', "Merci pour votre aide");
-            //TODO change redirect
-            $this->redirectToRoute('annonce_index');
-        }
-
-        $annonceImage = new AnnonceImage();
-        $annonceImage->setAnnonce($annonce);
-        $formUpload = $this->createForm(AnnonceImageType::class, $annonceImage);
-        $formUpload->handleRequest($request);
-
-        if ($formUpload->isSubmitted() && $formUpload->isValid()) {
-            $annonceImage->setPostedAt($date);
-            $annonceImage->setIsSignaled(true);
-            $entityManager->persist($annonceImage);
-            $entityManager->flush();
-
-            //TODO redirect sur page de confirmation d'envoi ?
-            $this->redirectToRoute('annonce_index');
-        }
-
-
-        return $this->render('annonce/signalement.html.twig', [
-            'annonce' => $annonce,
-            'apiImages' => $this->apiImages->getResponse(),
-            'form' => $form->createView(),
-            'formUpload' => $formUpload->createView()
-        ]);
     }
 
     /**
