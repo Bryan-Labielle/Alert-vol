@@ -16,6 +16,7 @@ class AnnonceImageType extends AbstractType
         $builder
             ->add('annonceFile', VichFileType::class, [
                 'label' => 'Déposez votre image',
+                'attr' => ['class' => 'row-upload'],
                 'required'      => false,
                 'allow_delete'  => true, // not mandatory, default is true
                 'download_uri' => true, // not mandatory, default is true

@@ -26,15 +26,16 @@ class SignalementType extends AbstractType
             ->add('seenOn', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Véhicule vu le :',
+                'attr' => ['class' => 'row-signalement'],
                 'data' => $start
             ])
-            ->add('content', TextareaType::class, [
-                'label' => 'Votre message :',
-                'mapped' => false
-                /*'class' => Message::class,
-                'choice_label' =>  'content',
-                */
-            ])
+            /*->add('content', CollectionType::class, [
+                'entry_type' => MessageType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+            ])*/
             ;
     }
 
