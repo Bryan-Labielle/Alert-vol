@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/sidebars.html.twig' %}
 
 {% block title %}Edit Annonce{% endblock %}
 
-{% block body %}
+{% block main %}
     {# display any flash message #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}

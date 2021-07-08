@@ -11,6 +11,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApiZipCode
 {
+
     private HttpClientInterface $client;
 
     public function __construct(HttpClientInterface $client)
