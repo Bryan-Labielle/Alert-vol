@@ -25,7 +25,6 @@ class HomeController extends AbstractController
     public function index(ApiImages $apiImages): Response
     {
         $response = $apiImages->getResponse();
-        dump($response);
         return $this->render('home/index.html.twig', [
             'response' => $response,
             'random' => rand(1, 20),

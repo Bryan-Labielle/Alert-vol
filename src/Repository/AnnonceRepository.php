@@ -19,6 +19,41 @@ class AnnonceRepository extends ServiceEntityRepository
         parent::__construct($registry, Annonce::class);
     }
 
+    public function findByQuery(?string $query): ?array
+    {
+        $query = "%$query%";
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.title LIKE :query')
+            ->setParameter('query', $query)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(25)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByDate(?string $queryDate): ?array
+    {
+        $queryDate = "%$queryDate%";
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.stolenAt LIKE :queryDate')
+            ->setParameter('queryDate', $queryDate)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(25)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByQueryPlace(?string $queryPlace): ?array
+    {
+        $queryPlace = "%$queryPlace%";
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.location LIKE :queryPlace')
+            ->setParameter('queryPlace', $queryPlace)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(25)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Annonce[] Returns an array of Annonce objects
     //  */
