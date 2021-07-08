@@ -54,11 +54,6 @@ class Signalement
     private float $longitude;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement",  cascade={"persist", "remove"})
-     */
-    private Collection $messages;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=true)
      */
@@ -74,10 +69,17 @@ class Signalement
      */
     private $signalementImages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement", cascade={"persist", "remove"})
+     * 
+     */
+    private $message;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->signalementImages = new ArrayCollection();
+        $this->message = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,36 +159,6 @@ class Signalement
         return $this;
     }
 
-    /**
-     * @return Collection|Message[]
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages[] = $message;
-            $message->setSignalement($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): self
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getSignalement() === $this) {
-                $message->setSignalement(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getOwner(): ?User
     {
         return $this->owner;
@@ -235,6 +207,36 @@ class Signalement
             // set the owning side to null (unless already changed)
             if ($signalementImage->getSignalement() === $this) {
                 $signalementImage->setSignalement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessage(): Collection
+    {
+        return $this->message;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->message->contains($message)) {
+            $this->message[] = $message;
+            $message->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->message->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSignalement() === $this) {
+                $message->setSignalement(null);
             }
         }
 

@@ -28,7 +28,7 @@ class SignalementType extends AbstractType
                 'attr' => ['class' => 'row-signalement'],
                 'data' => $start
             ])
-            ->add('content', MessageType::class,)
+            ->add('content', MessageType::class)
             // ->add('messages', CollectionType::class, [
             //     'entry_type' => MessageType::class,
             //     'entry_options' => ['label' => false],

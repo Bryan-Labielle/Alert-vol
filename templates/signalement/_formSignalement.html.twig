@@ -1,6 +1,11 @@
 <div id="annonce-form">
     {{ form_start(form) }}
     {{ form_widget(form) }}
+    <h3>Message</h3>
+<div class="category">
+    {{ form_row(form.message.content) }}
+</div>
+
 <div id="zipField">
     <ul id="autocomplete_zip">
     </ul>
@@ -9,10 +14,9 @@
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 </div>
 </div>
-    {{ form_end (form) }}
-<h3>{{ form_label(form.messages) }}</h3>
-{% dump(form.messages) %}
-    <ul class="messages" data-prototype="{{ form_widget(form.messages.vars.prototype)|e('html_attr') }}">
+{# <h3>{{ form_label(form.messages) }}</h3>
+{% dump(form.messages) %} #}
+    {# <ul class="messages" data-prototype="{{ form_widget(form.messages.vars.prototype)|e('html_attr') }}">
     {% for message in form.messages %}
         <li>
             {{ form_row(message.content) }}
@@ -20,7 +24,7 @@
     {% endfor %}
     </ul>
     <button type="button" class="add_item_link" data-collection-holder-class="messages">Ajouter un message</button>
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn">{{ button_label|default('Save') }}</button> #}
 {{ form_end(form) }}
 {% if formUpload is defined %}
 <div id="upload-form">
@@ -58,7 +62,7 @@
             // .catch(alert('Pas de programmes avec ce nom'));
         });
     });
-function addFormToCollection($collectionHolderClass) {
+{# function addFormToCollection($collectionHolderClass) {
                 // Get the ul that holds the collection of tags
 
                 let $collectionHolder = document.querySelector('.' + $collectionHolderClass);
@@ -96,5 +100,5 @@ function addFormToCollection($collectionHolderClass) {
                     })
                 })
 
-            });
+            }); #}
 </script>

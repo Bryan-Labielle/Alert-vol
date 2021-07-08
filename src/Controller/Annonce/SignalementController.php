@@ -3,6 +3,7 @@
 namespace App\Controller\Annonce;
 
 use App\Entity\Annonce;
+use App\Entity\Message;
 use App\Entity\Signalement;
 use App\Entity\SignalementImage;
 use App\Form\SignalementImageType;
@@ -46,7 +47,7 @@ class SignalementController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         //TODO configure timezone   
         $date = new DateTime('now');
-
+        
         $signalement->setSendAt($date);
         $signalement->setLongitude(1.1);
         $signalement->setLatitude(2.2);
@@ -58,6 +59,7 @@ class SignalementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $entityManager->persist($signalement);
             $entityManager->flush();
             //TODO modifier message flash
@@ -65,6 +67,7 @@ class SignalementController extends AbstractController
             //TODO change redirect
             $this->redirectToRoute('annonce_index');
         }
+
 
         $signalementImage = new SignalementImage();
         $signalementImage->setSignalement($signalement);
