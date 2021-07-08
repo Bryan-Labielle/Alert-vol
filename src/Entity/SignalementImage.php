@@ -19,12 +19,12 @@ class SignalementImage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $name;
+    private ?string $name = null;
     /**
      * @Vich\UploadableField(mapping="signalement_file", fileNameProperty="name")
      * @var ?File
@@ -34,12 +34,12 @@ class SignalementImage
     /**
      * @ORM\Column(type="datetime")
      */
-    private DateTime $posted_at;
+    private DateTime $postedAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private DateTime $updated_at;
+    private DateTime $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Signalement::class, inversedBy="signalementImages")
@@ -56,7 +56,7 @@ class SignalementImage
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -65,24 +65,24 @@ class SignalementImage
 
     public function getPostedAt(): ?DateTime
     {
-        return $this->posted_at;
+        return $this->postedAt;
     }
 
-    public function setPostedAt(DateTime $posted_at): self
+    public function setPostedAt(DateTime $postedAt): self
     {
-        $this->posted_at = $posted_at;
+        $this->postedAt = $postedAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?DateTime
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTime $updated_at): self
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -106,7 +106,7 @@ class SignalementImage
     {
         $this->signalementFile = $signalementFile;
         if ($signalementFile) {
-            $this->updated_at = new DateTime('now');
+            $this->updatedAt = new DateTime('now');
         }
         return $this;
     }

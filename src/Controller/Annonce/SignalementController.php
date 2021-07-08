@@ -79,10 +79,12 @@ class SignalementController extends AbstractController
             //TODO redirect sur page de confirmation d'envoi ?
             $this->redirectToRoute('annonce_index');
         }
-
+        dump($formUpload);
+        dump($form);
 
         return $this->render('signalement/signalement.html.twig', [
             'annonce' => $annonce,
+            'signalement' => $signalement,
             'apiImages' => $this->apiImages->getResponse(),
             'form' => $form->createView(),
             'formUpload' => $formUpload->createView()

@@ -28,12 +28,13 @@ class SignalementType extends AbstractType
                 'attr' => ['class' => 'row-signalement'],
                 'data' => $start
             ])
-            ->add('messages', CollectionType::class, [
-                'entry_type' => MessageType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'by_reference' => false,
-            ])
+            ->add('content', MessageType::class,)
+            // ->add('messages', CollectionType::class, [
+            //     'entry_type' => MessageType::class,
+            //     'entry_options' => ['label' => false],
+            //     'allow_add' => true,
+            //     'by_reference' => false,
+            // ])
             ;
     }
 
