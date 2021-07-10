@@ -54,7 +54,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Copy composer.lock and composer.json
 #COPY ./composer.lock ./composer.json /var/www/
-RUN if [ ${APP_ENV} = "prod" ] ; then composer install --no-dev --no-interaction -o ; else composer install --no-interaction -o ; fi
+RUN if [ ${APP_ENV} = "prod" || ${APP_ENV} = "stage" ] ; then composer install --no-dev --no-interaction -o ; else composer install --no-interaction -o ; fi
 
 # Install JS dependencies
 COPY ./package.json ./yarn.lock ./webpack.config.js /var/www/

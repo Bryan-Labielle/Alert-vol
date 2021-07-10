@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+	{% block body %}
+		{% include 'layout/_left-sidebar.html.twig' %}
+		{% include 'layout/_right-sidebar.html.twig' %}
+
+		<div class="main-container col-8">
+			{% block main %}{% endblock %}
+		</div>
+
+	{% endblock %}

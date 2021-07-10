@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/sidebars.html.twig' %}
 
 {% block title %}Annonce{% endblock %}
 
-{% block body %}
+{% block main %}
 
     <h1>{{ annonce.title|title }}</h1>
 
@@ -13,13 +13,17 @@
             <div class="row justify-content-center section-carousel">
                 <div class="col">
                     <div class="carousel-home-page center">
-                        {% for annonceImage in annonce.annonceImages %}
-                            <figure class="carousel-image-container">
-                                <img class="d-block w-300 carousel-image" src="{{ vich_uploader_asset(annonceImage) }}" alt="{{ annonceImage.name }}">
-                                <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
-                                </figcaption>
-                            </figure>
-                        {% endfor %}
+                        {% if annonce.annonceImages is not empty %}
+                            {% for annonceImage in annonce.annonceImages %}
+                                <figure class="carousel-image-container">
+                                    <img class="d-block w-300 carousel-image" src="{{ vich_uploader_asset(annonceImage) }}" alt="{{ annonceImage.name }}">
+                                    <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
+                                    </figcaption>
+                                </figure>
+                            {% endfor %}
+                        {% else %}
+                            Aucune image enregistrée pour le moment. %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -32,7 +36,7 @@
         <div class="row">
             <div class="col-md-6">
                 <p>
-                    Annonce postée le : {{ annonce.publishedAt|date('d-m-Y') }} par {{ annonce.owner.pseudo|title }}<br>
+                    Annonce postée le : {{ annonce.publishedAt|date('d-m-Y') }} par {% if annonce.owner %}{{ annonce.owner.pseudo|title }}{% else %}Anonymous{% endif %}<br>
                     Plaque d'immatriculation ou Numéro de série : {{ annonce.reference|upper }}<br><br>
                     Ce bien a été perdu/volé le : {{ annonce.stolenAt|date("m/d/Y") }} <br>
                     A : Ville, {{ annonce.location }}<br><br>

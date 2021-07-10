@@ -90,7 +90,6 @@ class AnnonceImage
         return $this;
     }
 
-
     public function getAnnonce(): ?Annonce
     {
         return $this->annonce;

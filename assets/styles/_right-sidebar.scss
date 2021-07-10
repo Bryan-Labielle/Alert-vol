@@ -1,0 +1,21 @@
+.right-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  width: 10%;
+  min-width: 150px;
+  height: 100%;
+  overflow: hidden;
+  background-color: #F4F4F4;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+  padding: 10px;
+}
+
+.sidebar-inner{
+  margin-top: 30%;
+}
+.sidebar-menu{
+  margin-top: 30%;
+}

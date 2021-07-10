@@ -1,0 +1,51 @@
+.filter-container{
+  display:flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.filter-container .filter-label-container{
+  display: block;
+  width: 22%;
+  .label-text{
+    cursor: text;
+    line-height: 20px;
+    text-transform: uppercase;
+    transform: translate(40px,-30px);
+    transition: all 0.3s;
+  }
+  input{
+    background-color: #FDFDFD;
+    border: 2px solid #212529;
+    &:focus{
+      & + .label-text{
+        transform: translate(20px, -46px);
+        font-size: 0.6rem;
+        .fa-map-marker-alt{
+          transform: translate(130px, 15px);
+          font-size: 1.25rem;
+        }
+      }
+    }
+    &:valid + .label-text{
+      transform: translate(20px, -46px);
+      font-size: 0.6rem;
+      .fa-map-marker-alt{
+        transform: translate(130px, 15px);
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+.date-label{
+  transform: translate(20px, -46px) !important;
+  font-size: 0.6rem;
+}
+.btn-filter{
+  width: 22%;
+  background-color: #E66C1A;
+  color: #212529;
+  border: 2px solid #050505;
+}
+
+
