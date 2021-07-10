@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-md-6">
+        {% if app.user == signalement.owner %}
+            <h2>Signaler</h2>
+            {{ form_start(form) }}
+
+            {{ form_row(form.seenOn, [
+                {'label': 'Vu le'}
+            ]) }}
+
+            <h3>Signes distinctifs</h3>
+            {% for detail in annonce.details %}
+                <div class="form-check">
+                    <input class="form-check-input"
+                           name="details[]"
+                           type="checkbox"
+                           value="{{ detail }}"
+                           id="detail_{{ loop.index }}" {% if detail in signalement.details %}checked{% endif %}>
+                    <label class="form-check-label" for="detail_{{ loop.index }}">
+                        {{ detail }}
+                    </label>
+                </div>
+            {% endfor %}
+            {{ form_end(form) }}
+
+        {% else %}
+            <h3>Signalement du bien</h3>
+            <p>Posté le {{ signalement.sendAt|date("d.m.Y") }} par {{ signalement.owner.firstname }} {{ signalement.owner.lastname }}</p>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Vue le</th>
+                        <td>{{ signalement.seenOn|date("d.m.Y") }}</td>
+                    </tr>
+                    <tr>
+                        <th>Localisation</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Signes distinctifs</th>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for detail in annonce.details %}
+                                {% set class = detail in signalement.details ? 'success' : 'danger' %}
+                                <li class="text-{{ class }}">
+                                    {% set icon = detail in signalement.details ? 'check' : 'times' %}
+                                    <i class="fas fa-{{ icon }}"></i>
+                                    {{ detail }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    {% if edit %}
+    <div class="col-md-6">
+        {% for message in signalement.messages %}
+            <div class="card-signalement">
+                <div class="card-signalement-header">
+                    le <time>{{ message.sentAt|date("d.m.Y") }}</time> par {{ message.sender.firstName }} {{ message.sender.lastName }}
+                    <br>
+                    à {{ message.recipient.firstname ~ ' ' ~ message.recipient.lastname }}
+                </div>
+                <div class="card-signalement-body">
+                    {{ message.content }}
+                </div>
+            </div>
+
+        {% endfor %}
+        <hr>
+        <h3>Répondre</h3>
+        {{ form_start(formNewMessage) }}
+        {{ form_widget(formNewMessage) }}
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+        {{ form_end(formNewMessage) }}
+    </div>
+    {% endif %}
+</div>

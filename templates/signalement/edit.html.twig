@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main>
+{#{{ include('annonce/_annonceSignalement.html.twig') }}#}
+        <div class="container mt-5">
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div class="card-header custom-header fs-4  p-0 d-flex justify-content-center">
+                        {{ annonce.title|title }}
+                    </div>
+                    <div class=" reference fs-5 text-center"> {{ annonce.reference | upper }}</div>
+                    <div class="container-info-signalement d-flex justify-content-between ">
+                        <div class="details-annonce col-5"><i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
+                        <div class="details-white details-annonce col-3"> Ville, {{ annonce.location }}</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    map
+                </div>
+            </div>
+            <hr>
+            {% include 'signalement/_form-signalement.html.twig' with {edit: true} %}
+        </div>
+
+        <script>
+            
+        </script>
+
+    </main>
+{% endblock %}

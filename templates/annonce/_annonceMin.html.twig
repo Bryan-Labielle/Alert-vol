@@ -1,7 +1,7 @@
 <div class="col-md-4 col-sm-6 mb-4" >
         <div class="card card-align p-0 z-index-1">
             <div class="d-block">
-                <img class="card-img-top" src="{{ apiImages.hits[loop.index].previewURL }}" alt='title picture'>
+{#                <img class="card-img-top" src="{{ apiImages.hits[loop.index].previewURL }}" alt='title picture'>#}
                 <div class="d-flex align-items-start justify-content-end ">
                     <i class="fas fa-bookmark bookmark-position">
                     </i>
@@ -21,7 +21,7 @@
                 </div>
                 {# TODO redirect to espace user if already signaled this annonce #}
                 <div class="text-center m-auto">
-                    <a class="btn btn-circle" style="z-index: 3; font-weight: 700;" href="{{ path('signalement', {slug: annonce.slug}) }}">
+                    <a class="btn btn-circle" style="z-index: 3; font-weight: 700;" href="{{ path('signalement_new', {slug: annonce.slug}) }}">
                         J'ai vu ce véhicule <i class="fas fa-bullhorn" style="color: #f94a4a"></i></a>
                 </div>
             </div>

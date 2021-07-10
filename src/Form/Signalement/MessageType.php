@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Signalement;
 
 use App\Entity\Message;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

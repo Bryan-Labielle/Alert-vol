@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Signalement;
 
 use App\Entity\SignalementImage;
 use Symfony\Component\Form\AbstractType;

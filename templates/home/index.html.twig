@@ -69,14 +69,14 @@
             <div class="row justify-content-center section-carousel">
                 <div class="col">
                     {# @TODO : replace the images with the card _annonce_min #}
-                    <div class="carousel-home-page center">
-                        {% for hit in response.hits %}
-                            <figure class="carousel-image-container">
-                                <img class="d-block w-100 carousel-image" alt="{{ hit.tags }}" src="{{ hit.previewURL }}">
-                                <figcaption>{{ hit.tags }}</figcaption>
-                            </figure>
-                        {% endfor %}
-                    </div>
+{#                    <div class="carousel-home-page center">#}
+{#                        {% for hit in response.hits %}#}
+{#                            <figure class="carousel-image-container">#}
+{#                                <img class="d-block w-100 carousel-image" alt="{{ hit.tags }}" src="{{ hit.previewURL }}">#}
+{#                                <figcaption>{{ hit.tags }}</figcaption>#}
+{#                            </figure>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
                 </div>
             </div>
         </div>
