@@ -65,14 +65,15 @@ class Signalement
     private ?string $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=SignalementImage::class, mappedBy="signalement")
+     * @ORM\OneToMany(targetEntity=SignalementImage::class, mappedBy="signalement",
+     *     cascade={"persist", "remove"})
      */
-    private $signalementImages;
+    private Collection $signalementImages;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement", cascade={"persist", "remove"})
      */
-    private $messages;
+    private Collection $messages;
 
     public function __construct()
     {

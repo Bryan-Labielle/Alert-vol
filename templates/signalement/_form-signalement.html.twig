@@ -1,81 +1,209 @@
+{% set new = edit ? false : true %}
 <div class="row">
-    <div class="col-md-6">
-        {% if app.user == signalement.owner %}
-            <h2>Signaler</h2>
-            {{ form_start(form) }}
+    <div class="col-md-6{% if new %} offset-md-3{% endif %}">
+        <div class="card shadow-sm border-2 sticky-top-content">
+            <div class="card-body">
+                <h3>Signalement du bien</h3>
+                {% if edit %}
+                <p>Posté le {{ signalement.sendAt|date("d.m.Y") }} par {{ signalement.owner.pseudo }}</p>
+                {% endif %}
+                {% if app.user == signalement.owner %}
 
-            {{ form_row(form.seenOn, [
-                {'label': 'Vu le'}
-            ]) }}
+                    {{ form_start(form) }}
 
-            <h3>Signes distinctifs</h3>
-            {% for detail in annonce.details %}
-                <div class="form-check">
-                    <input class="form-check-input"
-                           name="details[]"
-                           type="checkbox"
-                           value="{{ detail }}"
-                           id="detail_{{ loop.index }}" {% if detail in signalement.details %}checked{% endif %}>
-                    <label class="form-check-label" for="detail_{{ loop.index }}">
-                        {{ detail }}
-                    </label>
-                </div>
-            {% endfor %}
-            {{ form_end(form) }}
+                    {{ form_row(form.seenOn, {'label': 'Vu le'})}}
 
-        {% else %}
-            <h3>Signalement du bien</h3>
-            <p>Posté le {{ signalement.sendAt|date("d.m.Y") }} par {{ signalement.owner.firstname }} {{ signalement.owner.lastname }}</p>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Vue le</th>
-                        <td>{{ signalement.seenOn|date("d.m.Y") }}</td>
-                    </tr>
-                    <tr>
-                        <th>Localisation</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Signes distinctifs</th>
-                        <td>
-                            <ul class="list-unstyled">
-                                {% for detail in annonce.details %}
-                                {% set class = detail in signalement.details ? 'success' : 'danger' %}
-                                <li class="text-{{ class }}">
-                                    {% set icon = detail in signalement.details ? 'check' : 'times' %}
-                                    <i class="fas fa-{{ icon }}"></i>
+                    <h4>Signes distinctifs</h4>
+                    <fieldset class="border p-2 mb-3">
+                        <legend class="col-form-label">Je pense avoir vu les signes distinctifs suivant</legend>
+                        {% for detail in annonce.details %}
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       name="details[]"
+                                       type="checkbox"
+                                       value="{{ detail }}"
+                                       id="detail_{{ loop.index }}" {% if detail in signalement.details %}checked{% endif %}>
+                                <label class="form-check-label" for="detail_{{ loop.index }}">
                                     {{ detail }}
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        {% endif %}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+
+                    {% if new %}
+                        <h4>Laisser un message à l'auteur de l'annonce</h4>
+                        {{ form_widget(form.messages)}}
+                    {% endif %}
+
+{#                    Galerie d'images#}
+                    <h4 id="upload-images">Télécharger des photos</h4>
+                    <ul class="list-unstyled images"
+                        data-prototype="{{ form_widget(form.signalementImages.vars.prototype)|e('html_attr') }}"
+                        aria-labelledby="upload-images">
+                        {% for image in form.signalementImages %}
+                            <li>
+                                {% if edit %}
+                                <figure class="position-relative" style="max-width: 150px">
+                                    <img class="img-fluid" src="{{ image.children.signalementFile.vars.download_uri }}" alt="">
+                                    {{ form_widget(image.delete, {
+                                        'attr': {'class': 'position-absolute top-0 start-0 btn btn-danger btn-sm remove_item_link'}
+                                    }) }}
+                                </figure>
+                                {% endif %}
+
+                                {{ form_row(image.signalementFile) }}
+
+                                {% if new %}
+                                {{ form_row(image.delete, {
+                                    'attr': {'class': 'btn btn-danger btn-sm remove_item_link'}
+                                }) }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="mb-4">
+                        <button type="button" class="btn btn-secondary btn-sm add_item_link" data-collection-holder-class="images">
+                            <i class="fas fa-plus"></i> Ajouter
+                        </button>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-{{ button_icon|default('save') }}"></i> {{ button_label|default('Envoyer') }}</button>
+                    {{ form_end(form) }}
+
+                {% else %}
+                    <table class="table table-signalement">
+                        <tbody>
+                        <tr>
+                            <th><i class="fas fa-calendar-alt"></i> Vue le</th>
+                            <td>{{ signalement.seenOn|date("d.m.Y") }}</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fas fa-map-marker-alt"></i> Localisation</th>
+                            <td>
+{#                                @todo fill field Localisation#}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Pense avoir vu les signes distinctifs</th>
+                            <td>
+                                <ul class="list-unstyled">
+                                    {% for detail in annonce.details %}
+                                        {% set class = detail in signalement.details ? 'success' : 'danger' %}
+                                        <li class="text-{{ class }}">
+                                            {% set icon = detail in signalement.details ? 'check' : 'times' %}
+                                            <i class="fas fa-{{ icon }}"></i>
+                                            {{ detail }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    {% if signalement.signalementImages|length %}
+                    <h4 class="mt-4" id="uploaded-images-signalement">Images téléchargées</h4>
+                    <div class="d-flex flex-wrap" role="list" aria-labelledby="uploaded-images-signalement">
+                        {% for image in signalement.signalementImages %}
+                            <figure class="position-relative" style="max-width: 150px">
+                                <img class="img-fluid" src="{{ asset('uploads/' ~ image.name ) }}" alt="">
+                            </figure>
+                        {% else %}
+                            <p>Vous n'avez téléchargé aucune image.</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
     </div>
     {% if edit %}
     <div class="col-md-6">
+        <h2>Messages</h2>
+        <div class="messages">
         {% for message in signalement.messages %}
-            <div class="card-signalement">
-                <div class="card-signalement-header">
-                    le <time>{{ message.sentAt|date("d.m.Y") }}</time> par {{ message.sender.firstName }} {{ message.sender.lastName }}
-                    <br>
-                    à {{ message.recipient.firstname ~ ' ' ~ message.recipient.lastname }}
+            <div class="message {% if app.user != message.sender %}message--recipient{% endif %}">
+                <div class="message-header">
+                    <time datetime="{{ message.sentAt|date("Y-m-d H:i:s") }}"><i class="fas fa-clock"></i> {{ message.sentAt|date("d.m.Y H:i") }}</time> -
+                    <span><i class="fas fa-user"></i> {{ app.user != message.sender ? message.sender.pseudo : 'moi' }}</span>
                 </div>
-                <div class="card-signalement-body">
+                <div class="message-body">
                     {{ message.content }}
                 </div>
             </div>
 
         {% endfor %}
+        </div>
         <hr>
         <h3>Répondre</h3>
         {{ form_start(formNewMessage) }}
         {{ form_widget(formNewMessage) }}
-        <button class="btn btn-primary" type="submit">Envoyer</button>
+        <button class="btn btn-primary" type="submit"><i class="fas fa-paper-plane"></i> Envoyer</button>
         {{ form_end(formNewMessage) }}
     </div>
     {% endif %}
+
+    <script>
+        const addFormToCollection = (collectionHolderClass) => {
+            // Get the ul that holds the collection of tags
+
+            const collectionHolder = document.querySelector('.' + collectionHolderClass);
+
+            // Get the data-prototype explained earlier
+            const prototype = collectionHolder.getAttribute('data-prototype');
+
+            // get the new index
+            const index = parseInt(collectionHolder.getAttribute('index'));
+            let newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            collectionHolder.setAttribute('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            const li = document.createElement('li');
+            li.innerHTML = newForm;
+            // Add the new form at the end of the list
+            collectionHolder.appendChild(li);
+            const buttonRemove = li.querySelector('.remove_item_link');
+            buttonRemove.addEventListener('click', (event) => {
+                event.target.closest('li').remove();
+            })
+            // remove_item_link
+        }
+
+        const initCollection = (elem) => {
+            const collectionHolder = document.querySelector(elem);
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            const index = collectionHolder.querySelectorAll('input').length
+            collectionHolder.setAttribute('index', index);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the ul that holds the collection of tags
+            const buttons = document.querySelectorAll('.add_item_link');
+            buttons.forEach(function(button){
+                button.addEventListener('click', function(e) {
+                    const collectionHolderClass = e.target.getAttribute('data-collection-holder-class');
+                    // add a new tag form (see next code block)
+                    addFormToCollection(collectionHolderClass);
+                })
+            })
+            const buttonsRemove = document.querySelectorAll('.remove_item_link');
+            buttonsRemove.forEach(function(button){
+                button.addEventListener('click', (event) => {
+                    event.target.closest('li').remove();
+                })
+            })
+            initCollection('ul.images');
+        });
+    </script>
 </div>

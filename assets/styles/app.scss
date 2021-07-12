@@ -1,4 +1,4 @@
-@import '_variables.scss';
+@import 'settings/index';
 @import '~bootstrap/scss/bootstrap';
 @import '_annonceMin.scss';
 @import "~slick-carousel/slick/slick";
@@ -13,6 +13,10 @@
 @import 'label&input.scss';
 @import '_filter.scss';
 @import '_register.scss';
+@import '_dashboard.scss';
+@import '_left-sidebar';
+@import '_right-sidebar';
+@import "signalement";
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
 *{
@@ -39,4 +43,9 @@ body {
 }
 input{
     border-radius: 20px;
+}
+
+.sticky-top-content {
+    position: sticky;
+    top: 90px;
 }

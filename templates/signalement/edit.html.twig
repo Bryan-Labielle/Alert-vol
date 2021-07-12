@@ -2,10 +2,17 @@
 
 {% block body %}
     <main>
-{#{{ include('annonce/_annonceSignalement.html.twig') }}#}
+{#        {{ include('signalement/_annonce-signalement.html.twig') }}#}
         <div class="container mt-5">
             <div class="row mb-5">
                 <div class="col-md-6">
+                    <div class="d-block">
+                        <img class="card-img-top" src="{{ apiImages.hits.1.previewURL }}" alt='title picture'>
+                        <div class="d-flex align-items-start justify-content-end ">
+                            <i class="fas fa-bookmark bookmark-position">
+                            </i>
+                        </div>
+                    </div>
                     <div class="card-header custom-header fs-4  p-0 d-flex justify-content-center">
                         {{ annonce.title|title }}
                     </div>
@@ -20,12 +27,12 @@
                     map
                 </div>
             </div>
-            <hr>
-            {% include 'signalement/_form-signalement.html.twig' with {edit: true} %}
+
+            {% include 'signalement/_form-signalement.html.twig' with {edit: true, button_label: 'Enregistrer'} %}
         </div>
 
         <script>
-            
+
         </script>
 
     </main>

@@ -18,16 +18,20 @@ class SignalementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-//            ->add('details', CollectionType::class, [
-//                'entry_type' => CheckboxType::class,
-//                'label' => 'Quels  signes distinctifs avez-vous reconnu ?',
-//                'required' => false
-//            ])
             ->add('seenOn', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => ['class' => 'row-signalement'],
             ])
-            ->add('submit', SubmitType::class)
+            ->add('signalementImages', CollectionType::class, [
+                'attr' => ['class' => 'mb-0'],
+                'label' => false,
+                'entry_type' => SignalementImageType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'required' => false
+            ])
             ;
     }
 

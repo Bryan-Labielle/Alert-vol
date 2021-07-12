@@ -18,23 +18,27 @@ class NewSignalementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-//            ->add('details', CollectionType::class, [
-//                'entry_type' => CheckboxType::class,
-//                'label' => 'Quels  signes distinctifs avez-vous reconnu ?',
-//                'required' => false
-//            ])
             ->add('seenOn', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => ['class' => 'row-signalement'],
             ])
-//            ->add('content', MessageType::class)
              ->add('messages', CollectionType::class, [
+                 'attr' => ['class' => 'mb-0'],
                  'entry_type' => MessageType::class,
                  'entry_options' => ['label' => false],
-//                 'allow_add' => true,
                  'by_reference' => false,
+                 'required' => false,
+                 'allow_add' => true
              ])
-            ->add('submit', SubmitType::class)
+            ->add('signalementImages', CollectionType::class, [
+                'attr' => ['class' => 'mb-0'],
+                'label' => false,
+                'entry_type' => SignalementImageType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'required' => false
+            ])
             ;
     }
 
