@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -72,7 +73,6 @@ class User implements UserInterface
     private int $role;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bookmark::class, mappedBy="User")
      * @ORM\Column(type="boolean")
      */
     private bool $isVerified = false;
@@ -80,14 +80,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $pseudo;
+    private $pseudo;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -157,8 +157,10 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
+        //TODO modify return type
+
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }

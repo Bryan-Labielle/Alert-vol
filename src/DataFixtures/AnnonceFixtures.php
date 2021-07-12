@@ -24,10 +24,10 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
     private UserRepository $userRepository;
 
     public const VEHICULEDETAILS = ([
-        'signe_1' => false,
-        'sign_2' => false,
-        'signe_3' => false,
-        'signe_4' => false
+        'signe_1',
+        'sign_2',
+        'signe_3',
+        'signe_4'
     ]);
 
     public const VEHICULES = [  'Mercedes GLA',

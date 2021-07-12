@@ -1,5 +1,31 @@
-@import 'variables';
+.table-signalement {
+  tr > :first-child {
+    width: 50%;
+  }
+}
 
-.container-info-signalement{
-  color: $black;
+.messages {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  .message {
+    padding: 1rem;
+    background-color: $gray-100;
+    max-width: 80%;
+    margin-bottom: 1.5rem;
+    border-radius: $border-radius;
+    .message-header{
+      text-align: right;
+      font-size: .875rem;
+      color: $gray-600;
+    }
+    &.message--recipient {
+      align-self: flex-start;
+      background-color: $green-100;
+      .message-header{
+        text-align: left;
+      }
+    }
+  }
+
 }

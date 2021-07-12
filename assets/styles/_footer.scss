@@ -1,9 +1,10 @@
-@import 'variables';
-
-footer{
+.footer-to-bottom{
+  position: relative;
+  z-index: 1;
   bottom: 0;
-  left: 0;
+  padding-top: 5px;
   width: 100%;
+  margin-top: 2rem;
 }
 .img-footer{
   width: 60%;
@@ -23,9 +24,6 @@ footer .svg-size{
 }
 
 @media (min-width: 768px){
-  .footer-to-bottom{
-    height: 105px;
-  }
   footer ul {
     font-size: 1.2rem;
   }

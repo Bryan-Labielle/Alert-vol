@@ -6,7 +6,9 @@ class Slugify
 {
     /* Remplace caractères accentués d'une chaine + Générateur de Slug (Friendly Url) :
     convertit un titre en une URL conviviale. */
-    public function generate(?string $input): ?string
+
+    public function generate(string $input): string
+
     {
         $withAccent = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð',
             'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã',

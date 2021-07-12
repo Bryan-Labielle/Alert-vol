@@ -22,14 +22,14 @@ class SignalementImage
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $name = null;
     /**
      * @Vich\UploadableField(mapping="signalement_file", fileNameProperty="name")
      * @var ?File
      */
-    private ?File $signalementFile ;
+    private ?File $signalementFile = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -45,6 +45,12 @@ class SignalementImage
      * @ORM\ManyToOne(targetEntity=Signalement::class, inversedBy="signalementImages")
      */
     private ?Signalement $signalement;
+
+    public function __construct()
+    {
+        $this->postedAt = new DateTime("now");
+    }
+
 
     public function getId(): ?int
     {

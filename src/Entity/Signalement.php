@@ -65,21 +65,20 @@ class Signalement
     private ?string $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=SignalementImage::class, mappedBy="signalement")
+     * @ORM\OneToMany(targetEntity=SignalementImage::class, mappedBy="signalement",
+     *     cascade={"persist", "remove"})
      */
-    private $signalementImages;
+    private Collection $signalementImages;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement", cascade={"persist", "remove"})
-     * 
      */
-    private $message;
+    private Collection $messages;
 
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->signalementImages = new ArrayCollection();
-        $this->message = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,15 +215,15 @@ class Signalement
     /**
      * @return Collection|Message[]
      */
-    public function getMessage(): Collection
+    public function getMessages(): Collection
     {
-        return $this->message;
+        return $this->messages;
     }
 
     public function addMessage(Message $message): self
     {
-        if (!$this->message->contains($message)) {
-            $this->message[] = $message;
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
             $message->setSignalement($this);
         }
 
@@ -233,7 +232,7 @@ class Signalement
 
     public function removeMessage(Message $message): self
     {
-        if ($this->message->removeElement($message)) {
+        if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
             if ($message->getSignalement() === $this) {
                 $message->setSignalement(null);

@@ -5,13 +5,13 @@ namespace App\Controller\Annonce;
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
 use App\Form\AnnonceImageType;
+use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiImages;
 use App\Service\ApiZipCode;
 use App\Service\Slugify;
-use App\Form\AnnonceType;
-use ContainerJUlAk0t\getUserRepositoryService;
+//use ContainerJUlAk0t\getUserRepositoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,17 +90,9 @@ class AnnonceController extends AbstractController
             $entityManager->persist($annonce);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre annonce est enregistrée, ajoutez des images.');
             return $this->redirectToRoute('annonce_edit', ['slug' => $annonce->getSlug()]);
         }
-        // créer formulaire séparer pour ajouter plusieurs signes distinctifs en ajax
-        /**
-         * @TODO: créer le champs actif dans le formulaire
-         */
-        $annonce->setDetails([
-            'peinture' => 'rouge',
-            'date_achat' => '2019',
-            'defaults' => 'rayures aile gauche'
-        ]);
 
         return $this->render('annonce/new.html.twig', [
             'annonce' => $annonce,
@@ -150,11 +142,10 @@ class AnnonceController extends AbstractController
 
         if ($formUpload->isSubmitted() && $formUpload->isValid()) {
             $annonceImage->setPostedAt(new DateTime('now'));
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($annonceImage);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($annonceImage);
             $annonce->setNbRenew($annonce->getNbRenew() + 1);
-            $em->flush();
-
+            $entityManager->flush();
 
             return $this->redirectToRoute('annonce_edit', [
                 'slug' => $annonce->getSlug(),
@@ -211,16 +202,11 @@ class AnnonceController extends AbstractController
      */
     public function deleteImage(Request $request, AnnonceImage $annonceImage): Response
     {
-        $annonce = $annonceImage->getAnnonce();
         if ($this->isCsrfTokenValid('delete' . $annonceImage->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $annonceImage = $entityManager->getRepository(AnnonceImage::class)->find($annonceImage->getId());
             $entityManager->remove($annonceImage);
             $entityManager->flush();
         }
-        return $this->redirectToRoute('annonce_edit', [
-            'annonce' => $annonce,
-            'slug' => $annonce->getSlug()
-        ]);
+        return $this->redirectToRoute('annonce_index');
     }
 }

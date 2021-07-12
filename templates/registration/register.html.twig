@@ -1,109 +1,95 @@
-{% extends 'templateNaked.html.twig' %}
-
-{% block title %}Register{% endblock %}
-
-{% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
-    <div class="login-container">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <h1>Register</h1>
-                    {{ form_start(registrationForm) }}
-                    <div class="login-label-container position-relative">
-                        {{ form_errors(registrationForm.email) }}
-                        {{ form_widget(registrationForm.email, {
-                            'attr' : {
-                                'class' : 'col-4 rounded-pill'
-                            }
-                        }) }}
-                        {{ form_label(registrationForm.email, 'Email', {
-                            'label' : 'Email',
-                            'label_attr' : {
-                                'class' : 'label-text'
-                            }
-                        }) }}
-                    </div>
-                    <div class="login-label-container position-relative">
-                        {{ form_errors(registrationForm.plainPassword.first) }}
-                        {{ form_widget(registrationForm.plainPassword.first, {
-                            'attr' : {
-                                'class' : 'col-4 rounded-pill'
-                            }
-                        }) }}
-                        {{ form_label(registrationForm.plainPassword.first, 'Mot de passe', {
-                            'label' : 'Password',
-                            'label_attr' : {
-                                'class' : 'label-text'
-                            }
-                        }) }}
-
-                    </div>
-                    <div class="login-label-container position-relative">
-                        {{ form_errors(registrationForm.plainPassword.second) }}
-                        {{ form_widget(registrationForm.plainPassword.second, {
-                            'attr' : {
-                                'class' : 'col-4 rounded-pill'
-                            }
-                        }) }}
-                        {{ form_label(registrationForm.plainPassword.second, 'Validez votre mot de passe', {
-                            'label' : 'Password',
-                            'label_attr' : {
-                                'class' : 'label-text'
-                            }
-                        }) }}
-
-                    </div>
-                    <div class="login-label-container position-relative">
-                        {{ form_errors(registrationForm.firstName) }}
-                        {{ form_widget(registrationForm.firstName, {
-                            'attr' : {
-                                'class' : 'col-4 rounded-pill'
-                            }
-                        }) }}
-                        {{ form_label(registrationForm.firstName, 'Votre Prénom', {
-                            'label' : 'firstName',
-                            'label_attr' : {
-                                'class' : 'label-text'
-                            }
-                        }) }}
-                    </div>
-                    <div class="login-label-container position-relative">
-                        {{ form_errors(registrationForm.lastName) }}
-                        {{ form_widget(registrationForm.lastName, {
-                            'attr' : {
-                                'class' : 'col-4 rounded-pill'
-                            }
-                        }) }}
-                        {{ form_label(registrationForm.lastName, 'Votre Nom', {
-                            'label' : 'lastName',
-                            'label_attr' : {
-                                'class' : 'label-text'
-                            }
-                        }) }}
-                    </div>
-                    <div class="login-label-container position-relative">
-                        {{ form_errors(registrationForm.pseudo) }}
-                        {{ form_widget(registrationForm.pseudo, {
-                            'attr' : {
-                                'class' : 'col-4 rounded-pill'
-                            }
-                        }) }}
-                        {{ form_label(registrationForm.pseudo, 'Votre Pseudo', {
-                            'label' : 'pseudo',
-                            'label_attr' : {
-                                'class' : 'label-text'
-                            }
-                        }) }}
-                    </div>
-                    {{ form_row(registrationForm.agreeTerms) }}
-
-                    <button type="submit" class="btn btn-success">Register</button>
-                    {{ form_end(registrationForm) }}
-                </div>
-            </div>
+{% for flashError in app.flashes('verify_email_error') %}
+    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+<div class="login-body">
+    {{ form_start(registrationForm, {'attr': { 'class':'container d-flex flex-column align-items-center'}}) }}
+    <h1 class="p-4">Register</h1>
+    <div class="login-label-container position-relative">
+            {{ form_errors(registrationForm.email) }}
+            {{ form_widget(registrationForm.email, {
+                'attr' : {
+                    'class' : 'col-4 rounded-pill'
+                }
+            }) }}
+            {{ form_label(registrationForm.email, 'Email', {
+                'label' : 'Email',
+                'label_attr' : {
+                    'class' : 'label-text'
+                }
+            }) }}
         </div>
-    </div>
-{% endblock %}
+        <div class="login-label-container position-relative">
+            {{ form_errors(registrationForm.plainPassword.first) }}
+            {{ form_widget(registrationForm.plainPassword.first, {
+                'attr' : {
+                    'class' : 'col-4 rounded-pill'
+                }
+            }) }}
+            {{ form_label(registrationForm.plainPassword.first, 'Mot de passe', {
+                'label' : 'Password',
+                'label_attr' : {
+                    'class' : 'label-text'
+                }
+            }) }}
+        </div>
+        <div class="login-label-container position-relative">
+            {{ form_errors(registrationForm.plainPassword.second) }}
+            {{ form_widget(registrationForm.plainPassword.second, {
+                'attr' : {
+                    'class' : 'col-4 rounded-pill'
+                }
+            }) }}
+            {{ form_label(registrationForm.plainPassword.second, 'Validez votre mot de passe', {
+                'label' : 'Password',
+                'label_attr' : {
+                    'class' : 'label-text'
+                }
+            }) }}
+        </div>
+        <div class="login-label-container position-relative">
+            {{ form_errors(registrationForm.firstName) }}
+            {{ form_widget(registrationForm.firstName, {
+                'attr' : {
+                    'class' : 'col-4 rounded-pill'
+                }
+            }) }}
+            {{ form_label(registrationForm.firstName, 'Votre Prénom', {
+                'label' : 'firstName',
+                'label_attr' : {
+                    'class' : 'label-text'
+                }
+            }) }}
+        </div>
+        <div class="login-label-container position-relative">
+            {{ form_errors(registrationForm.lastName) }}
+            {{ form_widget(registrationForm.lastName, {
+                'attr' : {
+                    'class' : 'col-4 rounded-pill'
+                }
+            }) }}
+            {{ form_label(registrationForm.lastName, 'Votre Nom', {
+                'label' : 'lastName',
+                'label_attr' : {
+                    'class' : 'label-text'
+                }
+            }) }}
+        </div>
+        <div class="login-label-container position-relative">
+            {{ form_errors(registrationForm.pseudo) }}
+            {{ form_widget(registrationForm.pseudo, {
+                'attr' : {
+                    'class' : 'col-4 rounded-pill'
+                }
+            }) }}
+            {{ form_label(registrationForm.pseudo, 'Votre Pseudo', {
+                'label' : 'pseudo',
+                'label_attr' : {
+                    'class' : 'label-text'
+                }
+            }) }}
+        </div>
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn-login btn m-auto col-4 rounded-pill">Register</button>
+        {{ form_end(registrationForm) }}
+</div>

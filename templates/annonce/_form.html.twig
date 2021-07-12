@@ -29,7 +29,7 @@
         document.getElementById('annonce_location').addEventListener('input', (event) => {
             const search = event.target.value;
 
-            fetch(`/annonce/autocomplete-zip?search=${search}`)
+            fetch(`${window.location.origin}/annonce/autocomplete-zip?search=${search}`)
 
                 .then((response) => response.json())
 

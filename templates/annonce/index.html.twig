@@ -1,21 +1,23 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/sidebars.html.twig' %}
+
 {% block title %}Toutes les annonces{% endblock %}
 
-{% block body %}
+{% block main %}
+    {% include 'annonce/filter.html.twig' %}
     <div class="container">
 
         <h1>Toutes les annonces</h1>
 
         <div class="section ">
             <div class="d-flex justify-content-between">
-            <a class="btn btn-dark" href="{{ path('app_index') }}">
-                Retour à l'accueil
-            </a>
+                <a class="btn btn-dark" href="{{ path('app_index') }}">
+                    Retour à l'accueil
+                </a>
                 <div class="small text-center align-self-center">Nombre d'annonces en cours : {{ count }}</div>
-            <a class="btn btn-primary" href="{{ path('annonce_new') }}">
-                Ajouter une annonce [+]
-            </a>
-        </div>
+                <a class="btn btn-primary" href="{{ path('annonce_new') }}">
+                    Ajouter une annonce [+]
+                </a>
+            </div>
             <div class="row g-5 mt-3">
                 {% for annonce in annonces %}
                     {% include '/annonce/_annonceMin.html.twig' %}

@@ -11,6 +11,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class ApiImages
 {
+
     /**
      * @return array|null
      * @throws ClientExceptionInterface

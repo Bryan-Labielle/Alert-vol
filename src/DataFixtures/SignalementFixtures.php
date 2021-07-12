@@ -35,7 +35,7 @@ class SignalementFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($signalement);
             $this->addReference('signalement_' . $i, $signalement);
         }
-        $manager->flush();
+//        $manager->flush();
     }
 
     public function getDependencies()
