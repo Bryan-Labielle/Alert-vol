@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SignalementRepository;
-use DateTimeInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,12 +36,12 @@ class Signalement
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $sendAt;
+    private DateTime $sendAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $seenOn;
+    private DateTime $seenOn;
 
     /**
      * @ORM\Column(type="float")
@@ -54,11 +54,6 @@ class Signalement
     private float $longitude;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement")
-     */
-    private Collection $messages;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=true)
      */
@@ -69,9 +64,21 @@ class Signalement
      */
     private ?string $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SignalementImage::class, mappedBy="signalement",
+     *     cascade={"persist", "remove"})
+     */
+    private Collection $signalementImages;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="signalement", cascade={"persist", "remove"})
+     */
+    private Collection $messages;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->signalementImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,19 +115,19 @@ class Signalement
         return $this->sendAt;
     }
 
-    public function setSendAt(\DateTimeInterface $sendAt): self
+    public function setSendAt(DateTime $sendAt): self
     {
         $this->sendAt = $sendAt;
 
         return $this;
     }
 
-    public function getSeenOn(): \DateTimeInterface
+    public function getSeenOn(): DateTime
     {
         return $this->seenOn;
     }
 
-    public function setSeenOn(\DateTimeInterface $seenOn): self
+    public function setSeenOn(DateTime $seenOn): self
     {
         $this->seenOn = $seenOn;
 
@@ -151,6 +158,60 @@ class Signalement
         return $this;
     }
 
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SignalementImage[]
+     */
+    public function getSignalementImages(): Collection
+    {
+        return $this->signalementImages;
+    }
+
+    public function addSignalementImage(SignalementImage $signalementImage): self
+    {
+        if (!$this->signalementImages->contains($signalementImage)) {
+            $this->signalementImages[] = $signalementImage;
+            $signalementImage->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalementImage(SignalementImage $signalementImage): self
+    {
+        if ($this->signalementImages->removeElement($signalementImage)) {
+            // set the owning side to null (unless already changed)
+            if ($signalementImage->getSignalement() === $this) {
+                $signalementImage->setSignalement(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|Message[]
      */
@@ -177,30 +238,6 @@ class Signalement
                 $message->setSignalement(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }

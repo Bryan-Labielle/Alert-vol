@@ -11,8 +11,10 @@ use Faker\Factory;
 class SignalementFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ARRAYTOJSON = [
-        'role' => 'admin',
-        'job' => 'accountManager'
+        'signe_1' => false,
+        'signe_2' => false,
+        'signe_3' => false,
+        'signe_4' => false
     ];
     public function load(ObjectManager $manager)
     {
@@ -33,7 +35,7 @@ class SignalementFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($signalement);
             $this->addReference('signalement_' . $i, $signalement);
         }
-        $manager->flush();
+//        $manager->flush();
     }
 
     public function getDependencies()

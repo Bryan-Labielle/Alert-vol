@@ -39,6 +39,7 @@ class AnnonceType extends AbstractType
                 'label' => 'Lieu du vol ou de la perte (code postal) :',
                 'required' => false,
             ])
+            ->add('details')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

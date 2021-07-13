@@ -24,9 +24,10 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
     private UserRepository $userRepository;
 
     public const VEHICULEDETAILS = ([
-        'peinture' => 'rouge',
-        'date_achat' => '2019',
-        'defaults' => 'rayures aile gauche'
+        'signe_1',
+        'sign_2',
+        'signe_3',
+        'signe_4'
     ]);
 
     public const VEHICULES = [  'Mercedes GLA',

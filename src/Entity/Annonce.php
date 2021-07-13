@@ -98,7 +98,7 @@ class Annonce
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private ?array $details = [];
+    private array $details;
 
     /**
      * @ORM\Column(type="datetime")
@@ -302,12 +302,12 @@ class Annonce
         return $this;
     }
 
-    public function getDetails(): ?array
+    public function getDetails(): array
     {
         return $this->details;
     }
 
-    public function setDetails(?array $details): self
+    public function setDetails(array $details): self
     {
         $this->details = $details;
 

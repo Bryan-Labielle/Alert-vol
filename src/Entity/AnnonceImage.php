@@ -25,9 +25,7 @@ class AnnonceImage
     /**
      * @ORM\Column(type="string", length=255)
      */
-
     private ?string $name = null;
-
     /**
      * @Vich\UploadableField(mapping="annonce_file", fileNameProperty="name")
      * @var ?File
@@ -64,12 +62,16 @@ class AnnonceImage
         }
         return $this;
     }
-
     /**
      * @ORM\ManyToOne(targetEntity=annonce::class, inversedBy="annonceImages")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?Annonce $annonce;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $isSignaled;
 
     public function getId(): int
     {
@@ -81,7 +83,7 @@ class AnnonceImage
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -99,7 +101,6 @@ class AnnonceImage
 
         return $this;
     }
-
     /**
      * @return ?DateTime
      */
@@ -107,7 +108,6 @@ class AnnonceImage
     {
         return $this->postedAt;
     }
-
     /**
      * @param ?DateTime $postedAt
      * @return AnnonceImage
@@ -126,11 +126,22 @@ class AnnonceImage
         return $this->updatedAt;
     }
 
-    /**
-     * @param ?DateTime $updatedAt
-     */
-    public function setUpdatedAt(?DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getIsSignaled(): ?bool
+    {
+        return $this->isSignaled;
+    }
+
+    public function setIsSignaled(?bool $isSignaled): self
+    {
+        $this->isSignaled = $isSignaled;
+
+        return $this;
     }
 }

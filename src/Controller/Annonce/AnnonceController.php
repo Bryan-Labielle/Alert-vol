@@ -1,28 +1,24 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Annonce;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
-use App\Entity\User;
 use App\Form\AnnonceImageType;
-use App\Repository\AnnonceImageRepository;
+use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiImages;
 use App\Service\ApiZipCode;
 use App\Service\Slugify;
-use App\Form\AnnonceType;
-use ContainerJUlAk0t\getUserRepositoryService;
+//use ContainerJUlAk0t\getUserRepositoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use DateTime;
 use DateInterval;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -97,15 +93,6 @@ class AnnonceController extends AbstractController
             $this->addFlash('success', 'Votre annonce est enregistrée, ajoutez des images.');
             return $this->redirectToRoute('annonce_edit', ['slug' => $annonce->getSlug()]);
         }
-        // créer formulaire séparer pour ajouter plusieurs signes distinctifs en ajax
-        /**
-         * @TODO: créer le champs actif dans le formulaire
-         */
-        $annonce->setDetails([
-            'peinture' => 'rouge',
-            'date_achat' => '2019',
-            'defaults' => 'rayures aile gauche'
-        ]);
 
         return $this->render('annonce/new.html.twig', [
             'annonce' => $annonce,
@@ -159,7 +146,6 @@ class AnnonceController extends AbstractController
             $entityManager->persist($annonceImage);
             $annonce->setNbRenew($annonce->getNbRenew() + 1);
             $entityManager->flush();
-
 
             return $this->redirectToRoute('annonce_edit', [
                 'slug' => $annonce->getSlug(),

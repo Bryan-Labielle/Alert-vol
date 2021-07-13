@@ -80,7 +80,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $pseudo;
+    private $pseudo;
 
     public function getId(): int
     {
