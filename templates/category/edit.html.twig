@@ -1,0 +1,29 @@
+{% extends 'layout/sidebars.html.twig' %}
+
+{% block title %}Edit Category{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="my-4">
+            <div class="d-flex justify-content-between">
+                <h1>Modifier la catégorie "{{ category.name }}"</h1>
+                {{ include('category/_delete_form.html.twig') }}
+            </div>
+            {{ include('category/_form.html.twig', {'button_label': 'Enregistrer la modification'}) }}
+
+        </div>
+        <h2>Sous catégories associées</h2>
+
+        {{ include('category/_children.html.twig', {'categories': category.categories}) }}
+
+
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-secondary" href="{{ path('category_index') }}">
+                <i class="fas fa-chevron-left"></i> Retour à la liste
+            </a>
+
+        </div>
+
+    </div>
+
+{% endblock %}

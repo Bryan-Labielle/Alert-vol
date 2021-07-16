@@ -1,11 +1,28 @@
 {% extends 'layout/sidebars.html.twig' %}
-
+{% block meta %}
+    <meta property="og:url"           content="https://saintes-2103-pt3-alertvol-stage.phprover.wilders.dev/annonce/{{ annonce.slug }}" />
+    <meta property="og:type"          content="article" />
+    <meta property="og:title"         content="AlertVol - collaborative platform" />
+    <meta property="og:description"   content=" {{ annonce.description }}" />
+{#    <meta property="og:image"         content="https://saintes-2103-pt3-alertvol-stage.phprover.wilders.dev/uploads{{ asset( annonce.annonceImages ) }}" />#}
+{% endblock %}
 {% block title %}Annonce{% endblock %}
-
+{% block script %}
+    <script src="./js/SDKfacebook"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v11.0&appId=177140367727219&autoLogAppEvents=1" nonce="6roiHynV"></script>
+{% endblock %}
 {% block main %}
+
 
     <h1>{{ annonce.title|title }}</h1>
 
+    <!-- Section Networks -->
+    <div class="networks-band text-end">
+        <div class="network-icon-show text-end fs-5"><a href="#"><i class="fas fa-project-diagram"></i></a></div>
+        <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button_count&size=small&appId=177140367727219&width=113&height=20" width="113" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+    </div>
+    <!-- End Section -->
     <!-- Section Caroussel -->
     <section class="section bg-gray">
         <h3 class="h3">Galerie d'images</h3>
@@ -13,17 +30,15 @@
             <div class="row justify-content-center section-carousel">
                 <div class="col">
                     <div class="carousel-home-page center">
-                        {% if annonce.annonceImages is not empty %}
                             {% for annonceImage in annonce.annonceImages %}
                                 <figure class="carousel-image-container">
                                     <img class="d-block w-300 carousel-image" src="{{ vich_uploader_asset(annonceImage) }}" alt="{{ annonceImage.name }}">
                                     <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
                                     </figcaption>
                                 </figure>
+                            {% else %}
+                                Aucune image enregistrée pour le moment.
                             {% endfor %}
-                        {% else %}
-                            Aucune image enregistrée pour le moment. %}
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -39,19 +54,30 @@
                     Annonce postée le : {{ annonce.publishedAt|date('d-m-Y') }} par {% if annonce.owner %}{{ annonce.owner.pseudo|title }}{% else %}Anonymous{% endif %}<br>
                     Plaque d'immatriculation ou Numéro de série : {{ annonce.reference|upper }}<br><br>
                     Ce bien a été perdu/volé le : {{ annonce.stolenAt|date("m/d/Y") }} <br>
-                    A : Ville, {{ annonce.location }}<br><br>
+                    A : {{ annonce.city }}, {{ annonce.zip }}<br><br>
                     Description : {{ annonce.description }}<br>
             </div>
             <div class="col-md-6">
-                Les signes distinctifs :<br>
-                <ul>{% for key, detail in annonce.details %}
-                        <li>{{ key }}: {{ detail }}</li>
+                <!-- Section signes disctinctifs -->
+                <p class="h5">Les signes distinctifs :</p><br>
+                <ul class="mt-0">
+                    {% for detail in annonce.details %}
+                        <li>{{ detail.detail }}</li>
                     {% endfor %}</ul>
-                </p>
+                <!-- End section -->
+
+                <!-- Section Category -->
+                    <p class="h5">Catégorie</p>
+                    {{ annonce.category.name }}
+                <!-- End section -->
+
             </div>
         </div>
     </div>
     <!-- End section -->
+
+
+
     <!-- Section Map -->
     <h3 class="h3">Localisation</h3>
     <div class="container map-display">

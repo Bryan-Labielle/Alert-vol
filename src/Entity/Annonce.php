@@ -93,12 +93,7 @@ class Annonce
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $location;
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private array $details;
+    private ?int $zip;
 
     /**
      * @ORM\Column(type="datetime")
@@ -110,11 +105,22 @@ class Annonce
      */
     private string $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Details::class, mappedBy="annonce", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private Collection $details;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private ?string $city;
+
 
     public function __construct()
     {
         $this->annonceImages = new ArrayCollection();
         $this->signalements = new ArrayCollection();
+        $this->details = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -290,26 +296,14 @@ class Annonce
         return $this;
     }
 
-    public function getLocation(): ?int
+    public function getZip(): ?int
     {
-        return $this->location;
+        return $this->zip;
     }
 
-    public function setLocation(int $location): self
+    public function setZip(int $zip): self
     {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    public function getDetails(): array
-    {
-        return $this->details;
-    }
-
-    public function setDetails(array $details): self
-    {
-        $this->details = $details;
+        $this->zip = $zip;
 
         return $this;
     }
@@ -341,5 +335,47 @@ class Annonce
     public function setSlug(string $slug): string
     {
         return $this->slug = $slug;
+    }
+
+    /**
+     * @return Collection|Details[]
+     */
+    public function getDetails(): Collection
+    {
+        return $this->details;
+    }
+
+    public function addDetail(Details $detail): self
+    {
+        if (!$this->details->contains($detail)) {
+            $this->details[] = $detail;
+            $detail->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetail(Details $detail): self
+    {
+        if ($this->details->removeElement($detail)) {
+            // set the owning side to null (unless already changed)
+            if ($detail->getAnnonce() === $this) {
+                $detail->setAnnonce(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
     }
 }

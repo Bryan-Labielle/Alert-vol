@@ -24,9 +24,7 @@ class FilterController extends AbstractController
             $queryDate = $queryDate->format('Y-m-d');
         }
         $queryPlace = $request->query->get('placeSearch');
-        dump($querySimple);
-        dump($queryDate);
-        dump($queryPlace);
+
         if (!empty($querySimple)) {
             $annonces = $annonceRepository->findByQuery($querySimple);
         }
@@ -37,10 +35,13 @@ class FilterController extends AbstractController
             $annonces = $annonceRepository->findByQueryPlace($queryPlace);
         }
         $annonces = $annonces ?? [];
+
+        $queries = [$queryDate, $queryPlace, $querySimple];
         return $this->render('annonce/index.html.twig', [
             'annonces' => $annonces,
             'count' => count($annonces),
             'apiImages' => $apiImages->getResponse(),
+            'queries' => $queries
         ]);
     }
 }

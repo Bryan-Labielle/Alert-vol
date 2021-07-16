@@ -1,0 +1,27 @@
+{% for category in categories %}
+     <div>
+         <input type="checkbox" id="{{ category.name }}" name="{{ category.name }}">
+         <label for="scales">{{ category.name }}</label>
+     </div>
+ {% endfor %}
+
+<script>
+    document.getElementById(' ?? ').addEventListener('click', function (event){
+        event.preventDefault();
+        let route = this.getAttribute('href');
+        fetch(route)
+            .then(response => response.text())
+            .then(html => {
+                let wrapper = document.getElementById('modal-wrapper');
+                if (wrapper) {
+                    wrapper.remove()
+                }
+                let elem = document.createElement('div')
+                elem.setAttribute('id', 'modal-wrapper')
+                elem.innerHTML = html;
+                document.body.appendChild(elem);
+                var myModal = new bootstrap.Modal(document.getElementById('modal-new-category'))
+                myModal.show()
+            })
+    })
+</script>

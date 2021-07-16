@@ -1,0 +1,57 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set categoryId = category.id ?? 0 %}
+ {% for category in categories|sort((a, b) => a.name|lower <=> b.name|lower) %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td class="">
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-secondary me-2" href="{{ path('category_edit', {'id': category.id }) }}">
+                        <i class="fas fa-edit"></i> modifier
+                    </a>
+                    {{ include('category/_delete_form.html.twig') }}
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">aucun enregistrement</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex mb-4">
+    <a class="btn btn-primary" id="add-new-category" href="{{ path('category_modal_new', {'id': categoryId }) }}">
+       <i class="fas fa-plus"></i> Ajouter une catégorie
+    </a>
+</div>
+
+<script>
+    document.getElementById('add-new-category').addEventListener('click', function (event){
+        event.preventDefault();
+        let route = this.getAttribute('href');
+        fetch(route)
+        .then(response => response.text())
+        .then(html => {
+            let wrapper = document.getElementById('modal-wrapper');
+            if (wrapper) {
+                wrapper.remove()
+            }
+            let elem = document.createElement('div')
+            elem.setAttribute('id', 'modal-wrapper')
+            elem.innerHTML = html;
+            document.body.appendChild(elem);
+            var myModal = new bootstrap.Modal(document.getElementById('modal-new-category'))
+            myModal.show()
+        })
+    })
+</script>

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Annonce;
 use App\Entity\Category;
+use App\Entity\Details;
 use DateTime;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -35,11 +36,16 @@ class AnnonceType extends AbstractType
                 'label' => 'Immatriculation ou numéro de série :',
                 'required' => false,
             ])
-            ->add('location', TextType::class, [
-                'label' => 'Lieu du vol ou de la perte (code postal) :',
+            ->add('city', TextType::class, [
+                'label' => 'Lieu du vol ou de la perte :',
                 'required' => false,
             ])
-            ->add('details')
+            ->add('zip', TextType::class, [
+                'label' => 'Code Postal :',
+                'attr' => array(
+                    'readonly' => true,
+                ),
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
@@ -48,7 +54,14 @@ class AnnonceType extends AbstractType
             ->add('stolenAt', DateType::class, [
                 'label' => 'Volé ou perdu le :',
                 'data' => $start,
-            ]);
+            ])
+            ->add('details', CollectionType::class, [
+                    'entry_type' => DetailsType::class,
+                    'entry_options' => ['label' => false],
+                    'allow_add' => true,
+                    'by_reference' => false,
+                    'allow_delete' => true,])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

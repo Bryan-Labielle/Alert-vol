@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use App\Repository\MessageRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

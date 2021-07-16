@@ -1,0 +1,18 @@
+{% extends 'layout/sidebars.html.twig' %}
+
+{% block title %}Category index{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="mt-4">
+            <h1>Categories principales</h1>
+
+            {% include('category/_children.html.twig') %}
+        </div>
+
+{#         {% from 'macros/categories.html.twig' import make_categories %}#}
+{#         {{ make_categories(categories) }}#}
+    </div>
+
+
+{% endblock %}

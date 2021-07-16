@@ -9,24 +9,99 @@ use Faker\Factory;
 
 class CategoryFixtures extends Fixture
 {
-    public const CATEGORIES = ([
-            'BTP',
-            'engin_de_chantier',
-            'Agroalimentaire',
-            'Moissonneuse_Bateuse',
-            'Nautique',
-            'bateau_sans_permis',
-    ]);
+    public const CATEGORIES = [
+        [
+            'name' => 'BTP',
+            'children' => [
+                [
+                    'name' => 'Pelle'
+                ],
+                [
+                    'name' => 'Grue'
+                ],
+                [
+                    'name' => 'Camion',
+                    'children' => [
+                        [
+                            'name' => '3.5 t'
+                        ],
+                        [
+                            'name' => '15 t'
+                        ],
+                        [
+                            'name' => '35 t'
+                        ],
+                    ]
+                ]
+            ]
+        ],
+        [
+            'name' => 'Particuliers',
+            'children' => [
+                [
+                    'name' => 'Voiture'
+                ],
+                [
+                    'name' => 'Moto'
+                ],
+                [
+                    'name' => 'Scooter'
+                ],
+                [
+                    'name' => 'Vélo'
+                ],
+            ]
+        ],
+        [
+            'name' => 'Mer',
+            'children' => [
+                [
+                    'name' => 'Bateau à moteur'
+                ],
+                [
+                    'name' => 'Voilier'
+                ],
+                [
+                    'name' => 'Scooter des mers'
+                ],
+                [
+                    'name' => 'Char à voile'
+                ],
+            ]
+        ]
+    ];
+
 
     public function load(ObjectManager $manager)
     {
-        foreach (self::CATEGORIES as $key => $val) {
+        // Génération des catégories mères
+        $categoryIndex = 0;
+        foreach (self::CATEGORIES as $val) {
+            $categoryIndex++;
             $category = new Category();
-
-            $category->setName($val);
+            $category->setName($val['name']);
             $manager->persist($category);
-            $this->addReference('category_' . $key, $category);
+            $this->addReference('category_' . $categoryIndex, $category);
+            if (isset($val['children'])) {
+                $this->loadChildren($category, $val['children'], $manager, $categoryIndex);
+            }
         }
-            $manager->flush();
+        $manager->flush();
+    }
+
+    private function loadChildren($category, $children, $manager, &$categoryIndex)
+    {
+
+        foreach ($children as $child) {
+            $categoryIndex++;
+            $categoryChild = new Category();
+            $categoryChild->setName($child['name']);
+            $categoryChild->setCategory($category);
+            $manager->persist($categoryChild);
+            $this->addReference('category_' . $categoryIndex, $categoryChild);
+            if (isset($child['children'])) {
+                $this->loadChildren($categoryChild, $child['children'], $manager, $categoryIndex);
+            }
+        }
     }
 }

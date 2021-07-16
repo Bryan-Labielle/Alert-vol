@@ -21,12 +21,14 @@
                 {{ include('annonce/_form.html.twig', {'button_label': 'Update'}) }}
             </div>
             <div role="list" class="img-show-annonce col-md-6">
-                <div class="row">
-                    {% dump(annonce.annonceImages) %}
+                <div class="row w-100 upload-form">
+                    {{ include('annonce/_form_upload.html.twig', {'button_label': 'Ajouter'}) }}
+                </div>
+                <div class="row w-100 galery">
                     {% for annonceImage in annonce.annonceImages %}
                         <figure class="img-galery col-sm">
                             <div class="button-delete-img">
-                                <form method="post" action="{{ path('annonce_deleteImage', {'id': annonceImage.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <form method="post" action="{{ path('annonce_deleteImage', {'id': annonceImage.id, 'slug': annonce.slug}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ annonceImage.id) }}">
                                     <button class="btn btn-danger">Delete</button>
                                 </form>

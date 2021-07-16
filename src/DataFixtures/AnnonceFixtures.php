@@ -64,7 +64,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
     {
         $slugify = new Slugify();
 
-        $faker = Factory::create();
+        $faker = Factory::create('fr_FR');
         //generate data
 
         foreach (self::VEHICULES as $key => $vehicules) {
@@ -77,8 +77,8 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             $annonce->setStatus(1);
             $annonce->setReference($faker->randomLetter() . $faker->randomLetter() .
                 $faker->numberBetween(000, 999) . $faker->randomLetter() . $faker->randomLetter());
-            $annonce->setLocation($faker->numberBetween(10000, 99999));
-            $annonce->setDetails(self::VEHICULEDETAILS);
+            $annonce->setZip(intval($faker->postcode()));
+            $annonce->setCity($faker->city());
 
             //Relations fixtures
             // switch($annonce){
@@ -91,7 +91,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             //     case strstr($annonce->getTitle(),'moissonneuse'):
             //         $annonce->setCategory($this->categoryRepository->findOneByName('moissoneuse_bateuse'));
             // }
-            $annonce->setCategory($this->getReference('category_' . rand(0, 5)));
+            $annonce->setCategory($this->getReference('category_' . rand(1, 5)));
             $annonce->setOwner($this->userRepository->findOneByRole(rand(1, 3)));
             $annonce->setSlug($slugify->generate($annonce->getTitle()));
 

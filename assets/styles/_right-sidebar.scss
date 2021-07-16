@@ -13,9 +13,15 @@
   padding: 10px;
 }
 
-.sidebar-inner{
-  margin-top: 30%;
+.sidebar-top{
+  margin-top: 100px;
 }
 .sidebar-menu{
   margin-top: 30%;
+}
+
+@media (max-width: 900px) {
+  .right-sidebar{
+    display: none;
+  }
 }

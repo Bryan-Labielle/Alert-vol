@@ -5,24 +5,16 @@
 {% block main %}
 
     <h1>Créer une annonce</h1>
-    <div class="section row">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <a class="btn btn-dark" href="{{ path('annonce_index') }}">
-                        Retour aux annonces
-                    </a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <img class="fit-picture mt-3 annonce-new-img" src="/build/images/ioT/71333511_xl.09b19801.jpg" alt="déclarer un vol ou une perte" style="max-width: 500px">
-                </div>
-            </div>
+    <div class="row">
+
+        <div class="col-6 image-form-new-annonce">
+            <img class="fit-picture mt-3 annonce-new-img" src="/build/images/ioT/71333511_xl.09b19801.jpg" alt="déclarer un vol ou une perte" style="max-width: 500px">
         </div>
-        <div class="col mb-2">
-            {{ include('annonce/_form.html.twig') }}
+        {{ include('annonce/_form.html.twig') }}
+        <div class="text-center">
+            <a class="btn btn-dark p-2" href="{{ path('annonce_index') }}">
+                Annuler
+            </a>
         </div>
     </div>
-
 {% endblock %}

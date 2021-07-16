@@ -13,8 +13,11 @@
                         <h1 class="h1 fw-bold display-2">ALERT'VOL</h1>
                         <h3 class="h3">Un Service Proposé par Go4IoT</h3>
                         <p class="mb-4">Plateforme communautaire d'entraide de signalements de biens volés.</p>
-                        <p><a href="#" class="btn btn-primary">Découvrir</a>
-                            <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">Tester</a></p>
+                        <a href="{{ path('annonce_new') }}" class="btn btn-action p-2 w-50" >
+                            <div class="font-w-500 m-0 text-center fw-bold">
+                                Poster une annonce
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -34,22 +37,18 @@
                 <div class="col-lg-6 ms-lg-auto my-3">
                     <div class="row">
                         <div class="col-sm-6 my-3">
-                            <div class="card card-custom-services p-2" style="background-color: #E66C1A; border-radius: 20px;">
-                                <a href="{{ path('annonce_new') }}" style="color: black;">
-                                    <div class="font-w-500 m-0 text-center fw-bold">
-                                        Poster une annonce >
-                                    </div>
-                                </a>
-                            </div>
+                            <a href="{{ path('annonce_new') }}" class="btn btn-action p-2 w-100" >
+                                <div class="font-w-500 m-0 text-center fw-bold">
+                                    Poster une annonce >
+                                </div>
+                            </a>
                         </div>
                         <div class="col-sm-6 my-3">
-                            <div class="card card-custom-services p-2" style="background-color: #F4F4F4; border-radius: 20px;">
-                                <a href="{{ path('annonce_index') }}" style="color: black;">
-                                    <div class="font-w-500 m-0 text-center fw-bold">
-                                        Consulter les annonces >
-                                    </div>
-                                </a>
-                            </div>
+                            <a href="{{ path('annonce_new') }}" class="btn btn-blue p-2 w-100" >
+                                <div class="font-w-500 m-0 text-center fw-bold">
+                                    Consulter les annonces >
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -69,14 +68,16 @@
             <div class="row justify-content-center section-carousel">
                 <div class="col">
                     {# @TODO : replace the images with the card _annonce_min #}
-{#                    <div class="carousel-home-page center">#}
-{#                        {% for hit in response.hits %}#}
-{#                            <figure class="carousel-image-container">#}
-{#                                <img class="d-block w-100 carousel-image" alt="{{ hit.tags }}" src="{{ hit.previewURL }}">#}
-{#                                <figcaption>{{ hit.tags }}</figcaption>#}
-{#                            </figure>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
+                    <div class="carousel-home-page center">
+                        {% dump(lastAnnonces) %}
+
+                        {% for annonce in lastAnnonces %}
+                            <div class="carousel-image-container">
+                                {{ include('annonce/_annonceMin.html.twig') }}
+                                <caption>{{ annonce.title }}</caption>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,16 +88,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-5 my-3">
-                    <h6 class="mb-3">Que fais Alert'Vol?</h6>
                     <h2 class="h1 font-w-700 text-white p-4">Nous vous aidons à retrouver vos biens de valeur perdus ou volés.</h2>
                     <div class="border-top border-2 border-dark pt-5 mt-5">
                         <p class="lead m-0 text-white">Lorem Ipsum is simply text the printing and typesetting.</p>
                     </div>
-                    <div class="pt-4">
-                        <a class="btn btn-primary" href="#">
-                            <span class="btn--text">En savoir plus</span>
-                            <span class="arrow"></span>
-                        </a>
+                    <div class="pt-4 text-start">
+                        <a class="btn btn-blue p-2" href="#">En savoir plus</a>
                     </div>
                 </div>
                 <div class="col-lg-6 ms-lg-auto my-3">
@@ -162,10 +159,7 @@
                         <p>Raino is a HTML5 template based on Sass and Bootstrap 4 with modern and creative multipurpose design</p>
                     </div>
                     <div class="pt-4">
-                        <a class="btn btn-primary" href="#">
-                            <span class="btn--text">More About Us</span>
-                            <span class="arrow"></span>
-                        </a>
+                        <a class="btn btn-blue w-50 p-2" href="#">More About Us</a>
                     </div>
                 </div>
             </div>
@@ -181,7 +175,7 @@
                     <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center p-2">
                 <div class="col-lg-8 col-xl-7">
                     <form class="d-flex flex-row mb-2 p-1 bg-white input-group shadow-lg">
                         <input type="email" class="form-control form-control-lg rounded-0 border-0" placeholder="you@yoursite.com">

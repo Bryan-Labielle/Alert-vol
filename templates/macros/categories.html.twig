@@ -1,0 +1,13 @@
+{% macro make_categories(categories) %}
+    <ul>
+        {% for category in categories %}
+            <li>
+                <input type="checkbox" name="categories[]" id="category_{{ category.id }}" value="{{ category.id }}">
+                <label for="category_{{ category.id }}">{{ category.name }}</label>
+            </li>
+            {% if (category.categories|length) %}
+                {{ _self.make_categories(category.categories) }}
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endmacro %}

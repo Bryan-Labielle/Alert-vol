@@ -23,14 +23,14 @@ class AnnonceImage
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $name = null;
     /**
      * @Vich\UploadableField(mapping="annonce_file", fileNameProperty="name")
      * @var ?File
      */
-    private ?File $annonceFile ;
+    private ?File $annonceFile = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -67,11 +67,6 @@ class AnnonceImage
      * @ORM\JoinColumn(nullable=true)
      */
     private ?Annonce $annonce;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private ?bool $isSignaled;
 
     public function getId(): int
     {
@@ -133,15 +128,4 @@ class AnnonceImage
         return $this;
     }
 
-    public function getIsSignaled(): ?bool
-    {
-        return $this->isSignaled;
-    }
-
-    public function setIsSignaled(?bool $isSignaled): self
-    {
-        $this->isSignaled = $isSignaled;
-
-        return $this;
-    }
 }
