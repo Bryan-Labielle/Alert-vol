@@ -9,6 +9,7 @@ use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -29,81 +30,101 @@ class Annonce
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"bookmarks"})
      */
     private int $id;
 
     /**
      * @ORM\Column(type="string", length=45)
      * @Assert\NotBlank(message="champ obligatoire")
+     * @Groups({"bookmarks"})
      */
     private string $title;
 
     /**
      * @ORM\OneToMany(targetEntity=AnnonceImage::class, mappedBy="annonce")
+     * @Groups({"bookmarks"})
      */
     private Collection $annonceImages;
 
     /**
      * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="annonce")
+     * @Groups({"bookmarks"})
      */
     private Collection $signalements;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?string $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"bookmarks"})
      */
     private ?DateTimeInterface $publishedAt;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?int $nbRenew = 0 ;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"bookmarks"})
      */
     private ?DateTimeInterface $endPublishedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?Category $category;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"bookmarks"})
      */
     private ?string $reference;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"bookmarks"})
      */
     private ?int $status = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?User $owner;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?int $zip;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"bookmarks"})
      */
     private ?\DateTimeInterface $stolenAt;
 
     /**
      * @ORM\Column(name="slug", type="string", length=255)
+     * @Groups({"bookmarks"})
      */
     private string $slug;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="bookmark")
+     */
+    private Collection $users;
 
     /**
      * @ORM\OneToMany(targetEntity=Details::class, mappedBy="annonce", orphanRemoval=true,
@@ -121,6 +142,7 @@ class Annonce
     {
         $this->annonceImages = new ArrayCollection();
         $this->signalements = new ArrayCollection();
+        $this->users = new ArrayCollection();
         $this->details = new ArrayCollection();
     }
 
@@ -336,6 +358,33 @@ class Annonce
     public function setSlug(string $slug): string
     {
         return $this->slug = $slug;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addToBookmarks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeBookmark($this);
+        }
+
+        return $this;
     }
 
     /**

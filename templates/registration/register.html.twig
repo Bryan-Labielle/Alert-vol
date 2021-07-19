@@ -1,8 +1,11 @@
 {% for flashError in app.flashes('verify_email_error') %}
     <div class="alert alert-danger" role="alert">{{ flashError }}</div>
 {% endfor %}
-<div class="login-body">
-    {{ form_start(registrationForm, {'attr': { 'class':'container d-flex flex-column align-items-center'}}) }}
+<section class="register-body">
+    {{ form_start(registrationForm, {'attr': {
+        'class':'container d-flex flex-column align-items-center',
+        'id': 'register_form',
+        }}) }}
     <h1 class="p-4">Register</h1>
     <div class="login-label-container position-relative">
             {{ form_errors(registrationForm.email) }}
@@ -90,6 +93,7 @@
         </div>
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn-login btn m-auto col-4 rounded-pill">Register</button>
+        <button type="submit" form="register_form" class="btn-login btn m-auto col-4 rounded-pill" value="submit">Register</button>
         {{ form_end(registrationForm) }}
-</div>
+</section>
+

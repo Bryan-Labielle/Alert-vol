@@ -42,11 +42,11 @@ class UserFixtures extends Fixture
             'role' => '3',
         ]),
     ]);
-    private $passwordEncoder;
+    private UserPasswordEncoderInterface $userPasswordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
     {
-        $this->passwordEncoder = $passwordEncoder;
+        $this->userPasswordEncoder = $userPasswordEncoder;
     }
     public function load(ObjectManager $manager)
     {
@@ -57,7 +57,7 @@ class UserFixtures extends Fixture
             $user->setFirstName($val['first_name']);
             $user->setLastName($val['last_name']);
             $user->setEmail($val['email']);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $val['password']));
+            $user->setPassword($this->userPasswordEncoder->encodePassword($user, $val['password']));
             $user->setRole($val['role']);
             $manager->persist($user);
             $this->addReference('user_' . $int, $user);

@@ -1,4 +1,3 @@
-<div class="col-md-4 col-sm-6 mb-4" >
       {#  <div class="card card-align p-0 z-index-1">
             <div class="d-block">
                 {% if annonce.annonceImages|length %}
@@ -15,8 +14,9 @@
             {#                <img class="card-img-top" src="{{ vich_uploader_asset( 'uploads/' ~ annonce.annonceImages[1], 'annonceFile') }}" alt='{{ annonce.slug }}'>#}
             <div class="network-icon-card"><i class="fas fa-project-diagram"></i></div>
             <div class="d-flex align-items-start justify-content-end ">
-                <i class="fas fa-bookmark bookmark-position">
-                </i>
+                <button type="button" class="cacahouete" data-cacahouete="{{ annonce.id }}">
+                    <i class="fas fa-bookmark bookmark-position {{ app.user and app.user.isInBookmarks(annonce) ? 'bookmark-position-yellow' : '' }}"></i>
+                </button>
             </div>
         </div>
         <div class="card-header custom-header p-2 d-flex justify-content-center text-center">

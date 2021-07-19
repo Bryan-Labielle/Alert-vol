@@ -63,9 +63,10 @@
   right: 1px;
   z-index: 3;
   transition: 0.3s;
-  &:hover{
-    color: $action;
-  }
+}
+
+.bookmark-position-yellow{
+  color: $action;
 }
 .network-icon-card{
   position: absolute;

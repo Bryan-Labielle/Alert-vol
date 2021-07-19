@@ -4,21 +4,17 @@ namespace App\Controller\Annonce;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
-use App\Entity\Category;
-use App\Entity\Details;
-use App\Entity\User;
 use App\Form\AnnonceImageType;
 use App\Form\AnnonceType;
-use App\Form\DetailsType;
 use App\Repository\AnnonceRepository;
-use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiImages;
 use App\Service\ApiTwitter;
 use App\Service\ApiZipCode;
 use App\Service\Slugify;
-//use ContainerJUlAk0t\getUserRepositoryService;
 use Symfony\Component\Security\Core\Security;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +50,10 @@ class AnnonceController extends AbstractController
      */
     public function index(AnnonceRepository $annonceRepository): Response
     {
-        $annonces = $annonceRepository->findByStatus('1');
+        $annonces = $annonceRepository->findBy(
+            ['status' => '1'],
+            ['publishedAt' => 'DESC']
+        );
         return $this->render('annonce/index.html.twig', [
             'apiImages' => $this->apiImages->getResponse(),
             'annonces' => $annonces,
@@ -80,15 +79,16 @@ class AnnonceController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $annonce = new Annonce();
         $start = new DateTime();
-        $end = $start->add(new DateInterval('P30D'));
+        $end = new DateTime();
+        $end->add(new DateInterval('P30D'));
         $annonce->setSlug('-');
         /**
          * @TODO: remplacer le status par 0 une fois le process de modération créé
          */
-        $annonce->setStatus(1);
+        $annonce->setStatus(0);
         $annonce->setPublishedAt($start);
         $annonce->setEndPublishedAt($end);
-        $annonce->setOwner($this->getUser());
+        $annonce->setOwner($this->security->getUser());
 
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
@@ -149,6 +149,7 @@ class AnnonceController extends AbstractController
             'formUpload' => $formUpload->createView(),
         ]);
     }
+
     /**
      * @Route("/autocomplete-zip", name="autocomplete-zip", methods={"GET"})
      * @param Request $request
@@ -269,5 +270,28 @@ class AnnonceController extends AbstractController
             $entityManager->flush();
         }
         return $this->redirectToRoute('annonce_edit', ['slug' => $slug]);
+    }
+
+    /**
+     * @Route("/annonce/{id}/bookmark", name="bookmark", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function addToBookmarks(Annonce $annonce, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if ($user !== null) {
+            if ($user->isInBookmarks($annonce) === true) {
+                $user->removeBookmark($annonce);
+                $this->addFlash('danger', 'Cette annonce a été retirée de vos favoris');
+            } else {
+                $user->addToBookmarks($annonce);
+                $entityManager->persist($annonce);
+                $this->addFlash('success', 'Cette annonce a été ajoutée à vos favoris');
+            }
+        }
+        $entityManager->flush();
+        return $this->json([
+            'isInBookmarks' => $user->isInBookmarks($annonce)
+        ], '200', [], ['groups' => 'bookmarks']);
     }
 }

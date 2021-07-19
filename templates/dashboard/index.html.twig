@@ -26,13 +26,14 @@
       </nav>
 
       <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade" id="nav-annonces" role="tabpanel" aria-labelledby="nav-annonces-tab">...</div>
+          <div class="tab-pane fade" id="nav-annonces" role="tabpanel" aria-labelledby="nav-annonces-tab">{{ render(path('dashboard_myAnnounces')) }}</div>
           <div class="tab-pane fade" id="nav-signalements" role="tabpanel" aria-labelledby="nav-signalements-tab">
               {{ render(controller('App\\Controller\\DashboardController::signalements')) }}
           </div>
-          <div class="tab-pane fade" id="nav-favoris" role="tabpanel" aria-labelledby="nav-favoris-tab">...</div>
+          <div class="tab-pane fade" id="nav-favoris" role="tabpanel" aria-labelledby="nav-favoris-tab">{{ render(path('dashboard_myBookmarks')) }}</div>
           <div class="tab-pane fade active show" id="nav-profil" role="tabpanel" aria-labelledby="nav-profil-tab" aria-selected="true">
               {{ render(controller('App\\Controller\\DashboardController::profil')) }}</div>
+
       </div>
 
   </main>
