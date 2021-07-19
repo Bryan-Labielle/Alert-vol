@@ -34,10 +34,7 @@
                     </div>#}
                     {% include '/annonce/_annonceMin.html.twig' %}
                 </div>
-                <div class="col-md-6">
-
-                    map
-                </div>
+                {{ include('layout/_map.html.twig') }}
             </div>
 
             {% include 'signalement/_form-signalement.html.twig' with {edit: false, button_icon: 'paper-plane'} %}
