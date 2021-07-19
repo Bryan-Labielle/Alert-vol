@@ -106,7 +106,8 @@ class Annonce
     private string $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Details::class, mappedBy="annonce", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Details::class, mappedBy="annonce", orphanRemoval=true,
+     * cascade={"persist", "remove"})
      */
     private Collection $details;
 

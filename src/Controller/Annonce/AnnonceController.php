@@ -14,6 +14,7 @@ use App\Repository\AnnonceRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiImages;
+use App\Service\ApiTwitter;
 use App\Service\ApiZipCode;
 use App\Service\Slugify;
 //use ContainerJUlAk0t\getUserRepositoryService;
@@ -67,12 +68,14 @@ class AnnonceController extends AbstractController
      * @param Request $request
      * @param Slugify $slugify
      * @param UserRepository $userRepository
+     * @param ApiTwitter $apiTwitter
      * @return Response
      */
     public function new(
         Request $request,
         Slugify $slugify,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        ApiTwitter $apiTwitter
     ): Response {
         $entityManager = $this->getDoctrine()->getManager();
         $annonce = new Annonce();
@@ -85,10 +88,7 @@ class AnnonceController extends AbstractController
         $annonce->setStatus(1);
         $annonce->setPublishedAt($start);
         $annonce->setEndPublishedAt($end);
-        /**
-         * @TODO: remplacer par l'utilisateur connecté
-         */
-        $annonce->setOwner($this->security->getUser());
+        $annonce->setOwner($this->getUser());
 
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
@@ -98,10 +98,30 @@ class AnnonceController extends AbstractController
 
             $entityManager->persist($annonce);
             $entityManager->flush();
-
+            //TODO update template
+           /* $title = $annonce->getTitle();
+            $description = $annonce->getDescription();
+            $url = $_SERVER['HTTP_ORIGIN'] . '/annonce/' . $annonce->getSlug();
+            $hashtag = trim($title);
+            $apiTwitter->post(
+                "Une nouvelle annonce à été publiée :" . PHP_EOL .
+                $url . PHP_EOL .
+                $title . PHP_EOL .
+                $description . PHP_EOL .
+                "#" . $hashtag . " #Alertvol #Khiko "
+            );*/
             $this->addFlash('success', 'Votre annonce est enregistrée, ajoutez des images.');
             return $this->redirectToRoute('annonce_edit', ['slug' => $annonce->getSlug()]);
         }
+        // créer formulaire séparer pour ajouter plusieurs signes distinctifs en ajax
+        /**
+         * @TODO: créer le champs actif dans le formulaire
+         */
+        $annonce->setDetails([
+            'peinture' => 'rouge',
+            'date_achat' => '2019',
+            'defaults' => 'rayures aile gauche'
+        ]);
 
         // upload file form
         $annonceImage = new AnnonceImage();
@@ -197,11 +217,19 @@ class AnnonceController extends AbstractController
      * @param Annonce $annonce
      * @return Response
      */
-    public function show(Annonce $annonce): Response
+    public function show(Annonce $annonce, ApiTwitter $apiTwitter): Response
     {
+        $url = $_SERVER['HTTP_REFERER'] . $annonce->getSlug();
+        $title = $annonce->getTitle();
+        $hashtag = trim($title);
+        $apiTwitter->post($url);
+        dump($annonce);
+        dump($_SERVER);
         return $this->render('annonce/show.html.twig', [
             'apiImages' => $this->apiImages->getResponse(),
             'annonce' => $annonce,
+            'url' => $url,
+            'hashtag' => $hashtag
         ]);
     }
 

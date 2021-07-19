@@ -127,5 +127,4 @@ class AnnonceImage
 
         return $this;
     }
-
 }

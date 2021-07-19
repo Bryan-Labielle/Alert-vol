@@ -101,3 +101,12 @@
     </div>
     <!-- End section -->
 {% endblock %}
+{% block tweet %}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Alertvol" />
+    <meta name="twitter:url" content="{{ url }}"/>
+    <meta name="twitter:title" content="{{ annonce.title }}"/>
+    <meta name="twitter:description" content="{{ annonce.description }}"/>
+    <meta name="twitter:creator" content="@Alertvol" />
+    <meta name="twitter:image" content="" />
+{% endblock %}

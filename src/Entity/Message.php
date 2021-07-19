@@ -45,7 +45,7 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity=Signalement::class, inversedBy="message")
      */
-    private Signalement $signalement;
+    private ?Signalement $signalement;
 
 
     public function getId(): ?int
@@ -112,5 +112,4 @@ class Message
 
         return $this;
     }
-
 }

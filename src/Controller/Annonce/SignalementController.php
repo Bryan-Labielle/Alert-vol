@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class SignalementController
@@ -29,15 +30,17 @@ class SignalementController extends AbstractController
 {
     private ApiImages $apiImages;
     private EntityManagerInterface $entityManager;
+    private Security $security;
 
     /**
      * AnnonceController constructor.
      * @param ApiImages $apiImages
      */
-    public function __construct(ApiImages $apiImages, EntityManagerInterface $entityManager)
+    public function __construct(ApiImages $apiImages, EntityManagerInterface $entityManager, Security $security)
     {
         $this->apiImages = $apiImages;
         $this->entityManager = $entityManager;
+        $this->security = $security;
     }
 
     /**
@@ -65,8 +68,7 @@ class SignalementController extends AbstractController
         $signalement->setLongitude(1.1);
         $signalement->setLatitude(2.2);
         $signalement->setAnnonce($annonce);
-        $signalement->setOwner($this->getUser());
-
+        $signalement->setOwner($this->security->getUser());
 
         /**
          * create the signalement form
@@ -84,8 +86,7 @@ class SignalementController extends AbstractController
                 }
             }
 
-            $signalement->setDetails(is_array($request->request->get('details')) ?
-                $request->request->get('details') : []);
+            $signalement->setDetails($request->request->get('details') ?? []);
             $this->entityManager->persist($signalement);
             $this->entityManager->flush();
             //TODO modifier message flash
@@ -148,8 +149,7 @@ class SignalementController extends AbstractController
         $form = $this->createForm(SignalementType::class, $signalement);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() && $user === $signalement->getOwner()) {
-            $signalement->setDetails(is_array($request->request->get('details')) ?
-                $request->request->get('details') : []);
+            $signalement->setDetails($request->request->get('details') ?? []);
             $this->entityManager->flush();
             $this->addFlash('success', "Votre signalement a bien été mis à jour");
             return $this->redirectToRoute('signalement_edit', [
