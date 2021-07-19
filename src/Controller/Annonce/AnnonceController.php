@@ -96,12 +96,6 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $annonce->setSlug($slugify->generate($annonce->getTitle()));
 
-//            foreach ($annonce['details'] as $key => $val) {
-//                $detail = new Details();
-//                $detail->setDetail($val[$key]['detail']);
-//                $annonce->addDetail($detail);
-//            }
-
             $entityManager->persist($annonce);
             $entityManager->flush();
 

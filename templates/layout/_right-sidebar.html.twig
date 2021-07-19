@@ -1,22 +1,17 @@
-<?php
-        $categories = $categoryRepository->findByCategory(null);
->
 <!-- #Right Sidebar ==================== -->
 <div class="right-sidebar" id="right-sidebar">
     <div class="sidebar-top">
 
-    <a class="btn btn-action" href="/annonce/new">
-                Déposez une annonce</a>
+        <a class="btn btn-action" href="/annonce/new">
+            Déposez une annonce</a>
     </div>
     <div class="sidebar-menu">
-    <p>Filtrer les annonces par :</p>
+        <p>Filtrer les annonces par :</p>
 
         {# Pour récupérer dynamiquement les catégories #}
         {{ render(controller(
             'App\\Controller\\CategoryController::sidebarCategories'
         )) }}
 
-        </div>
-        </div>
     </div>
 </div>

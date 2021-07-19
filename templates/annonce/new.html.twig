@@ -1,20 +1,23 @@
-{% extends 'layout/sidebars.html.twig' %}
+{% extends 'layout/sidebar-left-only.html.twig' %}
 
 {% block title %}New Annonce{% endblock %}
 
 {% block main %}
 
-    <h1>Créer une annonce</h1>
     <div class="row">
 
-        <div class="col-6 image-form-new-annonce">
-            <img class="fit-picture mt-3 annonce-new-img" src="/build/images/ioT/71333511_xl.09b19801.jpg" alt="déclarer un vol ou une perte" style="max-width: 500px">
+        <div class="col-md-6 image-form-new-annonce ">
+            <div class="sticky-top-content">
+                <h1>Créer une annonce</h1>
+                <img class="img-fluid mt-3 annonce-new-img" src="/build/images/ioT/71333511_xl.09b19801.jpg" alt="déclarer un vol ou une perte">
+            </div>
         </div>
+        <div class="col-md-6 mb-2">
         {{ include('annonce/_form.html.twig') }}
         <div class="text-center">
-            <a class="btn btn-dark p-2" href="{{ path('annonce_index') }}">
+            <a class="btn btn-dark" href="{{ path('annonce_index') }}">
                 Annuler
             </a>
-        </div>
+        </div></div>
     </div>
 {% endblock %}

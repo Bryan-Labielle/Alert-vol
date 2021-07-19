@@ -14,9 +14,12 @@ class DetailsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('detail', TextareaType::class)
+            ->add('detail', TextareaType::class, [
+                'label' => false
+            ])
             ->add('delete', ButtonType::class, [
                 'attr' => ['class' => 'btn btn-secondary remove_item_link'],
+                'label' => 'Retirer'
             ])
         ;
     }

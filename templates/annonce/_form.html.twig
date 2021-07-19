@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-<div id="annonce-form" class="col-md-6 mb-2">
+<div id="annonce-form">
     <!-- Title -->
 
     <div class="form-control-plaintext" id="annonce-title">
@@ -92,7 +92,7 @@
     <!-- Details -->
     <div id="details-form">
         <h3>Les signes distinctifs</h3>
-        <ul class="details" data-prototype="{{ form_widget(form.details.vars.prototype)|e('html_attr') }}">
+        <ul class="details list-unstyled" data-prototype="{{ form_widget(form.details.vars.prototype)|e('html_attr') }}">
             {% for detail in form.details %}
                 <li>
                     {{ form_row(detail.detail) }} {{ form_row(detail.delete) }}
@@ -100,15 +100,15 @@
             {% endfor %}
         </ul>
         <button type="button" class="btn btn-action add_item_link" data-collection-holder-class="details">
-            <i class="fas fa-plus"></i> Ajouter
+            <i class="fas fa-plus"></i> Ajouter un signe distinctif
         </button>
     </div>
     <!-- End -->
 </div>
 
 <!-- Button -->
-<div class="container" style="margin: auto; display: flex; justify-content: space-evenly">
-    <button type="submit" class="btn btn-blue w-25 p-2">{{ button_label|default('Envoyer') }}</button>
+<div class="container m-auto d-flex justify-content-evenly">
+    <button type="submit" class="btn btn-blue w-25">{{ button_label|default('Envoyer') }}</button>
 </div>
 <!-- End -->
 {{ form_end(form) }}
