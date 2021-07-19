@@ -105,7 +105,7 @@
                     <div class="d-flex flex-wrap" role="list" aria-labelledby="uploaded-images-signalement">
                         {% for image in signalement.signalementImages %}
                             <figure class="position-relative" style="max-width: 150px">
-                                <img class="img-fluid" src="{{ asset('uploads/' ~ image.name ) }}" alt="">
+                                <img class="img-fluid" src="{{ asset('uploads/' ~ image.name ) | imagine_filter('cards') }}" alt="">
                             </figure>
                         {% else %}
                             <p>Vous n'avez téléchargé aucune image.</p>

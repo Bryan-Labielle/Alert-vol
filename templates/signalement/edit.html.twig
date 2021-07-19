@@ -4,6 +4,11 @@
     <main>
         <div class="container mt-5">
             <div class="row mb-5">
+                <div class="col-md-6">
+                    <div class="d-block">
+                        {% if annonce.annonceImages|length %}
+                        <img class="card-img-top" src="{{ asset( 'uploads/' ~ annonce.annonceImages[0].name ) | imagine_filter('cards')}}" alt='title picture'>
+                        {% endif %}
                 <div class="col-6">
                 {{ include('annonce/_annonceMin.html.twig') }}
 

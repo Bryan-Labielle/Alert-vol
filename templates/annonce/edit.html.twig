@@ -33,7 +33,7 @@
                                     <button class="btn btn-danger">Delete</button>
                                 </form>
                             </div>
-                            <img class="img-thumbnail rounded galery-img" src="{{ vich_uploader_asset(annonceImage) }}" alt="{{ annonceImage.name }}">
+                            <img class="img-thumbnail rounded galery-img" src="{{ vich_uploader_asset(annonceImage) | imagine_filter('cards')}}" alt="{{ annonceImage.name }}">
                             <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
                             </figcaption>
                         </figure>

@@ -28,11 +28,12 @@
         <h3 class="h3">Galerie d'images</h3>
         <div class="container">
             <div class="row justify-content-center section-carousel">
+
                 <div class="col">
                     <div class="carousel-home-page center">
                             {% for annonceImage in annonce.annonceImages %}
                                 <figure class="carousel-image-container">
-                                    <img class="d-block w-300 carousel-image" src="{{ vich_uploader_asset(annonceImage) }}" alt="{{ annonceImage.name }}">
+                                    <img class="d-block w-300 carousel-image" src="{{ vich_uploader_asset(annonceImage) | imagine_filter('carrousel') }}" alt="{{ annonceImage.name }}">
                                     <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
                                     </figcaption>
                                 </figure>
