@@ -4,16 +4,20 @@ namespace App\Controller\Annonce;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
+use App\Entity\Category;
+use App\Entity\Details;
+use App\Entity\User;
 use App\Entity\Details;
 use App\Form\AnnonceImageType;
 use App\Form\AnnonceType;
+use App\Form\DetailsType;
 use App\Repository\AnnonceRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiImages;
 use App\Service\ApiTwitter;
 use App\Service\ApiZipCode;
 use App\Service\Slugify;
-//use ContainerJUlAk0t\getUserRepositoryService;
 use ContainerUwXt9iN\PaginatorInterface_82dac15;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -117,9 +121,6 @@ class AnnonceController extends AbstractController
         $end = new DateTime();
         $end->add(new DateInterval('P30D'));
         $annonce->setSlug('-');
-        /**
-         * @TODO: remplacer le status par 0 une fois le process de modération créé
-         */
         $annonce->setStatus(0);
         $annonce->setPublishedAt($start);
         $annonce->setEndPublishedAt($end);
@@ -308,7 +309,7 @@ class AnnonceController extends AbstractController
     }
 
     /**
-     * @Route("/annonce/{id}/bookmark", name="bookmark", methods={"GET", "POST"})
+     * @Route("/{id}/bookmark", name="bookmark", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */
     public function addToBookmarks(Annonce $annonce, EntityManagerInterface $entityManager): Response

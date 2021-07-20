@@ -7,7 +7,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            {% include 'admin/_modalAnnonce.html.twig' %}
+                {% include 'annonce/_showAnnonce.html.twig' %}
+                <form method="post" action="{{ path('admin_publish', {'id': annonce.id}) }}"
+                      onsubmit="return confirm('' +
+               'Vous allez publier cette annonce .\n' +
+               'Souhaitez-vous continuer ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('publish' ~ annonce.id) }}">
+                    <button class="btn btn-success d-flex p-2"><i class="fas fa-edit"></i></i> Publier</button>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -19,6 +19,10 @@ import './bootstrap';
 import './js/caroussel';
 import './js/autocomplete_zip';
 
+
+// js for bookmarks
+import './js/bookmark';
+
 // eslint-disable-next-line import/extensions
 import Filter from './js/filter.js';
 

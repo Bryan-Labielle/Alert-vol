@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-5">
                     <section class="login-body">
-                        <form method="post" id="login_form" class="container d-flex flex-column align-items-center">
+                        <form method="post" id="login_form" class="container d-flex flex-column align-items-center action="{{ path('app_login') }}">
                             {% if error %}
                                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                             {% endif %}
@@ -35,8 +35,6 @@
                                 <input type="hidden" name="_csrf_token"
                                        value="{{ csrf_token('authenticate') }}"
                                 >
-
-
                                 {#
                                 Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
                                 See https://symfony.com/doc/current/security/remember_me.html
@@ -47,9 +45,8 @@
                                     </label>
                                 </div>
                                 #}
-                                <button class="btn-login btn m-auto col-4 rounded-pill" form="login_form" type="submit">
+                                <input class="btn-login btn m-auto col-4 rounded-pill" form="login_form" type="submit" value="Se connecter" />
                                     Sign in
-                                </button>
                             {% endif %}
                         </form>
                     </section>
