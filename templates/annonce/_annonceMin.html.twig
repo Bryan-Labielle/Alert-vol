@@ -20,21 +20,20 @@
             </div>
         </div>
         <div class="card-header custom-header p-2 d-flex justify-content-center text-center">
-            <a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" class="fs-5 text-decoration-none stretched-link" style="color: #212526">{{ annonce.title|title }}</a>
+            <a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" class="fs-5 text-decoration-none stretched-link">{{ annonce.title|title }}</a>
         </div>
         <div class="w-100 h-100 p-2">
             <div class=" reference fs-5 text-center p-2"> {{ annonce.reference | upper }}</div>
-            <div class="details-card text-end"><a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" >Voir plus</a></div>
-        </div>
-        <div class="div card-bottom-blue p-2 ">
-            <div class="container-info d-flex justify-content-between ">
-                <div class="col-5 fs-6"><i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
-                <div class="details-white col-3 fs-6 text-end"> {{ annonce.city }}, {{ annonce.zip }}</div>
+            <div class="container-info">
+                <i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}
+                </br><i class="fas fa-map-marker-alt mx-2"></i>{{ annonce.city }}, {{ annonce.zip }}
             </div>
+            <div class="details-card text-end mt-2"><a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" >Voir plus</a></div>
+
+        </div>
             {# TODO redirect to espace user if already signaled this annonce #}
             <div class="text-center m-auto">
-                <a class="btn btn-action btn-circle p-2" style="z-index: 3; font-weight: 700;" href="{{ path('signalement_new', {'slug':annonce.slug}) }}">
+                <a class="btn btn-action btn-circle btn-signalement p-2" href="{{ path('signalement_new', {'slug':annonce.slug}) }}">
                     J'ai vu ce véhicule <i class="fas fa-bullhorn text-shadow-custom" style="color: #f94a4a"></i></a>
             </div>
-        </div>
     </div>

@@ -1,0 +1,13 @@
+{% macro make_categories(categories) %}
+    {% set categoryId = category.id ?? 0 %}
+    {% for category in categories|sort((a, b) => a.name|lower <=> b.name|lower) %}
+        <select multiple name="categories[]" id="category_{{ category.id }}" value="{{ category.id }}">
+
+        {{ category.name }}
+        </select>
+        {% if (category.categories|length) %}
+            {{ _self.make_categories(category.categories) }}
+        {% endif %}
+
+    {% endfor %}
+{% endmacro %}

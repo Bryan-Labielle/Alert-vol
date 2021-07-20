@@ -17,6 +17,7 @@
 @import '_dashboard.scss';
 @import '_left-sidebar';
 @import '_right-sidebar';
+@import '_form.scss';
 @import "signalement";
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
@@ -48,6 +49,7 @@ body {
 
     &.btn-action {
         background-color: $action;
+        max-width: 200px;
         background-image: linear-gradient(to top left,
                 rgba(0, 0, 0, .2),
                 rgba(0, 0, 0, .2) 30%,
@@ -60,6 +62,7 @@ body {
     }
     &.btn-blue {
         background-color: $blue;
+        max-width: 200px;
         &:hover {
             background-color: $secondary-blue;
             color: #FFFFFF;
@@ -68,6 +71,7 @@ body {
     }
     &.btn-black {
         background-color: $black;
+        max-width: 200px;
         &:hover {
             background-color: $dark-blue;
             color: #FFFFFF;

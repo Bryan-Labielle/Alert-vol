@@ -137,7 +137,6 @@ class Annonce
      */
     private ?string $city;
 
-
     public function __construct()
     {
         $this->annonceImages = new ArrayCollection();

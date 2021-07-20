@@ -2,8 +2,7 @@
 
 .container-info{
   position: relative;
-  font-size: small;
-  color: $white;
+  font-size: 1rem;
   top: 5px;
 }
 .ligne-title{
@@ -19,6 +18,9 @@
 }
 .card-align{
   height: 100%;
+  max-height: 500px;
+  min-width: 300px;
+  max-width: 450px;
   border: none;
   box-shadow: 5px 7px 11px 0px grey;
   border-radius: 0 0 20px 20px;
@@ -29,7 +31,7 @@
 .custom-header{
   border-bottom: none;
   color: $white;
-  background-color: #F4F4F4;
+  background-color: #eeeeee;
   text-align: center;
   }
 .card-bottom-blue{

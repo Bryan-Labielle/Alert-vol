@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/category")
+ * @Route("/category", name="category_")
  */
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/", name="category_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      * @param CategoryRepository $categoryRepository
      * @return Response
      */
@@ -29,7 +29,7 @@ class CategoryController extends AbstractController
 
 
     /**
-     * @Route("/new", name="category_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -54,7 +54,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id<\d+>}", name="category_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="show", methods={"GET"})
      * @param Category $category
      * @return Response
      */
@@ -66,7 +66,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      * @param Request $request
      * @param Category $category
      * @param CategoryRepository $categoryRepository
@@ -91,7 +91,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id<\d+>}", name="category_delete", methods={"POST"})
+     * @Route("/{id<\d+>}", name="delete", methods={"POST"})
      * @param Request $request
      * @param Category $category
      * @return Response
@@ -110,7 +110,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/modal-new-category", priority=1, name="category_modal_new")
+     * @Route("/{id}/modal-new-category", priority=1, name="modal_new")
      * @param Request $request
      * @param int $id
      * @param CategoryRepository $categoryRepository

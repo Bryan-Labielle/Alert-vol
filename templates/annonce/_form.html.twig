@@ -65,8 +65,9 @@
     <!-- Category -->
     <div class="form-control-plaintext" id="annonce-category">
         <i class="fas fa-tractor"></i> {{ form_label(form.category) }}
-        {{ form_widget(form.category) }}
-
+        {% from 'macros/categories_select.html.twig' import make_categories %}
+        {{ make_categories(categories)}}
+{#        {{ form_widget(form.category) }}#}
         <small>{{ form_help(form.category) }}</small>
 
         <div class="form-error">

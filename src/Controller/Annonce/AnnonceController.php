@@ -4,6 +4,7 @@ namespace App\Controller\Annonce;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
+use App\Entity\Details;
 use App\Form\AnnonceImageType;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
@@ -12,6 +13,10 @@ use App\Service\ApiImages;
 use App\Service\ApiTwitter;
 use App\Service\ApiZipCode;
 use App\Service\Slugify;
+//use ContainerJUlAk0t\getUserRepositoryService;
+use ContainerUwXt9iN\PaginatorInterface_82dac15;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -32,28 +37,58 @@ class AnnonceController extends AbstractController
 {
     private ApiImages $apiImages;
     private Security $security;
+    /**
+     * @var CategoryRepository
+     */
+    private CategoryRepository $categoryRepository;
 
     /**
      * AnnonceController constructor.
      * @param ApiImages $apiImages
+     * @param Security $security
+     * @param CategoryRepository $categoryRepository
      */
-    public function __construct(ApiImages $apiImages, Security $security)
+    public function __construct(ApiImages $apiImages, Security $security, CategoryRepository $categoryRepository)
     {
         $this->apiImages = $apiImages;
         $this->security = $security;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
      * @Route("/", methods={"GET"}, name="index")
      * @param AnnonceRepository $annonceRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response A response instance
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    public function index(AnnonceRepository $annonceRepository): Response
+    public function index(AnnonceRepository $annonceRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $annonces = $annonceRepository->findBy(
+        $donnees = $annonceRepository->findBy(
             ['status' => '1'],
-            ['publishedAt' => 'DESC']
+//          ['published_at' => 'DESC'],
         );
+
+        $annonces = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            6,
+            [],
+        );
+        if($request->isXmlHttpRequest()){
+            return new JsonResponse([
+                'content' => $this->renderView('annonce/_annonces.html.twig', [
+                    'annonces' => $annonces,
+                ])
+                ]
+
+            );
+        }
         return $this->render('annonce/index.html.twig', [
             'apiImages' => $this->apiImages->getResponse(),
             'annonces' => $annonces,
@@ -147,6 +182,7 @@ class AnnonceController extends AbstractController
             'annonce' => $annonce,
             'form' => $form->createView(),
             'formUpload' => $formUpload->createView(),
+            'categories' => $this->categoryRepository->findAll(),
         ]);
     }
 
@@ -201,13 +237,14 @@ class AnnonceController extends AbstractController
 
             return $this->redirectToRoute('annonce_edit', [
                 'slug' => $annonce->getSlug(),
-                ]);
+            ]);
         }
 
         return $this->render('annonce/edit.html.twig', [
             'annonce' => $annonce,
             'form' => $form->createView(),
             'formUpload' => $formUpload->createView(),
+            'categories' => $this->categoryRepository->findAll(),
         ]);
     }
     /**

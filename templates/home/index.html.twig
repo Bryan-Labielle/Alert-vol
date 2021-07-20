@@ -38,16 +38,12 @@
                     <div class="row">
                         <div class="col-sm-6 my-3">
                             <a href="{{ path('annonce_new') }}" class="btn btn-action p-2 w-100" >
-                                <div class="font-w-500 m-0 text-center fw-bold">
-                                    Poster une annonce >
-                                </div>
+                                    Poster une annonce
                             </a>
                         </div>
                         <div class="col-sm-6 my-3">
                             <a href="{{ path('annonce_new') }}" class="btn btn-blue p-2 w-100" >
-                                <div class="font-w-500 m-0 text-center fw-bold">
-                                    Consulter les annonces >
-                                </div>
+                                    Consulter les annonces
                             </a>
                         </div>
                     </div>
@@ -65,20 +61,15 @@
                     <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
                 </div>
             </div>
-            <div class="row justify-content-center section-carousel">
-                <div class="col">
-                    {# @TODO : replace the images with the card _annonce_min #}
-                    <div class="carousel-home-page center">
-                        {% dump(lastAnnonces) %}
 
+            <div class="row justify-content-center section-carousel">
+                    <div class="carousel-home-page center">
                         {% for annonce in lastAnnonces %}
-                            <div class="carousel-image-container">
+                            <figure class="carousel-image-container">
                                 {{ include('annonce/_annonceMin.html.twig') }}
-                                <caption>{{ annonce.title }}</caption>
-                            </div>
+                            </figure>
                         {% endfor %}
                     </div>
-                </div>
             </div>
         </div>
     </section>
