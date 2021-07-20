@@ -218,14 +218,12 @@ class AnnonceController extends AbstractController
      * @param Annonce $annonce
      * @return Response
      */
-    public function show(Annonce $annonce): Response
+    public function show(Annonce $annonce, ApiTwitter $apiTwitter): Response
     {
         $url = $_SERVER['HTTP_REFERER'] . $annonce->getSlug();
         $title = $annonce->getTitle();
         $hashtag = trim($title);
         $apiTwitter->post($url);
-        dump($annonce);
-        dump($_SERVER);
         return $this->render('annonce/show.html.twig', [
             'apiImages' => $this->apiImages->getResponse(),
             'annonce' => $annonce,
