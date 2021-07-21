@@ -7,7 +7,6 @@ use App\Entity\AnnonceImage;
 use App\Entity\Category;
 use App\Entity\Details;
 use App\Entity\User;
-use App\Entity\Details;
 use App\Form\AnnonceImageType;
 use App\Form\AnnonceType;
 use App\Form\DetailsType;
@@ -153,11 +152,12 @@ class AnnonceController extends AbstractController
         /**
          * @TODO: créer le champs actif dans le formulaire
          */
-        $annonce->setDetails([
-            'peinture' => 'rouge',
-            'date_achat' => '2019',
-            'defaults' => 'rayures aile gauche'
-        ]);
+//        $annonce->setDetails([
+//            'peinture' => 'rouge',
+//            'date_achat' => '2019',
+//            'defaults' => 'rayures aile gauche'
+//        ]);
+
 
         // upload file form
         $annonceImage = new AnnonceImage();
