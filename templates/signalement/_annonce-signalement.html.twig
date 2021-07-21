@@ -1,0 +1,24 @@
+<div class="col-md-4 col-sm-6 mb-4" >
+        <div class="card card-align p-0 z-index-1">
+            <div class="d-block">
+                {% if annonce.annonceImages|length %}
+                <img class="card-img-top" src="{{ asset( 'uploads/' ~ annonce.annonceImages[0].name ) | imagine_filter('cards')}}" alt='title picture'>
+                {% endif %}
+                <div class="d-flex align-items-start justify-content-end ">
+                    <i class="fas fa-bookmark bookmark-position">
+                    </i>
+                </div>
+            </div>
+                <div class="card-header custom-header  p-0 d-flex justify-content-center">
+                   {{ annonce.title|title }}
+                </div>
+            <div class="ligne-title m-auto"></div>
+                <div class=" reference fs-5 text-center"> {{ annonce.reference | upper }}</div>
+            <div class="div card-bottom-blue">
+                <div class="container-info d-flex justify-content-between ">
+                    <div class="details-annonce col-5"><i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
+                    <div class="details-white details-annonce col-3"> Ville, {{ annonce.location }}</div>
+                </div>
+            </div>
+        </div>
+</div>

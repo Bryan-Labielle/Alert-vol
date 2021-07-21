@@ -1,0 +1,48 @@
+.dashboard-top{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  min-height: 70px;
+  background-clip: border-box;
+  border: 0 solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.card-dashboard {
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0 solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
+
+.card-body-dashboard {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1rem;
+}
+
+.menu-link-dashboard{
+  border-bottom: solid 2px black;
+}
+
+#links-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#nounderlined {
+  text-decoration: none;
+  color: #1a1e21;
+  font-size: 1rem;
+  font-weight: bold;
+  &:active { border-bottom: solid 2px #E66C1A }
+}
+

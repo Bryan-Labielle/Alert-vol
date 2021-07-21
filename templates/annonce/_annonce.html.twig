@@ -1,0 +1,25 @@
+<div class="col mb-4" >
+    <div class="card card-align p-0 z-index-1">
+        <div class="d-block">
+            <img class="card-img-top" src="{{ apiImages.hits.2.previewURL }}" alt='title picture' style="max-height: 200px">
+            <div class="d-flex align-items-start justify-content-end ">
+                <i class="fas fa-bookmark bookmark-position">
+                </i>
+            </div>
+        </div>
+        <div class="card-header custom-header m-0 p-2 d-flex justify-content-between">
+            <a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" class="text-start fs-4 stretched-link" style="color: #212526">{{ annonce.title|title }}</a>
+            <div class="m-auto reference "> {{ annonce.reference | upper }}</div>
+        </div>
+        <div class="container-info d-flex justify-content-between mt-auto">
+            <div class="details-annonce offset-1 col-7" style="font-size: small; color: #212526;"><i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
+            <div class="details-white details-annonce col-4" style="font-size: small; color: #212526"><i class="fas fa-map-marker-alt mx-2"></i>A : {{ annonce.location }}</div>
+        </div>
+        <div class="div card-bottom-blue">
+            <div class="text-center m-auto">
+                <a class="btn btn-circle" style="z-index: 3; font-weight: 700;" href="{{ path('annonce_show', {'slug':annonce.slug}) }}">
+                    J'ai vu ce véhicule <i class="fas fa-bullhorn" style="color: #f94a4a"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,224 @@
+{{ form_start(form) }}
+<div id="annonce-form">
+    <!-- Title -->
+
+    <div class="form-control-plaintext" id="annonce-title">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title) }}
+
+        <small>{{ form_help(form.title) }}</small>
+
+        <div class="form-error">
+            {{ form_errors(form.title) }}
+        </div>
+    </div>
+
+    <!-- End -->
+    <!-- Description -->
+
+    <div class="form-control-plaintext" id="annonce-description">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+
+        <small>{{ form_help(form.description) }}</small>
+
+        <div class="form-error">
+            {{ form_errors(form.description) }}
+        </div>
+    </div>
+
+    <!-- End -->
+    <!-- Reference -->
+
+    <div class="form-control-plaintext" id="annonce-reference">
+        {{ form_label(form.reference) }}
+        {{ form_widget(form.reference) }}
+
+        <small>{{ form_help(form.reference) }}</small>
+
+        <div class="form-error">
+            {{ form_errors(form.reference) }}
+        </div>
+    </div>
+    <!-- End -->
+    <!-- Location -->
+    <div class="form-control-plaintext" id="annonce-location">
+        <i class="fas fa-map-marker-alt"></i> {{ form_label(form.city) }}
+        {{ form_widget(form.city) }}
+
+        <div id="zipField">
+            <ul class="list-unstyled" id="autocomplete_list">
+            </ul>
+        </div>
+
+        <small>{{ form_help(form.city) }}</small>
+
+        <div class="form-error">
+            {{ form_errors(form.city) }}
+        </div>
+
+        {{ form_row(form.zip) }}
+
+    </div>
+    <!-- End -->
+
+    <!-- Category -->
+    <div class="form-control-plaintext" id="annonce-category">
+        <i class="fas fa-tractor"></i> {{ form_label(form.category) }}
+        {% from 'macros/categories_select.html.twig' import make_categories %}
+        {{ make_categories(categories)}}
+{#        {{ form_widget(form.category) }}#}
+        <small>{{ form_help(form.category) }}</small>
+
+        <div class="form-error">
+            {{ form_errors(form.category) }}
+        </div>
+    </div>
+    <!-- End -->
+    <!-- Date -->
+    <div class="form-control-plaintext" id="annonce-stolenAt">
+        {{ form_label(form.stolenAt) }}
+        {{ form_widget(form.stolenAt) }}
+
+        <small>{{ form_help(form.stolenAt) }}</small>
+
+        <div class="form-error">
+            {{ form_errors(form.stolenAt) }}
+        </div>
+    </div>
+    <!-- End -->
+</div>
+
+<div class="col mb-2">
+    <!-- Details -->
+    <div id="details-form">
+        <h3>Les signes distinctifs</h3>
+        <ul class="details list-unstyled" data-prototype="{{ form_widget(form.details.vars.prototype)|e('html_attr') }}">
+            {% for detail in form.details %}
+                <li>
+                    {{ form_row(detail.detail) }} {{ form_row(detail.delete) }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="button" class="btn btn-action add_item_link" data-collection-holder-class="details">
+            <i class="fas fa-plus"></i> Ajouter un signe distinctif
+        </button>
+    </div>
+    <!-- End -->
+</div>
+
+<!-- Button -->
+<div class="container m-auto d-flex justify-content-evenly">
+    <button type="submit" class="btn btn-blue w-25">{{ button_label|default('Envoyer') }}</button>
+</div>
+<!-- End -->
+{{ form_end(form) }}
+
+<script>
+    document.addEventListener('DOMContentLoaded',  () => {
+        document.getElementById('annonce_city').addEventListener('input', (event) => {
+            const search = event.target.value;
+            document.getElementById('autocomplete_list').style.display = "block";
+
+            fetch(`${window.location.origin}/annonce/autocomplete-zip?search=${search}`)
+
+                .then((response) => response.json())
+
+                .then((data) => {
+                    console.log(data);
+                    let list = '';
+                    if (data.length === 0) {
+                        // si le champs texte est vide, on cache les suggestions
+                        document.getElementById('autocomplete_list').hide();
+                    } else {
+                        for (const item of data) {
+                            list += `<li><a href="#" data-zip="${item.codesPostaux}" data-city="${item.nom}">${item.nom} (${item.codesPostaux})</a></li>`;
+                        }
+                        const $ul = document.getElementById('autocomplete_list');
+                        $ul.innerHTML = list;
+                        const $links = $ul.querySelectorAll('[data-zip]');
+                        $links.forEach((elem) => {
+                            elem.addEventListener("click", (event) => {
+                                event.preventDefault();
+                                const city = event.target.getAttribute('data-city');
+                                const $input_annonce = document.getElementById('annonce_city');
+                                $input_annonce.value = city;
+
+                                const zip = event.target.getAttribute('data-zip');
+                                const $input_zip = document.getElementById('annonce_zip'); //readonly
+                                $input_zip.value = zip;
+
+                                document.getElementById('autocomplete_list').style.display = "none";
+
+                            })
+                        })
+                    }
+                });
+
+            // .catch(alert('Pas de programmes avec ce nom'));
+        });
+    });
+
+    function addFormToCollection($collectionHolderClass) {
+        // Get the ul that holds the collection of details
+
+        let $collectionHolder = document.querySelector('.' + $collectionHolderClass);
+
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.getAttribute('data-prototype');
+
+        // get the new index
+        var index = parseInt($collectionHolder.getAttribute('index'));
+        var newForm = prototype;
+        // You need this only if you didn't set 'label' => false in your details field in TaskType
+        // Replace '__name__label__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        // newForm = newForm.replace(/__name__label__/g, index);
+
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        newForm = newForm.replace(/__name__/g, index);
+
+        // increase the index with one for the next item
+        $collectionHolder.setAttribute('index', index + 1);
+
+        // Display the form in the page in an li, before the "Add a tag" link li
+        let $li = document.createElement('li');
+        $li.innerHTML = newForm;
+        // Add the new form at the end of the list
+        $collectionHolder.appendChild($li);
+        const buttonRemove = $li.querySelector('.remove_item_link');
+        buttonRemove.addEventListener('click', (event) => {
+            event.target.closest('li').remove();
+        })
+    }
+
+    const initCollection = (elem) => {
+        const collectionHolder = document.querySelector(elem);
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        const index = collectionHolder.querySelectorAll('input').length
+        collectionHolder.setAttribute('index', index);
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let $buttons = document.querySelectorAll('.add_item_link');
+        $buttons.forEach(function($button){
+            $button.addEventListener('click', function(e) {
+                let $collectionHolderClass = e.target.getAttribute('data-collection-holder-class');
+                // add a new tag form (see next code block)
+                addFormToCollection($collectionHolderClass);
+            })
+        })
+        const buttonsRemove = document.querySelectorAll('.remove_item_link');
+        buttonsRemove.forEach(function(button){
+            button.addEventListener('click', (event) => {
+                event.target.closest('li').remove();
+            })
+        })
+        initCollection('ul.details');
+    });
+
+
+</script>

@@ -3,6 +3,180 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <h1>Welcome on your project 3</h1>
-    <img src="https://media.giphy.com/media/hS58Kb2OOCMPS/giphy.gif" alt="Dewey dancing">
+    <!-- Home Banner -->
+    <section class="home-banner" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-end text-end" data-scrollax-parent="true" style="height: 590px;">
+                <div class="col-lg-6">
+                    <div class="mt-5">
+                        <h1 class="h1 fw-bold display-2">ALERT'VOL</h1>
+                        <h3 class="h3">Un Service Proposé par Go4IoT</h3>
+                        <p class="mb-4">Plateforme communautaire d'entraide de signalements de biens volés.</p>
+                        <a href="{{ path('annonce_new') }}" class="btn btn-action p-2 w-50" >
+                            <div class="font-w-500 m-0 text-center fw-bold">
+                                Poster une annonce
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Home Banner -->
+    <!-- Section Call To Action -->
+    <section class="section custom-home-section" style="background-color: #FFA500;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 my-3">
+                    <h2 class="h1 font-w-700 mt-5 p-4">Vous avez perdu un objet de valeur ?</h2>
+                    <div class="border-top border-2 border-dark pt-5 mt-2">
+                        <p class="lead mb-5">Postez une annonce et diffusez sur les réseaux sociaux instantanément.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 ms-lg-auto my-3">
+                    <div class="row">
+                        <div class="col-sm-6 my-3">
+                            <a href="{{ path('annonce_new') }}" class="btn btn-action p-2 w-100" >
+                                    Poster une annonce
+                            </a>
+                        </div>
+                        <div class="col-sm-6 my-3">
+                            <a href="{{ path('annonce_index') }}" class="btn btn-blue p-2 w-100" >
+                                    Consulter les annonces
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Section -->
+    <!-- Section Caroussel -->
+    <section class="section bg-gray-100 mb-5">
+        <div class="container">
+            <div class="row justify-content-center section-heading">
+                <div class="col-lg-8 col-xl-7 text-center p-5">
+                    <h3 class="h1 p-2">Les Dernières Annonces</h3>
+                    <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center section-carousel">
+                    <div class="carousel-home-page center">
+                        {% for annonce in lastAnnonces %}
+                            <figure class="carousel-image-container">
+                                {{ include('annonce/_annonceMin.html.twig') }}
+                            </figure>
+                        {% endfor %}
+                    </div>
+            </div>
+        </div>
+    </section>
+    <!-- End section -->
+    <!-- Section Les Services -->
+    <section class="section p-3" style="background-color: #428BCA;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 my-3">
+                    <h2 class="h1 font-w-700 text-white p-4">Nous vous aidons à retrouver vos biens de valeur perdus ou volés.</h2>
+                    <div class="border-top border-2 border-dark pt-5 mt-5">
+                        <p class="lead m-0 text-white">Lorem Ipsum is simply text the printing and typesetting.</p>
+                    </div>
+                    <div class="pt-4 text-start">
+                        <a class="btn btn-blue p-2" href="#">En savoir plus</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 ms-lg-auto my-3">
+                    <h3 class="text-white">Nos Atouts</h3>
+                    <div class="row">
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-desktop"></i>
+                                </div>
+                                <h5>La Communauté</h5>
+                                <p class="m-0">Être tous réunis et connectés sur une seule plateforme d'entraide.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-hotairballoon"></i>
+                                </div>
+                                <h5>La Simplicité</h5>
+                                <p class="m-0">Une seule annonce peut être diffusée sur plusieurs réseaux en un clic !</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-scissors"></i>
+                                </div>
+                                <h5>Un sponsor</h5>
+                                <p class="m-0">La société Go4IoT qui créé et fournit des objets connectés professionnels.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 my-3">
+                            <div class="card card-custom-services p-2" style="background-color: #FFA500;">
+                                <div class="only-icon-lg mb-3">
+                                    <i class="icon-laptop"></i>
+                                </div>
+                                <h5>La Gratuité</h5>
+                                <p class="m-0">Un compte utilisateur gratuit pour accéder à l'ensemble de ses services.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Section -->
+    <!-- Section A Propos -->
+    <section class="section effect-section p-3">
+        <div class="effect-2">
+            <img src="static/img/effect/style-2.svg" title="" alt="" class="svg_img text-gray-100">
+        </div>
+        <div class="container">
+            <div class="row align-items-center justify-content-around">
+                <div class="col-lg-6 my-3 text-center">
+                    <img class="img-a-propos" src="https://techcrunch.com/wp-content/uploads/2017/06/push.jpg?w=730&crop=1" alt="notifications-and-simplicity">
+                </div>
+                <div class="col-lg-6 col-xl-5 my-3">
+                    <h3 class="h1 pb-2">Le début de l'aventure de Go4ioT et KHIKO.</h3>
+                    <p class="lead">Ayant identifié la problématique du vol des gros équipements, et non satisfait des produits existants sur le marché (gadget, pas d’autonomie, non dédiées aux vols, non robustes…)
+                        M.LAVAUR, avec son expérience de 18 ans dans l’industrie, a décidé de créer et de proposer une solution contre le vol des gros équipements : KHIKO, L'ANTIVOL CONNECTÉ est ainsi né.</p>
+                    <div class="border-start border-2 border-primary ps-4 mt-6">
+                        <h6 class="lead font-w-600">La Société Go4IoT</h6>
+                        <p>Les objets connectés, une technologie mature avec un retour sur investissement (ROI) pour les clients entre 6 mois et 1 an.</p>
+                    </div>
+                    <div class="pt-4">
+                        <a class="btn btn-blue w-50 p-2" href="https://www.khikobygo4iot.com/">Plus d'informations</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End section -->
+    <!-- Section Inscription -->
+    <section class="section bg-gray-100 p-5" style="background-color: #FFA500;">
+        <div class="container">
+            <div class="row justify-content-center section-heading">
+                <div class="col-lg-8 col-xl-7 text-center">
+                    <h3 class="h1 p-4">Abonnez-vous à nos Publications</h3>
+                    <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
+                </div>
+            </div>
+            <div class="row justify-content-center p-2">
+                <div class="col-lg-8 col-xl-7">
+                    <form class="d-flex flex-row mb-2 p-1 bg-white input-group shadow-lg">
+                        <input type="email" class="form-control form-control-lg rounded-0 border-0" placeholder="you@yoursite.com">
+                        <button class="btn btn-primary rounded-0 flex-shrink-0" type="submit">S'abonner</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End section -->
 {% endblock %}
+

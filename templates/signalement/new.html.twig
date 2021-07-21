@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main>
+
+        {% if app.user == annonce.owner %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                Vous êtes sur le point de déposer un signalement pour une annonce dont vous êtes l'auteur.
+            </div>
+        {% endif %}
+        <div class="container mt-5">
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div class="d-block">
+                        {% if annonce.annonceImages|length %}
+                        <img class="card-img-top" src="{{ asset( 'uploads/' ~ annonce.annonceImages[0].name ) | imagine_filter('cards')}}" alt='title picture'>
+                        {% endif %}
+                <div class="col-md-4">
+                    {#<div class="d-block">
+                        <img class="card-img-top" src="{{ apiImages.hits.1.previewURL }}" alt='title picture'>
+                        <div class="d-flex align-items-start justify-content-end ">
+                            <i class="fas fa-bookmark bookmark-position">
+                            </i>
+                        </div>
+                    </div>
+                    <div class="card-header custom-header fs-4  p-0 d-flex justify-content-center">
+                        {{ annonce.title|title }}
+                    </div>
+                    <div class=" reference fs-5 text-center"> {{ annonce.reference | upper }}</div>
+                    <div class="container-info-signalement d-flex justify-content-between ">
+                        <div class="details-annonce col-5"><i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}</div>
+                        <div class="details-white details-annonce col-3"> Ville, {{ annonce.location }}</div>
+                    </div>#}
+                    {% include '/annonce/_annonceMin.html.twig' %}
+                </div>
+                {{ include('layout/_map.html.twig') }}
+            </div>
+
+            {% include 'signalement/_form-signalement.html.twig' with {edit: false, button_icon: 'paper-plane'} %}
+            {#            <img class="card-img-top" src="{{ apiImages.hits.1.previewURL }}" alt='title picture'>#}
+
+        </div>
+    </main>
+{% endblock %}

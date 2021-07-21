@@ -1,4 +1,6 @@
-
+.idea/
+/styleguide
+/public/uploads
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -16,7 +18,7 @@
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/webpack-encore-bundle ###
-/node_modules/
+node_modules/
 /public/build/
 npm-debug.log
 yarn-error.log
@@ -26,3 +28,7 @@ yarn-error.log
 /.phpcs-cache
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

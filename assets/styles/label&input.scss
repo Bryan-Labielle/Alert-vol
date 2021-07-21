@@ -1,0 +1,54 @@
+.login-container{
+    min-height: calc(100vh - 150px);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-image: linear-gradient(rgba(254, 254, 254, 0.5), rgba(254, 254, 254, 0.5)),
+    url("../images/ioT/login_img-1966x1311.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+.login-body, .register-body{
+    display:flex;
+    align-items:center;
+    height: 70vh;
+    border-radius: 20px;
+    background-color: rgba(254,254,254,0.6);
+}
+
+.login-container .login-label-container{
+    display: block;
+    width: 80%;
+    .label-text{
+        cursor: text;
+        line-height: 20px;
+        text-transform: uppercase;
+        transform: translate(40px,-30px);
+        transition: all 0.3s;
+    }
+    input{
+        background-color: #FDFDFD;
+        border: 2px solid #212529;
+        &:focus{
+                & + .label-text{
+                    transform: translate(20px, -46px);
+                    font-size: 0.6rem;
+                    }
+        }
+        &:valid + .label-text{
+            transform: translate(20px, -46px);
+            font-size: 0.6rem;
+        }
+    }
+}
+.btn-login{
+    width: 80%;
+    background-color: #E66C1A;
+    color: #212529;
+    border: 2px solid #050505;
+    font-size: 1.5rem !important;
+}
+
+

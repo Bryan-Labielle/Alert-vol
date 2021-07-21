@@ -1,0 +1,10 @@
+{% if formUpload is defined %}
+    <div id="upload-form">
+        {{ form_start(formUpload) }}
+        {{ form_widget(formUpload) }}
+        <div class="container" style="margin: auto; display: flex; justify-content: space-evenly">
+            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+        </div>
+        {{ form_end(formUpload) }}
+    </div>
+{% endif %}

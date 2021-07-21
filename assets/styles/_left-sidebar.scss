@@ -1,0 +1,14 @@
+.left-sidebar{
+  bottom: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  transition: all 0.2s ease;
+  width: 10%;
+  background-image: url("/assets/images/aside.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  z-index: 1;
+  left: 0;
+}

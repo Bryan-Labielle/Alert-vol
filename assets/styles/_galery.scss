@@ -1,0 +1,19 @@
+.img-galery{
+  position: relative;
+}
+.button-delete-img {
+  position: absolute;
+}
+figcaption {
+  font-style: italic;
+}
+.galery-img {
+  object-fit: fill;
+  height: 200px;
+  max-width: 200px;
+  margin-bottom: 15px;
+}
+.img-show-annonce{
+  display: block;
+  min-height: 200px;
+}

@@ -1,0 +1,16 @@
+@import 'settings/variables';
+.card-custom-services{
+  background-color: #FFA500;
+}
+
+.img-a-propos{
+  width: 100%;
+}
+
+.home-banner{
+  background-image: url("/assets/images/accueil_banner_no-text.jpeg");
+  background-size: cover;
+  height: 100%;
+  background-position: 0% -84px;
+  background-attachment: fixed;
+}

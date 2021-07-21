@@ -4,8 +4,9 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="icon" type="image/png" href="{{ asset('build/images/favicon.png') }}"/>
+		{% block meta %}{% endblock %}
 		<title>
-			{% block title %}Projet 3 Name{% endblock %}
+			{% block title %}Alert'Vol{% endblock %}
 		</title>
 
 		{% block stylesheets %}
@@ -17,6 +18,13 @@
 		{% endblock %}
 	</head>
 	<body>
+		{% include 'layout/_navbar.html.twig' %}
+		{% block header %}{% endblock %}
+
 		{% block body %}{% endblock %}
+		{% block tweet %}{% endblock %}
+		{% include 'layout/_footer.html.twig' %}
+		{% block footer %}{% endblock %}
+
 	</body>
 </html>
