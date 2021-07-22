@@ -13,8 +13,11 @@
                         <h1 class="h1 fw-bold display-2">ALERT'VOL</h1>
                         <h3 class="h3">Un Service Proposé par Go4IoT</h3>
                         <p class="mb-4">Plateforme communautaire d'entraide de signalements de biens volés.</p>
-                        <p><a href="#" class="btn btn-primary">Découvrir</a>
-                            <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">Tester</a></p>
+                        <a href="{{ path('annonce_new') }}" class="btn btn-action p-2 w-50" >
+                            <div class="font-w-500 m-0 text-center fw-bold">
+                                Poster une annonce
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -34,22 +37,14 @@
                 <div class="col-lg-6 ms-lg-auto my-3">
                     <div class="row">
                         <div class="col-sm-6 my-3">
-                            <div class="card card-custom-services p-2" style="background-color: #E66C1A; border-radius: 20px;">
-                                <a href="{{ path('annonce_new') }}" style="color: black;">
-                                    <div class="font-w-500 m-0 text-center fw-bold">
-                                        Poster une annonce >
-                                    </div>
-                                </a>
-                            </div>
+                            <a href="{{ path('annonce_new') }}" class="btn btn-action p-2 w-100" >
+                                    Poster une annonce
+                            </a>
                         </div>
                         <div class="col-sm-6 my-3">
-                            <div class="card card-custom-services p-2" style="background-color: #F4F4F4; border-radius: 20px;">
-                                <a href="{{ path('annonce_index') }}" style="color: black;">
-                                    <div class="font-w-500 m-0 text-center fw-bold">
-                                        Consulter les annonces >
-                                    </div>
-                                </a>
-                            </div>
+                            <a href="{{ path('annonce_index') }}" class="btn btn-blue p-2 w-100" >
+                                    Consulter les annonces
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -66,18 +61,15 @@
                     <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
                 </div>
             </div>
+
             <div class="row justify-content-center section-carousel">
-                <div class="col">
-                    {# @TODO : replace the images with the card _annonce_min #}
                     <div class="carousel-home-page center">
-                        {% for hit in response.hits %}
+                        {% for annonce in lastAnnonces %}
                             <figure class="carousel-image-container">
-                                <img class="d-block w-100 carousel-image" alt="{{ hit.tags }}" src="{{ hit.previewURL }}">
-                                <figcaption>{{ hit.tags }}</figcaption>
+                                {{ include('annonce/_annonceMin.html.twig') }}
                             </figure>
                         {% endfor %}
                     </div>
-                </div>
             </div>
         </div>
     </section>
@@ -87,16 +79,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-5 my-3">
-                    <h6 class="mb-3">Que fais Alert'Vol?</h6>
                     <h2 class="h1 font-w-700 text-white p-4">Nous vous aidons à retrouver vos biens de valeur perdus ou volés.</h2>
                     <div class="border-top border-2 border-dark pt-5 mt-5">
                         <p class="lead m-0 text-white">Lorem Ipsum is simply text the printing and typesetting.</p>
                     </div>
-                    <div class="pt-4">
-                        <a class="btn btn-primary" href="#">
-                            <span class="btn--text">En savoir plus</span>
-                            <span class="arrow"></span>
-                        </a>
+                    <div class="pt-4 text-start">
+                        <a class="btn btn-blue p-2" href="#">En savoir plus</a>
                     </div>
                 </div>
                 <div class="col-lg-6 ms-lg-auto my-3">
@@ -155,17 +143,15 @@
                     <img class="img-a-propos" src="https://techcrunch.com/wp-content/uploads/2017/06/push.jpg?w=730&crop=1" alt="notifications-and-simplicity">
                 </div>
                 <div class="col-lg-6 col-xl-5 my-3">
-                    <h3 class="h1 pb-2">Unlimited power and customization possibilities.</h3>
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elitd do eiusmod tempor incididunt ut lore magna aliqua.</p>
+                    <h3 class="h1 pb-2">Le début de l'aventure de Go4ioT et KHIKO.</h3>
+                    <p class="lead">Ayant identifié la problématique du vol des gros équipements, et non satisfait des produits existants sur le marché (gadget, pas d’autonomie, non dédiées aux vols, non robustes…)
+                        M.LAVAUR, avec son expérience de 18 ans dans l’industrie, a décidé de créer et de proposer une solution contre le vol des gros équipements : KHIKO, L'ANTIVOL CONNECTÉ est ainsi né.</p>
                     <div class="border-start border-2 border-primary ps-4 mt-6">
-                        <h6 class="lead font-w-600">Grow your website traffic with us</h6>
-                        <p>Raino is a HTML5 template based on Sass and Bootstrap 4 with modern and creative multipurpose design</p>
+                        <h6 class="lead font-w-600">La Société Go4IoT</h6>
+                        <p>Les objets connectés, une technologie mature avec un retour sur investissement (ROI) pour les clients entre 6 mois et 1 an.</p>
                     </div>
                     <div class="pt-4">
-                        <a class="btn btn-primary" href="#">
-                            <span class="btn--text">More About Us</span>
-                            <span class="arrow"></span>
-                        </a>
+                        <a class="btn btn-blue w-50 p-2" href="https://www.khikobygo4iot.com/">Plus d'informations</a>
                     </div>
                 </div>
             </div>
@@ -181,7 +167,7 @@
                     <div class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo dolor vel odio cursus, et lacinia odio interdum.</div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center p-2">
                 <div class="col-lg-8 col-xl-7">
                     <form class="d-flex flex-row mb-2 p-1 bg-white input-group shadow-lg">
                         <input type="email" class="form-control form-control-lg rounded-0 border-0" placeholder="you@yoursite.com">

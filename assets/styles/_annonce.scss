@@ -1,13 +1,30 @@
-.details-annonce{
-  font-size: 0.8rem;
-}
+
 .upload-form{
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin: auto;
+  width: 100%;
 }
 .edit-annonce{
   display: flex;
 }
 .map-img{
   width: 100%;
+}
+
+@media (max-width: 900px) {
+  .image-form-new-annonce {
+    display: none;
+  }
+}
+
+.annonces-header{
+ display: flex;
+  @media (max-width: 900px) {
+    display: block;
+    justify-content: center;
+    text-align: center;
+    }
+}
+
+.btn-annonces-header{
+  width: 80%;
 }

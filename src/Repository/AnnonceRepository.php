@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
+use DateTimeImmutable;
+use DateInterval;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -51,6 +53,16 @@ class AnnonceRepository extends ServiceEntityRepository
             ->setParameter('queryPlace', $queryPlace)
             ->orderBy('a.id', 'ASC')
             ->setMaxResults(25)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLastAnnonces(): ?array
+    {
+        return $this->createQueryBuilder('e')
+
+            ->orderBy('e.publishedAt', 'DESC')
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }

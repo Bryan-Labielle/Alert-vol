@@ -1,0 +1,27 @@
+<table style="width:100%" class="admin-table">
+    <tr>
+        <th>Titre</th>
+        <th>Immatriculation</th>
+        <th>Perdu le</th>
+        <th>Annonce publiée le</th>
+        <th>Annonce valable jusqu'au</th>
+        <th>Voir</th>
+
+    </tr>
+    {% for annonce in annonces %}
+    <tr class="mb-3">
+        <td>{{ annonce.title }}</td>
+        <td>{{ annonce.reference }}</td>
+        <td>{{ annonce.stolenAt|date("d/m/Y, H:m:s") }}</td>
+        <td>{{ annonce.publishedAt|date("d/m/Y, H:m:s") }}</td>
+        <td>{{ annonce.endPublishedAt|date("d/m/Y, H:m:s") }}</td>
+        <td>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary admin-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Voir
+        </button>
+        {% include 'admin/_modalAnnonce.html.twig' %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

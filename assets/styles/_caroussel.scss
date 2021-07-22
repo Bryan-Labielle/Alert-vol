@@ -1,17 +1,18 @@
 .carousel-home-page center{
-  margin: auto;
   padding: 1em;
+  justify-content: center;
 }
 .carousel-image {
   height: 100%;
 }
 .carousel-image-container {
-  height: 400px;
-  margin: auto;
-  padding: 1em;
+  padding: 2em;
 }
 
 .slick-arrow{
-  background-color: $blue;
+  background-color: grey;
   height: 20px;
+  &:hover{
+    background-color: $action;
+  }
 }

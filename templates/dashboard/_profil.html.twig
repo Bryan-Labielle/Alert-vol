@@ -5,7 +5,7 @@
     <div class='col-md-3'>
         <div class='card-dashboard d-flex text-center p-5'>
             <p>Vous avez</p>
-            <p class="fs-2">X</p>
+            <p class="fs-2">{{ countAnnonce }}</p>
             <p class="h5 rounded-pill fl-r bg-danger p-10 text-light">annonces</p>
         </div>
     </div>
@@ -13,26 +13,31 @@
     <div class='col-md-3'>
         <div class='card-dashboard d-flex text-center p-5'>
             <p>Vous avez</p>
-            <p class="fs-2">X</p>
+            <p class="fs-2">{{ countSignalement }}</p>
             <p class="h5 rounded-pill fl-r bg-warning p-10 text-light">signalements</p>
         </div>
     </div>
-    <!-- #Total Notifications ==================== -->
+    <!-- #Total Favoris ==================== -->
     <div class='col-md-3'>
         <div class='card-dashboard d-flex text-center p-5'>
             <p>Vous avez</p>
-            <p class="fs-2">X</p>
+            <p class="fs-2">{{ countBookmark }}</p>
+            <p class="h5 rounded-pill fl-r bg-info lh-5 p-10 text-light">favoris</p>
+        </div>
+    </div>
+    <!-- #Dernier Signalement ==================== -->
+    <div class='col-md-3'>
+        <div class='card-dashboard d-flex text-center p-5'>
+            <p>Votre dernier signalement</p>
+            <p class="fs-4">{% for lastSignalement in lastSignalements  %}
+                    {% for lastAnnonce in lastAnnonces %}
+                        {{ lastSignalement.sendAt > lastAnnonce.publishedAt ?  lastSignalement.sendAt|date('d:m:Y H:m:s') : lastAnnonce.publishedAt|date('d:m:Y H:m:s') }}
+                {% endfor %}
+                {% endfor %}</p>
             <p class="h5 rounded-pill fl-r bg-success p-10 text-light">notifications</p>
         </div>        </div>
 
-    <!-- #Total Messages ==================== -->
-    <div class='col-md-3'>
-        <div class='card-dashboard d-flex text-center p-5'>
-            <p>Vous avez</p>
-            <p class="fs-2">X</p>
-            <p class="h5 rounded-pill fl-r bg-info lh-5 p-10 text-light">messages</p>
-        </div>
-    </div>
+
 </div>
 <!-- #Profil Card-dashboard ==================== -->
 <div class="row gutters-sm mt-5">
@@ -45,8 +50,8 @@
                         <h4>John Doe</h4>
                         <p class="text-secondary mb-1">Full Stack Developer</p>
                         <p class="text-muted font-size-sm">Saintes, Charente-Maritime, France</p>
-                        <button class="btn btn-primary">Edit</button>
-                        <button class="btn btn-outline-primary">Manage</button>
+                        <button class="btn btn-blue w-50">Edit</button>
+                        <button class="btn btn-black w-50">Manage</button>
                     </div>
                 </div>
             </div>
@@ -103,7 +108,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-sm-12">
-                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-blue w-25">Edit</button>
                     </div>
                 </div>
             </div>
@@ -139,7 +144,7 @@
             </div>
             <div class="row text-end mt-2">
                 <div class="col-sm-12 text-end">
-                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-blue w-25">Edit</button>
                 </div>
             </div>
         </div>

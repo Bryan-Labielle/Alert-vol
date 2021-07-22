@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -80,7 +82,17 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $pseudo;
+    private ?string $pseudo;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Annonce::class, inversedBy="users")
+     */
+    private Collection $bookmarks;
+
+    public function __construct()
+    {
+        $this->bookmarks = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -271,5 +283,39 @@ class User implements UserInterface
         $this->pseudo = $pseudo;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Annonce[]
+     */
+    public function getBookmarks(): Collection
+    {
+        return $this->bookmarks;
+    }
+
+    public function addToBookmarks(Annonce $bookmark): self
+    {
+        if (!$this->bookmarks->contains($bookmark)) {
+            $this->bookmarks[] = $bookmark;
+        }
+
+        return $this;
+    }
+
+    public function removeBookmark(Annonce $bookmark): self
+    {
+        $this->bookmarks->removeElement($bookmark);
+
+        return $this;
+    }
+
+    public function isInBookmarks(Annonce $annonce): bool
+    {
+        return (bool)$this->getBookmarks()->contains($annonce);
+    }
+
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
     }
 }

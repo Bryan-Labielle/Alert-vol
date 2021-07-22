@@ -31,7 +31,8 @@ class ApiZipCode
     {
             $response = $this->client->request(
                 'GET',
-                'https://geo.api.gouv.fr/communes?nom=' . $commune . '&fields=departement&boost=population&limit=5',
+                'https://geo.api.gouv.fr/communes?nom=' . $commune . '&fields=code,nom,codesPostaux&limit=5',
+                //https://geo.api.gouv.fr/communes?nom=' . $commune . '&fields=departement&boost=population&limit=5',
             );
 
         return $response->toArray();

@@ -23,7 +23,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             $message->setSignalement($this->getReference('signalement_' . rand(1, 30)));
             $manager->persist($message);
         }
-        $manager->flush();
+//        $manager->flush();
     }
 
     public function getDependencies()

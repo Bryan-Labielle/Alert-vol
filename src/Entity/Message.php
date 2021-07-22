@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use App\Repository\MessageRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,13 +26,13 @@ class Message
     private string $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="sender")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sender")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?User $sender;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="recipient")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipient")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?User $recipient;
@@ -39,13 +40,13 @@ class Message
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $sentAt;
+    private DateTime $sentAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=signalement::class, inversedBy="messages")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity=Signalement::class, inversedBy="message")
      */
     private ?Signalement $signalement;
+
 
     public function getId(): ?int
     {
@@ -88,12 +89,12 @@ class Message
         return $this;
     }
 
-    public function getSentAt(): ?\DateTimeInterface
+    public function getSentAt(): ?DateTime
     {
         return $this->sentAt;
     }
 
-    public function setSentAt(\DateTimeInterface $sentAt): self
+    public function setSentAt(DateTime $sentAt): self
     {
         $this->sentAt = $sentAt;
 

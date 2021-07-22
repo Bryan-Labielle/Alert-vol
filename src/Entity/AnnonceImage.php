@@ -23,7 +23,7 @@ class AnnonceImage
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
 
     private ?string $name = null;
@@ -32,7 +32,7 @@ class AnnonceImage
      * @Vich\UploadableField(mapping="annonce_file", fileNameProperty="name")
      * @var ?File
      */
-    private ?File $annonceFile ;
+    private ?File $annonceFile = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -64,7 +64,6 @@ class AnnonceImage
         }
         return $this;
     }
-
     /**
      * @ORM\ManyToOne(targetEntity=annonce::class, inversedBy="annonceImages")
      * @ORM\JoinColumn(nullable=true)
@@ -81,7 +80,7 @@ class AnnonceImage
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -99,7 +98,6 @@ class AnnonceImage
 
         return $this;
     }
-
     /**
      * @return ?DateTime
      */
@@ -107,7 +105,6 @@ class AnnonceImage
     {
         return $this->postedAt;
     }
-
     /**
      * @param ?DateTime $postedAt
      * @return AnnonceImage
@@ -126,11 +123,10 @@ class AnnonceImage
         return $this->updatedAt;
     }
 
-    /**
-     * @param ?DateTime $updatedAt
-     */
-    public function setUpdatedAt(?DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

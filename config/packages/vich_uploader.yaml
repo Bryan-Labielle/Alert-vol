@@ -7,3 +7,9 @@ vich_uploader:
             upload_destination: '%upload_directory%'
             namer:
                 service: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        signalement_file:
+            uri_prefix: /uploads
+            upload_destination: '%upload_directory%'
+            namer:
+                service: Vich\UploaderBundle\Naming\SmartUniqueNamer

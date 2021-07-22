@@ -9,6 +9,7 @@ use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -29,92 +30,119 @@ class Annonce
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"bookmarks"})
      */
     private int $id;
 
     /**
      * @ORM\Column(type="string", length=45)
      * @Assert\NotBlank(message="champ obligatoire")
+     * @Groups({"bookmarks"})
      */
     private string $title;
 
     /**
      * @ORM\OneToMany(targetEntity=AnnonceImage::class, mappedBy="annonce")
+     * @Groups({"bookmarks"})
      */
     private Collection $annonceImages;
 
     /**
      * @ORM\OneToMany(targetEntity=Signalement::class, mappedBy="annonce")
+     * @Groups({"bookmarks"})
      */
     private Collection $signalements;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?string $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"bookmarks"})
      */
     private ?DateTimeInterface $publishedAt;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?int $nbRenew = 0 ;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"bookmarks"})
      */
     private ?DateTimeInterface $endPublishedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?Category $category;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"bookmarks"})
      */
     private ?string $reference;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"bookmarks"})
      */
     private ?int $status = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"bookmarks"})
      */
     private ?User $owner;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"bookmarks"})
      */
-    private ?int $location;
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private ?array $details = [];
+    private ?int $zip;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"bookmarks"})
      */
     private ?\DateTimeInterface $stolenAt;
 
     /**
      * @ORM\Column(name="slug", type="string", length=255)
+     * @Groups({"bookmarks"})
      */
     private string $slug;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="bookmark")
+     */
+    private Collection $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Details::class, mappedBy="annonce", orphanRemoval=true,
+     * cascade={"persist", "remove"})
+     */
+    private Collection $details;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private ?string $city;
 
     public function __construct()
     {
         $this->annonceImages = new ArrayCollection();
         $this->signalements = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->details = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -290,26 +318,14 @@ class Annonce
         return $this;
     }
 
-    public function getLocation(): ?int
+    public function getZip(): ?int
     {
-        return $this->location;
+        return $this->zip;
     }
 
-    public function setLocation(int $location): self
+    public function setZip(int $zip): self
     {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    public function getDetails(): ?array
-    {
-        return $this->details;
-    }
-
-    public function setDetails(?array $details): self
-    {
-        $this->details = $details;
+        $this->zip = $zip;
 
         return $this;
     }
@@ -341,5 +357,74 @@ class Annonce
     public function setSlug(string $slug): string
     {
         return $this->slug = $slug;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addToBookmarks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeBookmark($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Details[]
+     */
+    public function getDetails(): Collection
+    {
+        return $this->details;
+    }
+
+    public function addDetail(Details $detail): self
+    {
+        if (!$this->details->contains($detail)) {
+            $this->details[] = $detail;
+            $detail->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetail(Details $detail): self
+    {
+        if ($this->details->removeElement($detail)) {
+            // set the owning side to null (unless already changed)
+            if ($detail->getAnnonce() === $this) {
+                $detail->setAnnonce(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
     }
 }

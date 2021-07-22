@@ -1,0 +1,18 @@
+<table class="admin-table">
+    <thead>
+    <th class="col-4">Diffuseur du signalement</th>
+    <th class="col-4">Annonce concernée</th>
+    <th class="col-4">Date du signalement</th>
+    <th class="col-4">Voir le signalement</th>
+    </thead>
+    <tbody>
+{% for signalement in signalements %}
+    <tr>
+        <td>{{ signalement.owner.firstName }}</td>
+        <td><a href="{{ path('annonce_show',{ 'slug': signalement.annonce.slug }) }}" class="btn btn-primary admin-button-signalement">Voir</a></td>
+        <td>{{ signalement.sendAt|date("d:m:Y H:m:s") }}</td>
+        <td><a href="{{ path('signalement_edit', { 'slug' : signalement.annonce.slug, 'id': signalement.id }) }}" class="btn btn-primary admin-button">Voir</a></td>
+    </tr>
+        {% endfor %}
+    </tbody>
+</table>

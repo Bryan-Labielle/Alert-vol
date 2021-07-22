@@ -1,0 +1,28 @@
+<table class="admin-table">
+    <thead>
+    <th class="col-4">Pseudo</th>
+    <th class="col-4">Email</th>
+    <th class="col-4">Prénom</th>
+    <th class="col-4">Nom</th>
+    <th>Actions</th>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.pseudo }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td><form method="post" action="{{ path('admin_deleteUser', {'id': user.id}) }}"
+                      onsubmit="return confirm('' +
+       'Vous allez supprimer un Utilisateur .\n' +
+       'Toutes ses données seront définitivement effacées, ses signalements et annonces compris.\n' +
+        'Souhaitez-vous continuer ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                    <button class="btn btn-danger d-flex p-2"><i class="fas fa-trash"></i> Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

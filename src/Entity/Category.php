@@ -22,11 +22,6 @@ class Category
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=category::class, inversedBy="categories")
-     */
-    private ?Category $categoryId;
-
-    /**
      * @ORM\Column(type="string", length=85)
      */
     private string $name;
@@ -36,26 +31,26 @@ class Category
      */
     private Collection $annonces;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private Category $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Category::class, mappedBy="category")
+     */
+    private ?Collection $categories;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCategoryId(): ?Category
-    {
-        return $this->categoryId;
-    }
-
-    public function setCategoryId(?Category $categoryId): self
-    {
-        $this->categoryId = $categoryId;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -94,6 +89,48 @@ class Category
             // set the owning side to null (unless already changed)
             if ($annonce->getCategory() === $this) {
                 $annonce->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCategory(): ?self
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?self $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(self $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(self $category): self
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getCategory() === $this) {
+                $category->setCategory(null);
             }
         }
 
