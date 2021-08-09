@@ -35,5 +35,4 @@ class HomeController extends AbstractController
             'lastAnnonces' => $lastAnnonces,
         ]);
     }
-
 }

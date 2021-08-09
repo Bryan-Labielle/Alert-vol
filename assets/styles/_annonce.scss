@@ -28,3 +28,26 @@
 .btn-annonces-header{
   width: 80%;
 }
+
+.grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 350px);
+  grid-gap: 30px;
+  place-items: center;
+  justify-content: center;
+}
+
+.filter{
+  display: block;
+  position: sticky;
+  top: 80px;
+}
+
+@media screen and (max-width: 768px)  {
+  .left-sidebar{
+    display:none
+  }
+  .main-container{
+    margin-left: 0;
+  }
+}

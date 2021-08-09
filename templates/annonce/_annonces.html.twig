@@ -1,8 +1,7 @@
-{% for annonce in annonces %}
-    <div class="col mb-4" >
-        {% include '/annonce/_annonceMin.html.twig' %}
-    </div>
-
-{% else %}
-    No records found
-{% endfor %}
+<div class="grid mt-3">
+    {% for annonce in annonces %}
+        {% include '/annonce/_annonceMin.html.twig' with {annonce: annonce} only %}
+    {% else %}
+        No records found
+    {% endfor %}
+</div>

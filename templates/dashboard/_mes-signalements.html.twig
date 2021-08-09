@@ -1,9 +1,27 @@
 <div class="list-group border-0">
+    <table class="admin-table">
+        <thead>
+        <th>Vehicule</th>
+        <th>Reference</th>
+        <th>Vu le</th>
+        <th>Propriétaire de l'annonce</th>
+        <th>Expéditeur du signalement</th>
+        </thead>
+
     {% for signalement in signalements %}
-    <a href="{{ path('signalement_edit', {'slug': signalement.annonce.slug, 'id': signalement.id}) }}" class="list-group-item list-group-item-action border-0">
+        <tr>
+    <td>
+        <a href="{{ path('signalement_edit', {'slug': signalement.annonce.slug, 'id': signalement.id}) }}" class="list-group-item list-group-item-action border-0">
         {{ signalement.annonce.title }}
-    </a>
+        </a>
+    </td>
+            <td>{{ signalement.annonce.reference }}</td>
+            <td>{{ signalement.seenOn|date('d:m:Y H:m:s') }}</td>
+            <td>{{ signalement.annonce.owner.pseudo }}</td>
+            <td>{{ signalement.owner.pseudo }}</td>
+        </tr>
     {% else %}
     <div class="list-group-item border-0">Vous n'avez aucun signalement référencé sur votre compte.</div>
     {% endfor %}
+    </table>
 </div>

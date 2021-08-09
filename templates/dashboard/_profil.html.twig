@@ -47,11 +47,10 @@
                 <div class="d-flex flex-column align-items-center text-center">
                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                     <div class="mt-3">
-                        <h4>John Doe</h4>
-                        <p class="text-secondary mb-1">Full Stack Developer</p>
-                        <p class="text-muted font-size-sm">Saintes, Charente-Maritime, France</p>
-                        <button class="btn btn-blue w-50">Edit</button>
-                        <button class="btn btn-black w-50">Manage</button>
+                        <h4>{{ app.user.firstName }} {{ app.user.lastName }}</h4>
+                        <p class="text-muted font-size-sm">{{ app.user.zip ?? '' }} {{ app.user.city ?? '' }}</p>
+                        <button class="btn btn-blue w-70">Edit</button>
+                        <button class="btn btn-black w-70">Manage</button>
                     </div>
                 </div>
             </div>
@@ -61,54 +60,41 @@
     <div class="col-md-8">
         <div class="card-dashboard mb-3">
             <div class="card-dashboard-body">
-                <div class="row">
+                <div class="row p-3 border-bottom">
                     <div class="col-sm-3">
                         <h6 class="mb-0">Full Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        John Doe
+                       {{ app.user.firstName }} {{ app.user.lastName }}
                     </div>
                 </div>
-                <hr>
-                <div class="row">
+                <div class="row p-3 border-bottom">
                     <div class="col-sm-3">
                         <h6 class="mb-0">Email</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        fip@jukmuh.al
+                        {{ app.user.email }}
                     </div>
                 </div>
-                <hr>
-                <div class="row">
+                <div class="row p-3 border-bottom">
                     <div class="col-sm-3">
-                        <h6 class="mb-0">Phone</h6>
+                        <h6 class="mb-0">Pseudo</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        (239) 816-9029
+                        {{ app.user.pseudo }}
                     </div>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h6 class="mb-0">Mobile</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                        (320) 380-4539
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
+                <div class="row p-3 border-bottom">
                     <div class="col-sm-3">
                         <h6 class="mb-0">Address</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        Saintes, Charente-Maritime, France
+                        {{ app.user.zip ~ ' ' ~ app.user.city ?? 'Aucune donnée trouvée' }}
                     </div>
                 </div>
-                <hr>
-                <div class="row">
+                <div class="row p-3 border-bottom ">
                     <div class="col-sm-12">
-                        <button class="btn btn-blue w-25">Edit</button>
+                        <a href="{{ path('dashboard_edit_profil') }}" class="btn btn-blue w-25" id="edit-profil">Modifier</a>
                     </div>
                 </div>
             </div>
@@ -150,3 +136,23 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('edit-profil').addEventListener('click', function (event){
+        event.preventDefault();
+        let route = this.getAttribute('href');
+        fetch(route)
+            .then(response => response.text())
+            .then(html => {
+                let wrapper = document.getElementById('modal-wrapper');
+                if (wrapper) {
+                    wrapper.remove()
+                }
+                let elem = document.createElement('div')
+                elem.setAttribute('id', 'modal-wrapper')
+                elem.innerHTML = html;
+                document.body.appendChild(elem);
+                var myModal = new bootstrap.Modal(document.getElementById('modal-edit-profil'))
+                myModal.show()
+            })
+    })
+</script>

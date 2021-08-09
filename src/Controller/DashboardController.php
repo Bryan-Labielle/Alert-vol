@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Form\UserType;
 use App\Repository\AnnonceRepository;
 use App\Service\ApiImages;
 use App\Repository\SignalementRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -75,6 +77,23 @@ class DashboardController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
     }
 
     /**
+     * @Route("/edit-profil", name="edit_profil")
+     */
+    public function editProfil(Request $request): Response
+    {
+        $form = $this->createForm(UserType::class, $this->getUser());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            return $this->redirectToRoute('dashboard_index');
+        }
+        return $this->render('dashboard/_modal-edit-profil.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
      * @Route("/mybookmarks", name="myBookmarks")
      */
     public function myBookmarks(): Response
@@ -106,6 +125,16 @@ class DashboardController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
         $signalements = $signalementRepos->findBy(['owner' => $this->getUser()]);
         return $this->render('dashboard/_mes-signalements.html.twig', [
             'signalements' => $signalements
+        ]);
+    }
+
+    /**
+     * @Route("/mes-signalements-recus", name="mes_signalements_recus")
+     */
+    public function signalementsreceived(SignalementRepository $signalementRepos): Response
+    {
+        return $this->render('dashboard/_mes-signalements-recus.html.twig', [
+            'signalements' => $signalementRepos->findAll() ?? []
         ]);
     }
 }

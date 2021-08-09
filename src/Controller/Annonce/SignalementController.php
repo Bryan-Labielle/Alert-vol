@@ -10,7 +10,9 @@ use App\Form\Signalement\MessageType;
 use App\Form\Signalement\NewSignalementType;
 use App\Form\Signalement\SignalementImageType;
 use App\Form\Signalement\SignalementType;
+use App\Repository\DetailsRepository;
 use App\Service\ApiImages;
+use App\Service\SubNotif;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -35,6 +37,8 @@ class SignalementController extends AbstractController
     /**
      * AnnonceController constructor.
      * @param ApiImages $apiImages
+     * @param EntityManagerInterface $entityManager
+     * @param Security $security
      */
     public function __construct(ApiImages $apiImages, EntityManagerInterface $entityManager, Security $security)
     {
@@ -52,7 +56,9 @@ class SignalementController extends AbstractController
      */
     public function newSignalement(
         Annonce $annonce,
-        Request $request
+        DetailsRepository $detailsRepository,
+        Request $request,
+        SubNotif $subNotif
     ): Response {
 
         //TODO configure timezone
@@ -85,10 +91,10 @@ class SignalementController extends AbstractController
                     $signalement->addMessage($message);
                 }
             }
-
             $signalement->setDetails($request->request->get('details') ?? []);
             $this->entityManager->persist($signalement);
             $this->entityManager->flush();
+            $subNotif->sendNotifSignalementMail($annonce->getOwner(), $signalement);
             //TODO modifier message flash
             $this->addFlash('success', "Merci pour votre aide");
 
@@ -112,6 +118,7 @@ class SignalementController extends AbstractController
         $form = $this->createForm(NewSignalementType::class, $signalement);
         return $this->render('signalement/new.html.twig', [
             'annonce' => $annonce,
+            'details' => $detailsRepository->findByAnnonce($annonce),
             'signalement' => $signalement,
             'apiImages' => $this->apiImages->getResponse(),
             'form' => $form->createView(),
@@ -127,8 +134,13 @@ class SignalementController extends AbstractController
      * @ParamConverter("annonce", options={"mapping": {"slug": "slug"}})
      * @ParamConverter("signalement", options={"mapping": {"id": "id"}})
      */
-    public function edit(Annonce $annonce, Signalement $signalement, Request $request): Response
-    {
+    public function edit(
+        Annonce $annonce,
+        Signalement $signalement,
+        Request $request,
+        DetailsRepository $detailsRepository,
+        SubNotif $subNotif
+    ): Response {
         $user = $this->getUser();
         //TODO configure timezone
         $date = new DateTime('now');
@@ -172,6 +184,7 @@ class SignalementController extends AbstractController
             $signalement->addMessage($message);
             $this->entityManager->persist($message);
             $this->entityManager->flush();
+            $subNotif->sendNotifMessageMail($recipient, $signalement);
             $this->addFlash('success', "Votre message a bien été envoyé");
             return $this->redirectToRoute('signalement_edit', [
                 'slug' => $annonce->getSlug(),
@@ -180,6 +193,7 @@ class SignalementController extends AbstractController
         }
 
         return $this->render('signalement/edit.html.twig', [
+            'details' => $detailsRepository->findByAnnonce($annonce) ?? [],
             'annonce' => $annonce,
             'signalement' => $signalement,
             'form' => $form->createView(),

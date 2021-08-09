@@ -26,8 +26,14 @@
     "amphp/sync": {
         "version": "v1.4.0"
     },
-    "composer/ca-bundle": {
-        "version": "1.2.10"
+    "bryan-labielle/facebook-instant-articles-sdk-php": {
+        "version": "1.2.3"
+    },
+    "clue/stream-filter": {
+        "version": "v1.5.0"
+    },
+    "composer/installers": {
+        "version": "v1.11.0"
     },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
@@ -133,6 +139,9 @@
     "egulias/email-validator": {
         "version": "3.1.1"
     },
+    "facebook/graph-sdk": {
+        "version": "5.7.0"
+    },
     "fakerphp/faker": {
         "version": "v1.14.1"
     },
@@ -144,6 +153,18 @@
     },
     "gitonomy/gitlib": {
         "version": "v1.2.3"
+    },
+    "happyr/linkedin-api-client": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "f407e3d9af98d1b391cc671d3c5790b79f1907e6"
+        },
+        "files": [
+            "./config/packages/linkedin.yaml"
+        ]
     },
     "imagine/imagine": {
         "version": "1.2.4"
@@ -176,6 +197,12 @@
             "./config/routes/liip_imagine.yaml"
         ]
     },
+    "martin-georgiev/social-post": {
+        "version": "v1.0"
+    },
+    "martin-georgiev/social-post-bundle": {
+        "version": "v3.1.0"
+    },
     "monolog/monolog": {
         "version": "2.2.0"
     },
@@ -190,6 +217,24 @@
     },
     "pdepend/pdepend": {
         "version": "2.9.1"
+    },
+    "php-http/curl-client": {
+        "version": "v1.7.1"
+    },
+    "php-http/discovery": {
+        "version": "1.14.0"
+    },
+    "php-http/httplug": {
+        "version": "v1.1.0"
+    },
+    "php-http/message": {
+        "version": "1.11.1"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
+    },
+    "php-http/promise": {
+        "version": "1.1.0"
     },
     "php-parallel-lint/php-console-highlighter": {
         "version": "v0.4"
@@ -238,6 +283,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/link": {
         "version": "1.0.0"

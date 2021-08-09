@@ -4,20 +4,22 @@ namespace App\Controller\Annonce;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
-use App\Entity\Category;
 use App\Entity\Details;
+use App\Entity\Category;
+use App\Entity\Signalement;
 use App\Entity\User;
 use App\Form\AnnonceImageType;
 use App\Form\AnnonceType;
 use App\Form\DetailsType;
+use App\Form\SearchForm;
 use App\Repository\AnnonceRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiImages;
 use App\Service\ApiTwitter;
 use App\Service\ApiZipCode;
+use App\Service\SearchData;
 use App\Service\Slugify;
-use ContainerUwXt9iN\PaginatorInterface_82dac15;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Security;
@@ -70,33 +72,31 @@ class AnnonceController extends AbstractController
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    public function index(AnnonceRepository $annonceRepository, Request $request, PaginatorInterface $paginator): Response
-    {
-        $donnees = $annonceRepository->findBy(
-            ['status' => '1'],
-//          ['published_at' => 'DESC'],
-        );
+    public function index(
+        AnnonceRepository $annonceRepository,
+        Request $request,
+        PaginatorInterface $paginator
+    ): Response {
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(SearchForm::class, $data);
+        $form->handleRequest($request);
+        $annonces = $annonceRepository->findSearch($data);
 
-        $annonces = $paginator->paginate(
-            $donnees,
-            $request->query->getInt('page', 1),
-            6,
-            [],
-        );
-        if($request->isXmlHttpRequest()){
+        if ($request->get('ajax')) {
             return new JsonResponse([
-                'content' => $this->renderView('annonce/_annonces.html.twig', [
-                    'annonces' => $annonces,
-                ])
-                ]
-
-            );
+                'content' => $this->renderView('annonce/_annonces.html.twig', ['annonces' => $annonces]),
+                'sorting' => $this->renderView('annonce/_sorting.html.twig', ['annonces' => $annonces]),
+                'pagination' => $this->renderView('annonce/_pagination.html.twig', ['annonces' => $annonces]),
+                'pages' => ceil($annonces->getTotalItemCount() / $annonces->getItemNumberPerPage()),
+               ]);
         }
+
         return $this->render('annonce/index.html.twig', [
             'apiImages' => $this->apiImages->getResponse(),
             'annonces' => $annonces,
-            'count' => count($annonces),
-            'queries' => [],
+            'count' => $annonces->getTotalItemCount(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -104,15 +104,12 @@ class AnnonceController extends AbstractController
      * @Route("/new", methods={"GET","POST"}, name="new")
      * @param Request $request
      * @param Slugify $slugify
-     * @param UserRepository $userRepository
-     * @param ApiTwitter $apiTwitter
      * @return Response
+     * @IsGranted ("ROLE_USER")
      */
     public function new(
         Request $request,
-        Slugify $slugify,
-        UserRepository $userRepository,
-        ApiTwitter $apiTwitter
+        Slugify $slugify
     ): Response {
         $entityManager = $this->getDoctrine()->getManager();
         $annonce = new Annonce();
@@ -133,31 +130,9 @@ class AnnonceController extends AbstractController
 
             $entityManager->persist($annonce);
             $entityManager->flush();
-            //TODO update template
-           /* $title = $annonce->getTitle();
-            $description = $annonce->getDescription();
-            $url = $_SERVER['HTTP_ORIGIN'] . '/annonce/' . $annonce->getSlug();
-            $hashtag = trim($title);
-            $apiTwitter->post(
-                "Une nouvelle annonce à été publiée :" . PHP_EOL .
-                $url . PHP_EOL .
-                $title . PHP_EOL .
-                $description . PHP_EOL .
-                "#" . $hashtag . " #Alertvol #Khiko "
-            );*/
-            $this->addFlash('success', 'Votre annonce est enregistrée, ajoutez des images.');
+            $this->addFlash('notice', 'Votre annonce est enregistrée, ajoutez des images.');
             return $this->redirectToRoute('annonce_edit', ['slug' => $annonce->getSlug()]);
         }
-        // créer formulaire séparer pour ajouter plusieurs signes distinctifs en ajax
-        /**
-         * @TODO: créer le champs actif dans le formulaire
-         */
-//        $annonce->setDetails([
-//            'peinture' => 'rouge',
-//            'date_achat' => '2019',
-//            'defaults' => 'rayures aile gauche'
-//        ]);
-
 
         // upload file form
         $annonceImage = new AnnonceImage();
@@ -176,8 +151,6 @@ class AnnonceController extends AbstractController
                 'slug' => $annonce->getSlug(),
             ]);
         }
-        $detail = new Details();
-        $annonce->addDetail($detail);
         $form = $this->createForm(AnnonceType::class, $annonce);
         return $this->render('annonce/new.html.twig', [
             'annonce' => $annonce,
@@ -207,6 +180,7 @@ class AnnonceController extends AbstractController
      * @param Request $request
      * @param Annonce $annonce
      * @return Response
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Annonce $annonce): Response
     {
@@ -256,17 +230,14 @@ class AnnonceController extends AbstractController
      * @param Annonce $annonce
      * @return Response
      */
-    public function show(Annonce $annonce, ApiTwitter $apiTwitter): Response
+    public function show(Annonce $annonce): Response
     {
-        $url = $_SERVER['HTTP_REFERER'] . $annonce->getSlug();
-        $title = $annonce->getTitle();
-        $hashtag = trim($title);
-        $apiTwitter->post($url);
+        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") .
+            "://$_SERVER[HTTP_HOST]" . "/annonce/" . $annonce->getSlug();
         return $this->render('annonce/show.html.twig', [
             'apiImages' => $this->apiImages->getResponse(),
             'annonce' => $annonce,
             'url' => $url,
-            'hashtag' => $hashtag
         ]);
     }
 
@@ -311,10 +282,13 @@ class AnnonceController extends AbstractController
     /**
      * @Route("/{id}/bookmark", name="bookmark", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
+     * @param Annonce $annonce
+     * @param EntityManagerInterface $entityManager
+     * @return Response
      */
     public function addToBookmarks(Annonce $annonce, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
+        $user = $this->security->getUser();
         if ($user !== null) {
             if ($user->isInBookmarks($annonce) === true) {
                 $user->removeBookmark($annonce);

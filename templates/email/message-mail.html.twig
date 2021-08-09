@@ -1,0 +1,3 @@
+<h1>Bonjour {{ signalement.annonce.owner.pseudo }}</h1>
+<p>Vous avez reçu un nouveau signalement provenant de {{ signalement.owner.pseudo }}</p>
+<p>Retrouvez le <a href="{{ url('signalement_edit', {'slug' : signalement.annonce.slug, 'id' : signalement.id}) }}">Ici</a></p>

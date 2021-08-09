@@ -8,9 +8,9 @@
                 <label for="category_{{ category.id }}">{{ category.name }}</label>
 
             </li>
-            {% if (category.categories|length) %}
+{#            {% if (category.categories|length) %}
                 {{ _self.make_categories(category.categories) }}
-            {% endif %}
+            {% endif %}#}
         {% endfor %}
     </ul>
 {% endmacro %}

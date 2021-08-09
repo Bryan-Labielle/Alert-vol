@@ -65,9 +65,7 @@
     <!-- Category -->
     <div class="form-control-plaintext" id="annonce-category">
         <i class="fas fa-tractor"></i> {{ form_label(form.category) }}
-        {% from 'macros/categories_select.html.twig' import make_categories %}
-        {{ make_categories(categories)}}
-{#        {{ form_widget(form.category) }}#}
+        {{ form_widget(form.category) }}
         <small>{{ form_help(form.category) }}</small>
 
         <div class="form-error">
@@ -119,11 +117,8 @@
         document.getElementById('annonce_city').addEventListener('input', (event) => {
             const search = event.target.value;
             document.getElementById('autocomplete_list').style.display = "block";
-
             fetch(`${window.location.origin}/annonce/autocomplete-zip?search=${search}`)
-
                 .then((response) => response.json())
-
                 .then((data) => {
                     console.log(data);
                     let list = '';
@@ -143,30 +138,22 @@
                                 const city = event.target.getAttribute('data-city');
                                 const $input_annonce = document.getElementById('annonce_city');
                                 $input_annonce.value = city;
-
                                 const zip = event.target.getAttribute('data-zip');
                                 const $input_zip = document.getElementById('annonce_zip'); //readonly
                                 $input_zip.value = zip;
-
                                 document.getElementById('autocomplete_list').style.display = "none";
-
                             })
                         })
                     }
                 });
-
             // .catch(alert('Pas de programmes avec ce nom'));
         });
     });
-
     function addFormToCollection($collectionHolderClass) {
         // Get the ul that holds the collection of details
-
         let $collectionHolder = document.querySelector('.' + $collectionHolderClass);
-
         // Get the data-prototype explained earlier
         var prototype = $collectionHolder.getAttribute('data-prototype');
-
         // get the new index
         var index = parseInt($collectionHolder.getAttribute('index'));
         var newForm = prototype;
@@ -174,14 +161,11 @@
         // Replace '__name__label__' in the prototype's HTML to
         // instead be a number based on how many items we have
         // newForm = newForm.replace(/__name__label__/g, index);
-
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
         newForm = newForm.replace(/__name__/g, index);
-
         // increase the index with one for the next item
         $collectionHolder.setAttribute('index', index + 1);
-
         // Display the form in the page in an li, before the "Add a tag" link li
         let $li = document.createElement('li');
         $li.innerHTML = newForm;
@@ -192,7 +176,6 @@
             event.target.closest('li').remove();
         })
     }
-
     const initCollection = (elem) => {
         const collectionHolder = document.querySelector(elem);
         // count the current form inputs we have (e.g. 2), use that as the new
@@ -200,8 +183,6 @@
         const index = collectionHolder.querySelectorAll('input').length
         collectionHolder.setAttribute('index', index);
     }
-
-
     document.addEventListener('DOMContentLoaded', function() {
         let $buttons = document.querySelectorAll('.add_item_link');
         $buttons.forEach(function($button){
@@ -219,6 +200,4 @@
         })
         initCollection('ul.details');
     });
-
-
 </script>

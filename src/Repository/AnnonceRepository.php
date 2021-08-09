@@ -3,10 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
-use DateTimeImmutable;
-use DateInterval;
+use App\Service\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Annonce|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,72 +17,75 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AnnonceRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var PaginatorInterface
+     */
+    private PaginatorInterface $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Annonce::class);
-    }
-
-    public function findByQuery(?string $query): ?array
-    {
-        $query = "%$query%";
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.title LIKE :query')
-            ->setParameter('query', $query)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(25)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByDate(?string $queryDate): ?array
-    {
-        $queryDate = "%$queryDate%";
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.stolenAt LIKE :queryDate')
-            ->setParameter('queryDate', $queryDate)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(25)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByQueryPlace(?string $queryPlace): ?array
-    {
-        $queryPlace = "%$queryPlace%";
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.location LIKE :queryPlace')
-            ->setParameter('queryPlace', $queryPlace)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(25)
-            ->getQuery()
-            ->getResult();
+        $this->paginator = $paginator;
     }
 
     public function findLastAnnonces(): ?array
     {
         return $this->createQueryBuilder('e')
-
+            ->andWhere('e.status = 1')
             ->orderBy('e.publishedAt', 'DESC')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }
-    // /**
-    //  * @return Annonce[] Returns an array of Annonce objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @param SearchData $search
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchData $search): PaginationInterface
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $query = $this
+            ->createQueryBuilder('a')
+            ->select('c', 'a')
+            ->join('a.category', 'c')
+            ->andWhere('a.status = 1')
+            ->orderBy('a.stolenAt', 'DESC');
+
+        if (!empty($search->categories)) {
+            $query = $query
+                ->andWhere('c.id IN (:category)')
+                ->setParameter('category', $search->categories);
+        }
+
+        if (!empty($search->placeSearch)) {
+            $query = $query
+                ->andWhere('a.city LIKE :queryPlace')
+                ->setParameter('queryPlace', $search->placeSearch);
+        }
+
+        if (!empty($search->search)) {
+            $query = $query
+                ->andWhere('a.title LIKE :search')
+                ->setParameter('search', '%' . $search->search . '%');
+        }
+        if (!empty($search->dateSearch)) {
+            $query = $query
+            ->andWhere('a.stolenAt > :queryDate')
+                ->setParameter('queryDate', $search->dateSearch);
+        }
+
+        $query = $query
+            ->orderBy('a.stolenAt', 'DESC')
+//            ->setMaxResults(25)
+            ->getQuery();
+
+            return $this->paginator->paginate(
+                $query,
+                $search->page,
+                9
+            );
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Annonce

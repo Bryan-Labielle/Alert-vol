@@ -3,13 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Category;
 use App\Entity\User;
+use App\Form\CategoryType;
 use App\Repository\AnnonceRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\MessageRepository;
 use App\Repository\SignalementRepository;
 use App\Repository\UserRepository;
+use App\Service\ApiFacebook;
 use App\Service\ApiImages;
+use App\Service\ApiTwitter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,10 +25,17 @@ class AdminController extends AbstractController
 {
 
     private EntityManagerInterface $entityManager;
+    private ApiFacebook $facebook;
+    private ApiTwitter $twitter;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ApiFacebook $facebook,
+        ApiTwitter $twitter
+    ) {
         $this->entityManager = $entityManager;
+        $this->facebook = $facebook;
+        $this->twitter = $twitter;
     }
     /**
      * @Route("/admin", name="admin")
@@ -57,8 +68,14 @@ class AdminController extends AbstractController
     {
         {
         if ($this->isCsrfTokenValid('publish' . $annonce->getId(), $request->request->get('_token'))) {
-            $annonce->setStatus('1');
+            $annonce->setStatus(1);
             $this->entityManager->flush();
+            $tweet = "Nouvelle alerte sur Alert'vol : " . $annonce->getTitle() . " " . " à " . $annonce->getCity();
+            $tweet .= "Plus d'informations sur : ";
+            $tweet .= (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") .
+                "://$_SERVER[HTTP_HOST]" . "/annonce/" . $annonce->getSlug();
+            $this->twitter->post($tweet);
+            $this->facebook->postArticle($annonce);
         }
             return $this->redirectToRoute('admin');
         }
@@ -72,9 +89,10 @@ class AdminController extends AbstractController
     {
 
         return $this->render('admin/_adminCategories.html.twig', [
-            'categories' => $categoryRepository->findAll()
+            'categories' => $categoryRepository->findByCategory(null) ?? []
         ]);
     }
+
 
     /**
      * @param SignalementRepository $signalementRepo
@@ -84,7 +102,7 @@ class AdminController extends AbstractController
     public function manageSignalements(SignalementRepository $signalementRepo): Response
     {
         return $this->render('admin/_adminSignalements.html.twig', [
-            'signalements' => $signalementRepo->findAll()
+            'signalements' => $signalementRepo->findAll() ?? []
         ]);
     }
 
@@ -96,7 +114,7 @@ class AdminController extends AbstractController
     public function managerUsers(UserRepository $userRepository): Response
     {
         return $this->render('admin/_adminUsers.html.twig', [
-            'users' => $userRepository->findAll()
+            'users' => $userRepository->findAll() ?? []
         ]);
     }
 
@@ -118,4 +136,3 @@ class AdminController extends AbstractController
         }
     }
 }
-

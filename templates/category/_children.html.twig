@@ -14,7 +14,7 @@
             <td>{{ category.name }}</td>
             <td class="">
                 <div class="d-flex justify-content-end">
-                    <a class="btn btn-secondary me-2" href="{{ path('category_edit', {'id': category.id }) }}">
+                    <a class="btn btn-secondary me-2" href="{{ path('admin_category_edit', {'id': category.id }) }}">
                         <i class="fas fa-edit"></i> modifier
                     </a>
                     {{ include('category/_delete_form.html.twig') }}
@@ -30,7 +30,7 @@
 </table>
 
 <div class="d-flex mb-4">
-    <a class="btn btn-primary" id="add-new-category" href="{{ path('category_modal_new', {'id': categoryId }) }}">
+    <a class="btn btn-primary" id="add-new-category" href="{{ path('admin_category_modal_new', {'id': categoryId }) }}">
        <i class="fas fa-plus"></i> Ajouter une catégorie
     </a>
 </div>

@@ -3,6 +3,9 @@
 .img-header{
   width: 45%;
 }
+.nav-link{
+  white-space: nowrap;
+}
 @media (min-width: 1024px){
   nav .nav-title{
     font-size: 1.6rem;

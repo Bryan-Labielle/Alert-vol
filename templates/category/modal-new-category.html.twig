@@ -1,7 +1,7 @@
 <div class="modal fade" tabindex="-1" id="modal-new-category">
     {% set categoryId = category.id ?? 0 %}
     {{ form_start(form, {
-        'action': path('category_modal_new', {'id': categoryId})
+        'action': path('admin_category_modal_new', {'id': categoryId})
     }) }}
     <div class="modal-dialog">
         <div class="modal-content">

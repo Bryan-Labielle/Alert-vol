@@ -92,7 +92,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             //         $annonce->setCategory($this->categoryRepository->findOneByName('moissoneuse_bateuse'));
             // }
             $annonce->setCategory($this->getReference('category_' . rand(1, 5)));
-            $annonce->setOwner($this->userRepository->findOneByRole(rand(1, 3)));
+            $annonce->setOwner($this->userRepository->findOneById(['ROLE_ADMIN']));
             $annonce->setSlug($slugify->generate($annonce->getTitle()));
 
             $manager->persist($annonce);

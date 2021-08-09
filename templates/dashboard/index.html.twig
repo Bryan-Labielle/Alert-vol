@@ -10,7 +10,7 @@
     <div class="row justify-content-center ">
         <div class="dashboard-top mb-3 text-center p-3">
             <h1 class="h1 text-center">Mon Espace </h1>
-            <p>Welcome Back {{ app.user.pseudo }}</p>
+            <h3>Bon retour parmis nous {{ app.user.pseudo }}</h3>
         </div>
     </div>
 
@@ -20,6 +20,7 @@
           <ul class="nav nav-tabs nav-tab-main menu-link-dashboard justify-content-center" id="nav-tab links-list" role="tablist">
               <li><a class="nav-link nounderlined" id="nav-annonces-tab" data-bs-toggle="tab" data-bs-target="#nav-annonces" type="button" role="tab" aria-controls="nav-annonces" aria-selected="false">Mes annonces</a></li>
               <li><a  class="nav-link nounderlined" id="nav-signalements-tab" data-bs-toggle="tab" data-bs-target="#nav-signalements" type="button" role="tab" aria-controls="nav-signalements" aria-selected="false">Mes signalements</a></li>
+              <li><a  class="nav-link nounderlined" id="nav-signalements-received-tab" data-bs-toggle="tab" data-bs-target="#nav-signalements-received" type="button" role="tab" aria-controls="nav-signalements-received" aria-selected="false">Mes signalements reçus</a></li>
               <li><a class="nav-link nounderlined" id="nav-favoris-tab" data-bs-toggle="tab" data-bs-target="#nav-favoris" type="button" role="tab" aria-controls="nav-favoris" aria-selected="false">Mes favoris</a></li>
               <li><a class="nav-link active nounderlined" id="nav-profil-tab" data-bs-toggle="tab" data-bs-target="#nav-profil" type="button" role="tab" aria-controls="nav-profil" aria-selected="true">Mon profil</a></li>
           </ul>
@@ -29,6 +30,9 @@
           <div class="tab-pane fade" id="nav-annonces" role="tabpanel" aria-labelledby="nav-annonces-tab">{{ render(path('dashboard_myAnnounces')) }}</div>
           <div class="tab-pane fade" id="nav-signalements" role="tabpanel" aria-labelledby="nav-signalements-tab">
               {{ render(controller('App\\Controller\\DashboardController::signalements')) }}
+          </div>
+          <div class="tab-pane fade" id="nav-signalements-received" role="tabpanel" aria-labelledby="nav-signalements-received-tab">
+              {{ render(path('dashboard_mes_signalements_recus')) }}
           </div>
           <div class="tab-pane fade" id="nav-favoris" role="tabpanel" aria-labelledby="nav-favoris-tab">{{ render(path('dashboard_myBookmarks')) }}</div>
           <div class="tab-pane fade active show" id="nav-profil" role="tabpanel" aria-labelledby="nav-profil-tab" aria-selected="true">
