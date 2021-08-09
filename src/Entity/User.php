@@ -70,11 +70,6 @@ class User implements UserInterface
     private ?string $avatar;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private int $role;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private bool $isVerified = false;
@@ -245,18 +240,6 @@ class User implements UserInterface
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getRole(): ?int
-    {
-        return $this->role;
-    }
-
-    public function setRole(int $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }

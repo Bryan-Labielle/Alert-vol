@@ -1,0 +1,15 @@
+<div class="d-flex justify-content-between mb-2 mt-5 js-filter-sorting">
+
+    <div class="small text-center align-self-center">Nombre d'annonces en cours : {{ count }}</div>
+
+    <div>
+        Trier par :
+        <span class="ms-3">
+        {{ knp_pagination_sortable(annonces, 'Date', 'a.stolenAt') }}
+        </span>
+
+        <span class="ms-3">
+        {{ knp_pagination_sortable(annonces, 'A-Z', 'a.title') }}
+        </span>
+    </div>
+</div>

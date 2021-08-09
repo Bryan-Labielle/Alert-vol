@@ -11,10 +11,10 @@ use Faker\Factory;
 class SignalementFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ARRAYTOJSON = [
-        'signe_1' => false,
-        'signe_2' => false,
-        'signe_3' => false,
-        'signe_4' => false
+        'signe_1' => 'signe_1',
+        'signe_2' => 'signe_2',
+        'signe_3' => 'signe_3',
+        'signe_4' => 'signe_4'
     ];
     public function load(ObjectManager $manager)
     {
@@ -29,7 +29,7 @@ class SignalementFixtures extends Fixture implements DependentFixtureInterface
             $signalement->setLatitude($faker->latitude());
             $signalement->setLongitude($faker->longitude());
             // relations fixtures
-            $signalement->setOwner($this->getReference('user_' . rand(1, 3)));
+            $signalement->setOwner($this->getReference('user_' . 1));
             $signalement->setAnnonce($this->getReference('annonce_' . rand(0, 11)));
             // persist, reference, flush
             $manager->persist($signalement);

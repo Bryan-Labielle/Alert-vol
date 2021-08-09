@@ -1,17 +1,18 @@
 <!-- #Right Sidebar ==================== -->
-<div class="right-sidebar js-filter" id="right-sidebar" >
-    <div class="sidebar-top">
+<div class="filter me-5">
+<a class="btn btn-blue p-2 mb-3" href="{{ path('annonce_new') }}">
+        Ajouter une annonce [+]
+</a>
+        {{ form_start(form) }}
+        {{ form_row(form.search) }}
+        {{ form_row(form.placeSearch) }}
 
-        <a class="btn btn-action" href="/annonce/new">
-            Déposez une annonce</a>
-    </div>
-    <div class="sidebar-menu">
-        <p>Filtrer les annonces par :</p>
+        {{ form_row(form.dateSearch) }}
 
-        {# Pour récupérer dynamiquement les catégories #}
-        {{ render(controller(
-            'App\\Controller\\CategoryController::sidebarCategories'
-        )) }}
+        <h4>Catégories</h4>
+        {{ form_row(form.categories) }}
 
-    </div>
+        <button type="submit" class="btn btn-secondary">Rechercher</button>
+        {{ form_end(form) }}
+
 </div>

@@ -1,0 +1,22 @@
+<article>
+        <header>
+            <!-- The title and subtitle shown in your Instant Article -->
+            <h1>{{ annonce.title }}</h1>
+            <h2>{{ annonce.reference }}</h2>
+
+            <!-- The cover image shown inside your article -->
+            <!-- TODO: Change the URL to a live image from your website -->
+            {#<figure>
+                <img src="{{ vich_uploader_asset( 'uploads/' ~ annonce.annonceImages[1], 'annonceFile') }}" />
+                <figcaption>{{ annonce.annonceImages.name }}</figcaption>
+            </figure>#}
+        </header>
+
+        <!-- Article body goes here -->
+
+        <!-- Body text for your article -->
+        <p>{{ annonce.description }}</p>
+
+            <!-- Copyright details for your article -->
+            <small>Published by Alert'vol</small>
+    </article>

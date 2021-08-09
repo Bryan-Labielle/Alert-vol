@@ -1,0 +1,21 @@
+<div class="modal fade" tabindex="-1" id="modal-edit-profil">
+    {{ form_start(form, {
+        'action': path('dashboard_edit_profil')
+    }) }}
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier mes informations</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_widget(form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-success">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>

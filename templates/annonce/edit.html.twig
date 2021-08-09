@@ -4,12 +4,10 @@
 
 {% block main %}
     {# display any flash message #}
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
+    {% for label, messages in app.flashes('notice') %}
             <div class="alert alert-{{ label }} alert-dismissible fade show">
-                {{ message }}
+                {{ messages }}
             </div>
-        {% endfor %}
     {% endfor %}
 
     <h1>Modifier votre annonce</h1>
@@ -33,7 +31,13 @@
                                     <button class="btn btn-danger">Delete</button>
                                 </form>
                             </div>
-                            <img class="img-thumbnail rounded galery-img" src="{{ vich_uploader_asset(annonceImage) | imagine_filter('cards')}}" alt="{{ annonceImage.name }}">
+
+                            {% if vich_uploader_asset(annonceImage) is null %}
+                                <img class="card-img-top" src="https://fakeimg.pl/250x100/" alt='no picture'>
+                            {% else %}
+                                <img class="img-thumbnail rounded galery-img" src="{{ vich_uploader_asset(annonceImage) | imagine_filter('cards')}}" alt="{{ annonceImage.name }}">
+                            {% endif %}
+
                             <figcaption class="font-italic">Dernière mise à jour : {{ annonceImage.updatedAt|date('Y-m-d') }}
                             </figcaption>
                         </figure>

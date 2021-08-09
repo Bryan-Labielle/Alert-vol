@@ -56,6 +56,7 @@ class AnnonceType extends AbstractType
                 'data' => $start,
             ])
             ->add('details', CollectionType::class, [
+                    'label' => false,
                     'entry_type' => DetailsType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,

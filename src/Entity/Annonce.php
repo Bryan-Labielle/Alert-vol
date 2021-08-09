@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints\Date;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -113,7 +114,7 @@ class Annonce
      * @ORM\Column(type="datetime")
      * @Groups({"bookmarks"})
      */
-    private ?\DateTimeInterface $stolenAt;
+    private ?DateTime $stolenAt;
 
     /**
      * @ORM\Column(name="slug", type="string", length=255)
@@ -122,7 +123,7 @@ class Annonce
     private string $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="bookmark")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="bookmarks")
      */
     private Collection $users;
 
@@ -335,7 +336,7 @@ class Annonce
         return $this->stolenAt;
     }
 
-    public function setStolenAt(\DateTimeInterface $stolenAt): self
+    public function setStolenAt(DateTime $stolenAt): self
     {
         $this->stolenAt = $stolenAt;
 
@@ -356,7 +357,7 @@ class Annonce
      */
     public function setSlug(string $slug): string
     {
-        return $this->slug = $slug;
+        return $this->slug = $slug . uniqid("-");
     }
 
     /**

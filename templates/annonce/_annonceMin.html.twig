@@ -1,41 +1,39 @@
-      {#  <div class="card card-align p-0 z-index-1">
-            <div class="d-block">
-                {% if annonce.annonceImages|length %}
-                    <img class="card-img-top" src="{{ asset( 'uploads/' ~ annonce.annonceImages[0].name ) | imagine_filter('cards')}}" alt='title picture'>
-                {% endif %}
-                <div class="d-flex align-items-start justify-content-end ">
-                    <i class="fas fa-bookmark bookmark-position">
-                    </i>
-                </div>
-                #}
-    <div class="card card-align p-0 z-index-1">
-        <div class="d-block">
-            {% if annonce.annonceImages|length %}
-            <img class="card-img-top" src="{{ asset('uploads/' ~ annonce.annonceImages[0].name) }}" alt='{{ annonce.slug }}'>
-            {% endif %}
-            {#                <img class="card-img-top" src="{{ vich_uploader_asset( 'uploads/' ~ annonce.annonceImages[1], 'annonceFile') }}" alt='{{ annonce.slug }}'>#}
-            <div class="network-icon-card"><i class="fas fa-project-diagram"></i></div>
-            <div class="d-flex align-items-start justify-content-end ">
-                <button type="button" class="bookmarkPin" data-bookmark="{{ annonce.id }}">
-                    <i class="fas fa-bookmark bookmark-position bookmark-position-transparent {{ app.user and app.user.isInBookmarks(annonce) ? 'bookmark-position-yellow' : '' }}"></i>
-                </button>
-            </div>
+<div class="card card-align p-0 z-index-1 mb-3">
+    <div class="d-block">
+        {% if annonce.annonceImages|length %}
+            <img class="card-img-top" src="{{ asset('uploads/' ~ annonce.annonceImages[0].name)| imagine_filter('cards') }}" alt='{{ annonce.slug }}'>
+        {% else %}
+            <img class="card-img-top" src="https://fakeimg.pl/250x100/" alt='no picture'>
+        {% endif %}
+        <div class="network-icon-card"><i class="fas fa-project-diagram"></i></div>
+        <div class="d-flex align-items-start justify-content-end position-absolute top-0 end-0">
+            <button type="button" class="bookmarkPin" data-bookmark="{{ annonce.id }}">
+                <i class="fas fa-bookmark bookmark-position bookmark-position-transparent {{ app.user and app.user.isInBookmarks(annonce) ? 'bookmark-position-yellow' : '' }}"></i>
+            </button>
         </div>
-        <div class="card-header custom-header p-2 d-flex justify-content-center text-center">
-            <a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" class="fs-5 text-decoration-none stretched-link">{{ annonce.title|title }}</a>
-        </div>
-        <div class="w-100 h-100 p-2">
-            <div class=" reference fs-5 text-center p-2"> {{ annonce.reference | upper }}</div>
-            <div class="container-info">
-                <i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}
-                </br><i class="fas fa-map-marker-alt mx-2"></i>{{ annonce.city }}, {{ annonce.zip }}
-            </div>
-            <div class="details-card text-end mt-2"><a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" >Voir plus</a></div>
-
-        </div>
-            {# TODO redirect to espace user if already signaled this annonce #}
-            <div class="text-center m-auto">
-                <a class="btn btn-action btn-circle btn-signalement p-2" href="{{ path('signalement_new', {'slug':annonce.slug}) }}">
-                    J'ai vu ce véhicule <i class="fas fa-bullhorn text-shadow-custom" style="color: #f94a4a"></i></a>
-            </div>
     </div>
+    <div class="card-header custom-header p-2 d-flex justify-content-center text-center">
+        <a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" class="fs-5 text-decoration-none stretched-link">{{ annonce.title|title }}</a>
+    </div>
+        <div class=" reference fs-5 text-center p-2"> {{ annonce.reference | upper }}</div>
+        <div class="container-info">
+            <i class="far fa-calendar-alt mx-2"></i>Perdu le : {{ annonce.stolenAt|date("m/d/Y") }}
+            <br><i class="fas fa-map-marker-alt mx-2"></i>{{ annonce.city }}, {{ annonce.zip }}
+            <br><i class="fas fa-tractor mx-2"></i><span class="text-muted">{{ annonce.category }}</span>
+        </div>
+
+        <div class="details-card text-end m-2"><a href="{{ path('annonce_show', {'slug':annonce.slug}) }}" >Voir plus</a></div>
+
+    {# TODO redirect to espace user if already signaled this annonce #}
+    {% if app.user != annonce.owner and annonce.signalements %}
+    <div class="text-center m-auto">
+        <a class="btn btn-action btn-circle btn-signalement p-2" href="{{ path('signalement_new', {'slug':annonce.slug}) }}">
+            J'ai vu ce véhicule <i class="fas fa-bullhorn text-shadow-custom" style="color: #cccccc"></i></a>
+    </div>
+        {% else %}
+            <div class="text-center m-auto">
+                <a class="btn btn-action btn-circle btn-signalement p-2" href="{{ path('dashboard_index') }}">
+                    Voir le signalement <i class="fas fa-bullhorn text-shadow-custom" style="color: #f94a4a"></i></a>
+            </div>
+    {% endif %}
+</div>

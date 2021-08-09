@@ -1,5 +1,4 @@
 {% set new = edit ? false : true %}
-<div class="row">
     <div class="col-md-6{% if new %} offset-md-3{% endif %}">
         <div class="card shadow-sm border-2 sticky-top-content">
             <div class="card-body">
@@ -16,15 +15,15 @@
                     <h4>Signes distinctifs</h4>
                     <fieldset class="border p-2 mb-3">
                         <legend class="col-form-label">Je pense avoir vu les signes distinctifs suivant</legend>
-                        {% for detail in annonce.details %}
+                        {% for detail in details %}
                             <div class="form-check">
                                 <input class="form-check-input"
                                        name="details[]"
                                        type="checkbox"
-                                       value="{{ detail }}"
-                                       id="detail_{{ loop.index }}" {% if detail in signalement.details %}checked{% endif %}>
+                                       value="{{ detail.detail }}"
+                                       id="detail_{{ loop.index }}" {% if detail.detail in signalement.details %}checked{% endif %}>
                                 <label class="form-check-label" for="detail_{{ loop.index }}">
-                                    {{ detail }}
+                                    {{ detail.detail }}
                                 </label>
                             </div>
                         {% endfor %}
@@ -87,12 +86,12 @@
                             <th>Pense avoir vu les signes distinctifs</th>
                             <td>
                                 <ul class="list-unstyled">
-                                    {% for detail in annonce.details %}
-                                        {% set class = detail in signalement.details ? 'success' : 'danger' %}
+                                    {% for detail in details %}
+                                        {% set class = detail.detail in signalement.details ? 'success' : 'danger' %}
                                         <li class="text-{{ class }}">
-                                            {% set icon = detail in signalement.details ? 'check' : 'times' %}
+                                            {% set icon = detail.detail in signalement.details ? 'check' : 'times' %}
                                             <i class="fas fa-{{ icon }}"></i>
-                                            {{ detail }}
+                                            {{ detail.detail }}
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -143,67 +142,67 @@
     </div>
     {% endif %}
 
-    <script>
-        const addFormToCollection = (collectionHolderClass) => {
-            // Get the ul that holds the collection of tags
+        <script>
+            const addFormToCollection = (collectionHolderClass) => {
+                // Get the ul that holds the collection of tags
 
-            const collectionHolder = document.querySelector('.' + collectionHolderClass);
+                const collectionHolder = document.querySelector('.' + collectionHolderClass);
 
-            // Get the data-prototype explained earlier
-            const prototype = collectionHolder.getAttribute('data-prototype');
+                // Get the data-prototype explained earlier
+                const prototype = collectionHolder.getAttribute('data-prototype');
 
-            // get the new index
-            const index = parseInt(collectionHolder.getAttribute('index'));
-            let newForm = prototype;
-            // You need this only if you didn't set 'label' => false in your tags field in TaskType
-            // Replace '__name__label__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            // newForm = newForm.replace(/__name__label__/g, index);
+                // get the new index
+                const index = parseInt(collectionHolder.getAttribute('index'));
+                let newForm = prototype;
+                // You need this only if you didn't set 'label' => false in your tags field in TaskType
+                // Replace '__name__label__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                // newForm = newForm.replace(/__name__label__/g, index);
 
-            // Replace '__name__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            newForm = newForm.replace(/__name__/g, index);
+                // Replace '__name__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                newForm = newForm.replace(/__name__/g, index);
 
-            // increase the index with one for the next item
-            collectionHolder.setAttribute('index', index + 1);
+                // increase the index with one for the next item
+                collectionHolder.setAttribute('index', index + 1);
 
-            // Display the form in the page in an li, before the "Add a tag" link li
-            const li = document.createElement('li');
-            li.innerHTML = newForm;
-            // Add the new form at the end of the list
-            collectionHolder.appendChild(li);
-            const buttonRemove = li.querySelector('.remove_item_link');
-            buttonRemove.addEventListener('click', (event) => {
-                event.target.closest('li').remove();
-            })
-            // remove_item_link
-        }
-
-        const initCollection = (elem) => {
-            const collectionHolder = document.querySelector(elem);
-            // count the current form inputs we have (e.g. 2), use that as the new
-            // index when inserting a new item (e.g. 2)
-            const index = collectionHolder.querySelectorAll('input').length
-            collectionHolder.setAttribute('index', index);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the ul that holds the collection of tags
-            const buttons = document.querySelectorAll('.add_item_link');
-            buttons.forEach(function(button){
-                button.addEventListener('click', function(e) {
-                    const collectionHolderClass = e.target.getAttribute('data-collection-holder-class');
-                    // add a new tag form (see next code block)
-                    addFormToCollection(collectionHolderClass);
-                })
-            })
-            const buttonsRemove = document.querySelectorAll('.remove_item_link');
-            buttonsRemove.forEach(function(button){
-                button.addEventListener('click', (event) => {
+                // Display the form in the page in an li, before the "Add a tag" link li
+                const li = document.createElement('li');
+                li.innerHTML = newForm;
+                // Add the new form at the end of the list
+                collectionHolder.appendChild(li);
+                const buttonRemove = li.querySelector('.remove_item_link');
+                buttonRemove.addEventListener('click', (event) => {
                     event.target.closest('li').remove();
                 })
-            })
-            initCollection('ul.images');
-        });
-    </script>
+                // remove_item_link
+            }
+
+            const initCollection = (elem) => {
+                const collectionHolder = document.querySelector(elem);
+                // count the current form inputs we have (e.g. 2), use that as the new
+                // index when inserting a new item (e.g. 2)
+                const index = collectionHolder.querySelectorAll('input').length
+                collectionHolder.setAttribute('index', index);
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get the ul that holds the collection of tags
+                const buttons = document.querySelectorAll('.add_item_link');
+                buttons.forEach(function(button){
+                    button.addEventListener('click', function(e) {
+                        const collectionHolderClass = e.target.getAttribute('data-collection-holder-class');
+                        // add a new tag form (see next code block)
+                        addFormToCollection(collectionHolderClass);
+                    })
+                })
+                const buttonsRemove = document.querySelectorAll('.remove_item_link');
+                buttonsRemove.forEach(function(button){
+                    button.addEventListener('click', (event) => {
+                        event.target.closest('li').remove();
+                    })
+                })
+                initCollection('ul.images');
+            });
+        </script>
 </div>

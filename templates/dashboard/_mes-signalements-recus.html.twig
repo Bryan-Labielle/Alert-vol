@@ -1,0 +1,11 @@
+<div class="list-group border-0">
+    {% for signalement in signalements %}
+            {% if signalement.annonce.owner is same as app.user %}
+        <a href="{{ path('signalement_edit', {'slug': signalement.annonce.slug, 'id': signalement.id}) }}" class="list-group-item list-group-item-action border-0">
+            {{ signalement.annonce.title }}
+        </a>
+            {% endif %}
+    {% else %}
+        <div class="list-group-item border-0">Vous n'avez aucun signalement reçu référencé sur votre compte.</div>
+    {% endfor %}
+</div>

@@ -18,7 +18,8 @@
 
 
         <div class="d-flex justify-content-between">
-            <a class="btn btn-secondary" href="{{ path('category_index') }}">
+            <a class="btn btn-secondary" href="{{ category.category ?
+            path('admin_category_edit', {'id': category.category.id}) : path('admin') }}">
                 <i class="fas fa-chevron-left"></i> Retour à la liste
             </a>
 

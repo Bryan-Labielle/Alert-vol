@@ -35,7 +35,7 @@ class Category
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
-    private Category $category;
+    private ?Category $category;
 
     /**
      * @ORM\OneToMany(targetEntity=Category::class, mappedBy="category")
@@ -95,12 +95,12 @@ class Category
         return $this;
     }
 
-    public function getCategory(): ?self
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?self $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
@@ -115,7 +115,7 @@ class Category
         return $this->categories;
     }
 
-    public function addCategory(self $category): self
+    public function addCategory(Category $category): self
     {
         if (!$this->categories->contains($category)) {
             $this->categories[] = $category;
@@ -125,7 +125,7 @@ class Category
         return $this;
     }
 
-    public function removeCategory(self $category): self
+    public function removeCategory(Category $category): self
     {
         if ($this->categories->removeElement($category)) {
             // set the owning side to null (unless already changed)
@@ -135,5 +135,10 @@ class Category
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

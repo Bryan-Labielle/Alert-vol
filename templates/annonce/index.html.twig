@@ -1,58 +1,62 @@
-{% extends 'layout/sidebars.html.twig' %}
+{% extends 'layout/sidebar-left-only.html.twig' %}
 
 {% block title %}Toutes les annonces{% endblock %}
 
 {% block main %}
-    {% include 'annonce/filter.html.twig' %}
-    <div class="container">
+    <div>
+    <div class="row">
+        <div class="col-md-12">
 
-        <h1>Toutes les annonces</h1>
+            <h1 class="mt-5">Toutes les annonces</h1>
 
-        <div class="section ">
-            <div class="annonces-header justify-content-between">
+            <div class="annonces-header justify-content-start mt-2">
 
-                <a class="btn btn-black btn-annonces-header" href="{{ path('app_index') }}">
+                <a class="btn btn-black" href="{{ path('app_index') }}">
                     Retour à l'accueil
                 </a>
 
-{#                <div class="small text-center align-self-center">Nombre d'annonces en cours : {{ annonces.getTotalItemCount }}</div>#}
-                <a class="btn btn-blue p-2 w-25 btn-annonces-header" href="{{ path('annonce_new') }}">
-                    Ajouter une annonce [+]
-                </a>
             </div>
-            <div class="row g-5 mt-3">
-                {% if queries %}<div class="col-md-6">Vous recherchez
-{#                    {% dump(queries) %}#}
-                    {% if queries.0 %}par date : {{ queries.0 }}{% endif %}
-                    {% if queries.1 %}par lieu : {{ queries.1 }}{% endif %}
-                    {% if queries.2 %}par mots clés : {{ queries.2 }}{% endif %}
-                    <a class="btn btn-action" href="{{ path('annonce_index') }}">
+            <div class="row">
+                {# Display elements searched with the searchBar by key words, date or location #}
+                {% if app.request.query is not empty %}
+                <div class="col my-3 d-flex align-items-center"> Votre recherche :
+                    {% if app.request.query.get("dateSearch") %}
+                        par date :
+                        {{ app.request.query.get("dateSearch").day }} /
+                        {{ app.request.query.get("dateSearch").month }} /
+                        {{ app.request.query.get("dateSearch").year }}
+                    {% endif %}
+                    {% if app.request.query.get("placeSearch") %}    par lieu : {{ app.request.query.get("placeSearch") }}{% endif %}
+                    {% if app.request.query.get("search") %}    par mots clés : {{ app.request.query.get("search") }}{% endif %}
+                    <a class="btn btn-secondary mx-3" href="{{ path('annonce_index') }}">
                         Réinitialiser
                     </a>
                     {% endif %}
                 </div>
             </div>
-{#            <div class="d-flex justify-content-end mb-2 js-filter-sorting">#}
-{#                Trier par :#}
-{#                <span class="ms-3">#}
-{#                    {{ knp_pagination_sortable(annonces, 'Date', 'a.publishedAt') }}#}
-{#                </span>#}
-{#                <span class="ms-3">#}
-{#                    {{ knp_pagination_sortable(annonces, 'A-Z', 'a.title') }}#}
-{#                </span>#}
-{#            </div>#}
-            <div class="row g-5 mt-2 js-filter-content">
-                {% include 'annonce/_annonces.html.twig' %}
+        </div>
+
+        <div class="row js-filter">
+            <div class="col-md-9 gx-5">
+                {# Sorting by date or A-Z #}
+                {% include '/annonce/_sorting.html.twig' %}
+
+                {# Display the announces #}
+                {% include '/annonce/_annonces.html.twig' %}
+
+                {# Pagination #}
+                {% include '/annonce/_pagination.html.twig' %}
+
+                <a class="btn btn-black mt-2" href="{{ path('app_index') }}">
+                    Retour à l'accueil
+                </a>
+            </div>
+            <div class="col-md-3 flex-column shadow-lg">
+                {% include 'layout/_right-sidebar.html.twig' %}
             </div>
 
-{#            <div class="js-filter-pagination text-align-center justify-content-center mt-2 mb-2">#}
-{#                {{ knp_pagination_render(annonces)}}#}
-{#            </div>#}
-
-            <a class="btn btn-black mt-2" href="{{ path('app_index') }}">
-                Retour à l'accueil
-            </a>
         </div>
+    </div>
     </div>
 
 {% endblock %}
